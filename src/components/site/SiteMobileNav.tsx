@@ -87,7 +87,7 @@ export function SiteMobileNav({
                 type="button"
                 onClick={onClose}
                 aria-label="Close menu"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground/80 hover:bg-muted hover:text-foreground"
+                className="btn-micro inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground/80 hover:bg-muted hover:text-foreground"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -114,7 +114,7 @@ export function SiteMobileNav({
               <Link
                 to={isAthleteX ? "/athletex/scholarship" : "/enquire"}
                 onClick={onClose}
-                className="inline-flex h-11 w-full items-center justify-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+                className="btn-micro inline-flex h-11 w-full items-center justify-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               >
                 {isAthleteX ? "Apply" : "Enquire"}
               </Link>
