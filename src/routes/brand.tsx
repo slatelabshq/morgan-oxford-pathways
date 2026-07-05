@@ -6,6 +6,7 @@ import { AnimationSpec } from "@/brand/AnimationSpec";
 import { ResponsiveSpec } from "@/brand/ResponsiveSpec";
 import { FunctionalSpec } from "@/brand/FunctionalSpec";
 import { TechSpec } from "@/brand/TechSpec";
+import { AccessibilitySpec } from "@/brand/AccessibilitySpec";
 
 export const Route = createFileRoute("/brand")({
   head: () => ({
@@ -197,6 +198,10 @@ function BrandPage() {
 
       <Section eyebrow="Technical" title="Performance, SEO & standards">
         <TechSpec />
+      </Section>
+
+      <Section eyebrow="Accessibility" title="WCAG 2.1 AA checklist">
+        <AccessibilitySpec />
       </Section>
 
 
