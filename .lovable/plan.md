@@ -1,59 +1,69 @@
 
 ## Goal
-Every button in the app picks up a consistent micro-interaction: 1.02 scale + subtle lift on hover, 0.98 scale on press, and smooth color/background transitions with no snap.
+Add a topical hero background image to each section landing page (home + 7 landings). Dark gradient overlay for legibility. Ken Burns slow-zoom on load. Responsive: full-width, `object-cover`, ~440px on desktop, auto on mobile.
 
-## Current state
-`src/components/ui/button.tsx` already has `transition-all duration-200 ease-in-out` and `motion-safe:hover:-translate-y-0.5` on the base variants. Missing: a hover scale, an active-state scale-down, and the same treatment on the "raw" `<button>`/`<a>` CTAs in the site chrome (SiteHeader Enquire/Apply, hamburger, mobile-nav close, footer, form submits that don't use `<Button>`).
+## 1. New `PageHero` component
+Create `src/components/site/PageHero.tsx`:
+- Full-bleed banner: `w-full min-h-[280px] sm:min-h-[360px] lg:h-[440px] relative overflow-hidden`.
+- `<img>` with `src`, `alt`, `loading="eager"`, `fetchPriority="high"`, `decoding="async"`, `className="absolute inset-0 h-full w-full object-cover"`.
+  - Ken Burns: wrap image in a `motion.div` that animates from `scale: 1.08` to `scale: 1` over 20s ease-out linear-ish; `useReducedMotion()` skips the animation.
+- Overlay: `absolute inset-0 bg-gradient-to-t from-black/70 via-black/45 to-black/20` for CORE. AthleteX variant swaps to `from-[color:var(--brand-jet)]/85 via-black/60 to-black/20` (via `zone` prop or auto-detected inside the component from context).
+- Content layer: `absolute inset-0 flex items-end`, inner `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12 lg:pb-16`. Renders eyebrow / h1 / lede / breadcrumbs in white (`text-white`, `text-white/85`).
+- Initial fade-in: content wrapper uses `motion.div` with `initial={{ opacity: 0, y: 12 }}`, `animate={{ opacity: 1, y: 0 }}`, 500ms ease-out. Reduced-motion opts out.
 
-## 1. Update shadcn `<Button>` base classes
-In `buttonVariants` (`src/components/ui/button.tsx`), extend the base class list:
-- Keep existing `transition-all duration-200 ease-in-out focus-visible:*`.
-- Replace `motion-safe:hover:-translate-y-0.5` with `motion-safe:hover:scale-[1.02] motion-safe:active:scale-[0.98]`.
-- Add `will-change-transform` so the browser promotes on hover (cheap, no layout thrash).
-- Leave `ghost` and `link` variants opted out of scale (they're inline text-ish — scaling looks off). They already override `motion-safe:hover:translate-y-0`; extend that to `motion-safe:hover:scale-100 motion-safe:active:scale-100`.
+Rationale for using literal `text-white` on the hero content: the overlay is always dark regardless of theme, so semantic `text-foreground` would break in light mode. Hero text-on-image is the documented exception to the token-only rule.
 
-## 2. Global fallback for non-`<Button>` buttons/anchors
-The site-wide transition rule in `src/styles.css` already covers `a, button, [role="button"], summary` for color/bg/border/shadow/transform — no snaps. Add a scoped active-scale for any element carrying `data-btn` OR `role="button"` OR `.btn` — but instead of inventing a new attribute, add a small global rule under `motion-safe` that scales `button:not(:disabled):active` and `a:active` by 0.98 when they carry `data-scale` (opt-in) — otherwise leave alone (scaling every anchor is wrong for nav links, cards, etc.).
+## 2. Extend `PageShell`
+Add optional props: `hero?: { src: string; alt: string; credit?: { name: string; url: string } }`.
+- When `hero` is provided: render `<PageHero>` at the top (outside the current `max-w-7xl` wrapper), which itself contains the eyebrow/title/lede/crumbs. `PageShell` then only renders `{children}` inside the constrained wrapper.
+- When `hero` is absent: current behavior unchanged (existing pages using PageShell without a hero keep working).
+- Attribution: when `credit` is set, render a tiny link bottom-right of the hero (`absolute bottom-2 right-3 text-[10px] text-white/70`) — "Photo by {name} on Unsplash".
 
-Concretely, the cleanest lever is not a global CSS scale — it's a shared utility class `btn-micro` in `src/styles.css`:
+## 3. Hero image mapping (curated Unsplash photo IDs)
+Use direct `https://images.unsplash.com/photo-{id}?auto=format&fit=crop&w=1920&q=80` URLs. All are royalty-free under Unsplash license; attribution added per image.
 
-```css
-@utility btn-micro {
-  transition:
-    color 200ms ease-in-out,
-    background-color 200ms ease-in-out,
-    border-color 200ms ease-in-out,
-    box-shadow 250ms ease-in-out,
-    transform 200ms ease-in-out;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .btn-micro:hover { transform: scale(1.02); }
-  .btn-micro:active { transform: scale(0.98); }
-}
-```
+- **Home (`/`)** — Oxford spires/college skyline
+  `photo-1548786811-dcc851b53908` (Oxford, UK — by Ben Seymour)
+- **About (`/about`)** — Oxford quadrangle / advisory desk feel
+  `photo-1519452575417-564c1401ecc0` (Oxford library reading room — by Alex Block)
+- **Schools (`/schools`)** — historic English boarding school building
+  `photo-1580537659466-0a9bfa916a54` (British independent school exterior — by Ivan Aleksic)
+- **Programmes (`/programmes`)** — students in uniform on campus lawn
+  `photo-1571260899304-425eee4c7efc` (school uniform group — by Note Thanun)
+- **AthleteX (`/athletex`)** — dramatic athletics track / stadium night
+  `photo-1461896836934-ffe607ba8211` (running track — by Braden Collum)
+- **Insights (`/insights`)** — library / open book desk
+  `photo-1507842217343-583bb7270b66` (open library — by Aaron Burden)
+- **Process (`/process`)** — Oxford tutorial / one-to-one meeting
+  `photo-1497633762265-9d179a990aa6` (studying at desk — by Ben White)
+- **Contact (`/enquire/contact`)** — Oxford storefront / architecture
+  `photo-1523050854058-8df90110c9f1` (Oxford university buildings — by Sidharth Bhatia)
 
-Apply `btn-micro` to the non-`<Button>` CTAs identified below.
+Each hero gets an accurate `alt` (e.g. "Oxford college spires at golden hour") — not the eyebrow.
 
-## 3. Retrofit call sites
-- `src/components/site/SiteHeader.tsx` — Enquire/Apply desktop CTA (`<Link>` styled as button) + hamburger `<button>`.
-- `src/components/site/SiteMobileNav.tsx` — close button + bottom CTA.
-- `src/routes/__root.tsx` — NotFound "Go home" link, error boundary "Try again" and "Go home" buttons.
-- Any form submit that uses a bare `<button type="submit">` instead of the shadcn `<Button>`. Verified: `src/components/forms/*` — check each; use `<Button>` where available so they inherit micro-interactions for free, otherwise add `btn-micro`.
+## 4. Wire up the 8 routes
+- `src/routes/index.tsx` — home is not on PageShell today. Add a new `<PageHero>` above the existing hero copy section (keep the copy section as the intro). This adds ~440px above the fold — acceptable for a homepage hero.
+- `src/routes/about.tsx`, `schools.index.tsx`, `programmes.index.tsx`, `athletex.index.tsx`, `insights.index.tsx`, `process.tsx`, `enquire.contact.tsx` — pass the `hero` prop into `PageShell`. Remove the now-duplicate `eyebrow`/`title`/`lede`/`crumbs` from the old header (they're inside `PageHero` now).
 
-I'll grep the three forms and update the actual submit elements only.
+## 5. Responsive + performance
+- `min-h-[280px]` mobile, `h-[440px]` desktop as spec'd.
+- One `<img>` per hero, `loading="eager"` + `fetchpriority="high"` so it's the LCP element.
+- `w=1920&q=80` covers desktop; Unsplash auto-serves smaller with `auto=format`. No srcset needed for a background hero at this quality bar.
+- CSS `content-visibility: auto` is not applied (hero is above the fold).
+- Ken Burns via Framer Motion (`transform: scale`) — GPU-composited, no layout thrash.
 
-## 4. Reduced motion
-Both the shadcn class list (`motion-safe:` variants) and the `btn-micro` utility (media query guard) already respect `prefers-reduced-motion: reduce` — those users get color transitions only, no scaling.
+## 6. Accessibility
+- All hero `<img>` elements have descriptive `alt`. Decorative-only would use `alt=""` but hero context images benefit from real alt.
+- Text on image: overlay + font-weight + `drop-shadow` where needed guarantees WCAG AA against the darkened image. I'll spot-check contrast on each after mounting.
+- Ken Burns respects `prefers-reduced-motion: reduce` (no zoom).
 
 ## Files to touch
-- `src/components/ui/button.tsx` — add hover/active scale, adjust ghost/link opt-outs
-- `src/styles.css` — add `btn-micro` utility
-- `src/components/site/SiteHeader.tsx` — add `btn-micro` to CTAs/hamburger
-- `src/components/site/SiteMobileNav.tsx` — add `btn-micro` to close + CTA
-- `src/routes/__root.tsx` — add `btn-micro` to 404/error buttons
-- Form submit buttons in `src/components/forms/*` — swap to `<Button>` or add `btn-micro` where a bare `<button>` is used
+- `src/components/site/PageHero.tsx` — new
+- `src/components/site/PageShell.tsx` — accept `hero` prop, delegate header to PageHero when present
+- `src/routes/index.tsx` — mount PageHero at top
+- `src/routes/about.tsx`, `schools.index.tsx`, `programmes.index.tsx`, `athletex.index.tsx`, `insights.index.tsx`, `process.tsx`, `enquire.contact.tsx` — add `hero` prop
 
 ## Out of scope
-- No color, size, radius, or copy changes.
-- Card hover treatment (already 1.02 scale + shadow lift) stays as-is.
-- Nav `<Link>` text items are not buttons — they keep only the existing color transition.
+- No hero on legal pages, `$slug` article/school/sport pages, sub-programmes (boarding/day/etc.), athletex sub-pages (scholarship/schools/etc.), thanks, or compare — per user's answer ("Section landings only").
+- No changes to typography, palette, or brand tokens.
+- No download/rehost of the Unsplash images — hotlink per the license.

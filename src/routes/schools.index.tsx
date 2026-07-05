@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { PageShell } from "@/components/site/PageShell";
+import { HERO } from "@/lib/hero-images";
 
 const schoolsSearch = z.object({
   q: fallback(z.string(), "").default(""),
@@ -31,6 +32,7 @@ function SchoolsIndex() {
 
   return (
     <PageShell
+      hero={HERO.schools}
       eyebrow="Directory"
       title="Schools"
       lede="Vetted UK independent schools. Filter, compare, then enquire."

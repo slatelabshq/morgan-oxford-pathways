@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
+import { HERO } from "@/lib/hero-images";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/about")({
   }),
   component: () => (
     <PageShell
+      hero={HERO.about}
       eyebrow="About"
       title="An independent advisory, based in Oxford."
       lede="Fifteen years placing families across the UK's leading independent schools — with a growing athlete practice under the AthleteX pathway."

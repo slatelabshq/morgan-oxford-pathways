@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
+import { HERO } from "@/lib/hero-images";
 
 export const Route = createFileRoute("/athletex/")({
   head: () => ({
@@ -14,6 +15,8 @@ export const Route = createFileRoute("/athletex/")({
   }),
   component: () => (
     <PageShell
+      hero={HERO.athletex}
+      zone="athletex"
       eyebrow="AthleteX"
       title="Sport-first placement, without compromise on schooling."
       lede="Scholarship-track placement, scouting and school-to-pro pathways for athletes 13–24."

@@ -1,15 +1,38 @@
 import type { ReactNode } from "react";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
+import { PageHero, type HeroImage } from "./PageHero";
 
 type Props = {
   eyebrow?: string;
   title: string;
   lede?: string;
   crumbs?: Crumb[];
+  hero?: HeroImage;
+  zone?: "core" | "athletex";
   children?: ReactNode;
 };
 
-export function PageShell({ eyebrow, title, lede, crumbs, children }: Props) {
+export function PageShell({ eyebrow, title, lede, crumbs, hero, zone, children }: Props) {
+  if (hero) {
+    return (
+      <main id="main">
+        <PageHero
+          image={hero}
+          eyebrow={eyebrow}
+          title={title}
+          lede={lede}
+          crumbs={crumbs}
+          zone={zone}
+        />
+        {children && (
+          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+            {children}
+          </div>
+        )}
+      </main>
+    );
+  }
+
   return (
     <main id="main" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       {crumbs && crumbs.length > 0 && (

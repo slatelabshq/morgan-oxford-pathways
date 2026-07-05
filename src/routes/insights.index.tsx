@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
+import { HERO } from "@/lib/hero-images";
 
 export const Route = createFileRoute("/insights/")({
   head: () => ({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/insights/")({
   }),
   component: () => (
     <PageShell
+      hero={HERO.insights}
       eyebrow="Insights"
       title="Guides, case studies, analysis."
       lede="Long-form thinking from the placement desk."
