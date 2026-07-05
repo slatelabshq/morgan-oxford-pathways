@@ -21,7 +21,6 @@ function Home() {
           summer places — and a dedicated athlete pathway for scholarship-track sport.
         </p>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
         <StaggerGrid className="mt-12 grid gap-6 md:grid-cols-2">
           <StaggerItem>
             <Link
