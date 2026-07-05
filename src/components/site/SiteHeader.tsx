@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const CORE_NAV = [
   { to: "/programmes", label: "Services" },
-  { to: "/schools", label: "Destinations" },
+  { to: "/destinations", label: "Destinations" },
   { to: "/process", label: "Process" },
   { to: "/insights", label: "Success Stories" },
   { to: "/about", label: "About" },
