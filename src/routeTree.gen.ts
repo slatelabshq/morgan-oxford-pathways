@@ -9,9 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as EnquireRouteImport } from './routes/enquire'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EnquiryThanksRouteImport } from './routes/enquiry.thanks'
+import { Route as EnquireSchoolPlacementRouteImport } from './routes/enquire.school-placement'
+import { Route as AthletexScholarshipRouteImport } from './routes/athletex.scholarship'
+import { Route as ApiEnquiriesRouteImport } from './routes/api/enquiries'
 
+const EnquireRoute = EnquireRouteImport.update({
+  id: '/enquire',
+  path: '/enquire',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BrandRoute = BrandRouteImport.update({
   id: '/brand',
   path: '/brand',
@@ -22,35 +32,103 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnquiryThanksRoute = EnquiryThanksRouteImport.update({
+  id: '/enquiry/thanks',
+  path: '/enquiry/thanks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnquireSchoolPlacementRoute = EnquireSchoolPlacementRouteImport.update({
+  id: '/school-placement',
+  path: '/school-placement',
+  getParentRoute: () => EnquireRoute,
+} as any)
+const AthletexScholarshipRoute = AthletexScholarshipRouteImport.update({
+  id: '/athletex/scholarship',
+  path: '/athletex/scholarship',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEnquiriesRoute = ApiEnquiriesRouteImport.update({
+  id: '/api/enquiries',
+  path: '/api/enquiries',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
+  '/enquire': typeof EnquireRouteWithChildren
+  '/api/enquiries': typeof ApiEnquiriesRoute
+  '/athletex/scholarship': typeof AthletexScholarshipRoute
+  '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
+  '/enquiry/thanks': typeof EnquiryThanksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
+  '/enquire': typeof EnquireRouteWithChildren
+  '/api/enquiries': typeof ApiEnquiriesRoute
+  '/athletex/scholarship': typeof AthletexScholarshipRoute
+  '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
+  '/enquiry/thanks': typeof EnquiryThanksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/brand': typeof BrandRoute
+  '/enquire': typeof EnquireRouteWithChildren
+  '/api/enquiries': typeof ApiEnquiriesRoute
+  '/athletex/scholarship': typeof AthletexScholarshipRoute
+  '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
+  '/enquiry/thanks': typeof EnquiryThanksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/brand'
+  fullPaths:
+    | '/'
+    | '/brand'
+    | '/enquire'
+    | '/api/enquiries'
+    | '/athletex/scholarship'
+    | '/enquire/school-placement'
+    | '/enquiry/thanks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/brand'
-  id: '__root__' | '/' | '/brand'
+  to:
+    | '/'
+    | '/brand'
+    | '/enquire'
+    | '/api/enquiries'
+    | '/athletex/scholarship'
+    | '/enquire/school-placement'
+    | '/enquiry/thanks'
+  id:
+    | '__root__'
+    | '/'
+    | '/brand'
+    | '/enquire'
+    | '/api/enquiries'
+    | '/athletex/scholarship'
+    | '/enquire/school-placement'
+    | '/enquiry/thanks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrandRoute: typeof BrandRoute
+  EnquireRoute: typeof EnquireRouteWithChildren
+  ApiEnquiriesRoute: typeof ApiEnquiriesRoute
+  AthletexScholarshipRoute: typeof AthletexScholarshipRoute
+  EnquiryThanksRoute: typeof EnquiryThanksRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/enquire': {
+      id: '/enquire'
+      path: '/enquire'
+      fullPath: '/enquire'
+      preLoaderRoute: typeof EnquireRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/brand': {
       id: '/brand'
       path: '/brand'
@@ -65,12 +143,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/enquiry/thanks': {
+      id: '/enquiry/thanks'
+      path: '/enquiry/thanks'
+      fullPath: '/enquiry/thanks'
+      preLoaderRoute: typeof EnquiryThanksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/enquire/school-placement': {
+      id: '/enquire/school-placement'
+      path: '/school-placement'
+      fullPath: '/enquire/school-placement'
+      preLoaderRoute: typeof EnquireSchoolPlacementRouteImport
+      parentRoute: typeof EnquireRoute
+    }
+    '/athletex/scholarship': {
+      id: '/athletex/scholarship'
+      path: '/athletex/scholarship'
+      fullPath: '/athletex/scholarship'
+      preLoaderRoute: typeof AthletexScholarshipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/enquiries': {
+      id: '/api/enquiries'
+      path: '/api/enquiries'
+      fullPath: '/api/enquiries'
+      preLoaderRoute: typeof ApiEnquiriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface EnquireRouteChildren {
+  EnquireSchoolPlacementRoute: typeof EnquireSchoolPlacementRoute
+}
+
+const EnquireRouteChildren: EnquireRouteChildren = {
+  EnquireSchoolPlacementRoute: EnquireSchoolPlacementRoute,
+}
+
+const EnquireRouteWithChildren =
+  EnquireRoute._addFileChildren(EnquireRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrandRoute: BrandRoute,
+  EnquireRoute: EnquireRouteWithChildren,
+  ApiEnquiriesRoute: ApiEnquiriesRoute,
+  AthletexScholarshipRoute: AthletexScholarshipRoute,
+  EnquiryThanksRoute: EnquiryThanksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
