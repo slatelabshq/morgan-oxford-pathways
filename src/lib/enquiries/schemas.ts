@@ -300,7 +300,7 @@ export const contactSchema = z.object({
   company_website: honeypotField,
 });
 
-export const enquirySchema = z.discriminatedUnion("kind", [
+export const enquirySchema = z.union([
   generalEnquirySchema,
   schoolPlacementSchema,
   athletexSchema,
