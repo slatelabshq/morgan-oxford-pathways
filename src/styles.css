@@ -552,3 +552,69 @@
     transform: scale(1.05);
   }
 }
+
+/* ── Glow hover: cards & CTAs ────────────────────────────── */
+@utility card-glow {
+  transition: box-shadow 320ms ease, transform 320ms ease, border-color 320ms ease;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .card-glow:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 18px 50px -18px color-mix(in oklab, var(--brand-royal) 55%, transparent),
+      0 0 0 1px color-mix(in oklab, var(--brand-gold) 45%, transparent),
+      0 0 60px -20px color-mix(in oklab, var(--brand-gold) 45%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-glow:hover {
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--brand-gold) 55%, transparent),
+      0 0 40px -12px color-mix(in oklab, var(--brand-gold) 45%, transparent);
+  }
+}
+
+.zone-athletex .card-glow:hover,
+.card-glow.is-athletex:hover {
+  box-shadow:
+    0 18px 50px -18px color-mix(in oklab, var(--brand-signal) 65%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--brand-signal) 55%, transparent),
+    0 0 70px -20px color-mix(in oklab, var(--brand-signal) 55%, transparent);
+}
+
+@utility btn-glow {
+  transition: box-shadow 260ms ease, transform 260ms ease, filter 260ms ease;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn-glow:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 10px 30px -10px color-mix(in oklab, var(--primary) 65%, transparent),
+      0 0 0 1px color-mix(in oklab, var(--brand-gold) 55%, transparent),
+      0 0 40px -12px color-mix(in oklab, var(--brand-gold) 55%, transparent);
+  }
+}
+.zone-athletex .btn-glow:hover,
+.btn-glow.is-athletex:hover {
+  box-shadow:
+    0 10px 30px -10px color-mix(in oklab, var(--brand-signal) 70%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--brand-signal) 55%, transparent),
+    0 0 44px -12px color-mix(in oklab, var(--brand-signal) 55%, transparent);
+}
+
+@utility icon-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--brand-gold) 14%, transparent);
+  color: var(--brand-gold);
+  border: 1px solid color-mix(in oklab, var(--brand-gold) 35%, transparent);
+}
+.zone-athletex .icon-chip {
+  background: color-mix(in oklab, var(--brand-signal) 15%, transparent);
+  color: var(--brand-signal);
+  border-color: color-mix(in oklab, var(--brand-signal) 40%, transparent);
+}
