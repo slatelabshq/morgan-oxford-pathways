@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
+import { HERO } from "@/lib/hero-images";
 
 const PROGRAMMES = [
   { to: "/programmes/day-school", label: "Day school", note: "3–18, term-time attendance from home." },
