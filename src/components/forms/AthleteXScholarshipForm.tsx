@@ -388,7 +388,7 @@ export function AthleteXScholarshipForm() {
           type="submit"
           disabled={isSubmitting}
           aria-busy={isSubmitting}
-          className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-70"
+          className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-semibold uppercase tracking-[0.08em] text-primary-foreground shadow-sm btn-micro hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-70"
         >
           {isSubmitting ? "Submitting…" : "Submit application"}
         </button>

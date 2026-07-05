@@ -99,7 +99,7 @@ export function SiteHeader() {
             </div>
             <Link
               to={isAthleteX ? "/athletex/scholarship" : "/enquire"}
-              className="hidden h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 md:inline-flex"
+              className="btn-micro hidden h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90 md:inline-flex"
             >
               {isAthleteX ? "Apply" : "Enquire"}
             </Link>
@@ -111,7 +111,7 @@ export function SiteHeader() {
               aria-label="Open menu"
               aria-expanded={open}
               aria-controls="mobile-nav"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground/80 hover:bg-muted hover:text-foreground md:hidden"
+              className="btn-micro inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground/80 hover:bg-muted hover:text-foreground md:hidden"
             >
               <Menu className="h-5 w-5" />
             </button>

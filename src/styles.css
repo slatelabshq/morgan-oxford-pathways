@@ -251,6 +251,21 @@
   animation: border-wipe-rtl 380ms var(--ease-athletex-land) 0ms forwards;
 }
 
+/* Micro-interaction utility for non-<Button> CTAs — smooth hover + press */
+@utility btn-micro {
+  transition:
+    color 200ms ease-in-out,
+    background-color 200ms ease-in-out,
+    border-color 200ms ease-in-out,
+    box-shadow 250ms ease-in-out,
+    transform 200ms ease-in-out;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn-micro:hover { transform: scale(1.02); }
+  .btn-micro:active { transform: scale(0.98); }
+}
+
 /* Zone handoff — animates zone theme swap on the outer wrapper */
 [data-zone] {
   animation: zone-fade-in var(--motion-handoff) var(--ease-standard);
