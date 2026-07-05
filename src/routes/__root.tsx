@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "../components/site/SiteHeader";
 import { SiteFooter } from "../components/site/SiteFooter";
+import { GlobalReveal } from "../components/GlobalReveal";
 
 function NotFoundComponent() {
   return (
@@ -125,6 +126,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className={isAthleteX ? "zone-athletex min-h-screen bg-background text-foreground" : "min-h-screen bg-background text-foreground"}>
+        <GlobalReveal />
         {!isBrand && <SiteHeader />}
         <Outlet />
         {!isBrand && <SiteFooter />}
