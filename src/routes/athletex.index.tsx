@@ -1,23 +1,30 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Dribbble, Medal, Trophy, Waves, Zap, type LucideIcon } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
 import { HERO } from "@/lib/hero-images";
 
-const PATHWAYS = [
+type Pathway = { sport: string; body: string; icon: LucideIcon };
+
+const PATHWAYS: Pathway[] = [
   {
+    icon: Trophy,
     sport: "Football",
     body: "Placement into schools and academies with structured football pathways, from grassroots development through to academy-affiliated programmes.",
   },
   {
+    icon: Dribbble,
     sport: "Basketball",
     body: "Schools with competitive basketball programmes and coaching pedigree, for students serious about the game at school and beyond.",
   },
   {
+    icon: Zap,
     sport: "Tennis",
     body: "Access to schools with strong tennis coaching infrastructure, suited to players balancing tournament schedules with academic study.",
   },
   {
+    icon: Waves,
     sport: "Swimming",
     body: "Placement into schools with performance swimming programmes, pool access, and coaching support for competitive swimmers.",
   },
@@ -50,10 +57,13 @@ export const Route = createFileRoute("/athletex/")({
       crumbs={[{ label: "Home", to: "/" }, { label: "AthleteX" }]}
     >
       <section>
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
-          Why AthleteX exists
-        </p>
-        <h2 className="mt-3 font-display text-2xl font-semibold sm:text-3xl">
+        <div className="mb-3 flex items-center gap-3">
+          <span className="icon-chip"><Medal className="h-5 w-5" aria-hidden /></span>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-signal)]">
+            Why AthleteX exists
+          </p>
+        </div>
+        <h2 className="font-display text-2xl font-semibold sm:text-3xl">
           A talented young athlete doesn't need a compromise — they need a school built to develop both.
         </h2>
         <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -64,14 +74,20 @@ export const Route = createFileRoute("/athletex/")({
       <section className="mt-12">
         <h3 className="font-display text-xl font-semibold sm:text-2xl">Pathways</h3>
         <StaggerGrid className="mt-6 grid gap-4 sm:grid-cols-2">
-          {PATHWAYS.map((p) => (
-            <StaggerItem key={p.sport}>
-              <article className="h-full rounded-2xl border border-border bg-card p-6">
-                <h4 className="font-display text-lg font-semibold">{p.sport}</h4>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
-              </article>
-            </StaggerItem>
-          ))}
+          {PATHWAYS.map((p) => {
+            const Icon = p.icon;
+            return (
+              <StaggerItem key={p.sport}>
+                <article className="card-glow is-athletex h-full rounded-2xl border border-border bg-card p-6">
+                  <div className="mb-3 flex items-center gap-3">
+                    <span className="icon-chip"><Icon className="h-5 w-5" aria-hidden /></span>
+                    <h4 className="font-display text-lg font-semibold">{p.sport}</h4>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                </article>
+              </StaggerItem>
+            );
+          })}
         </StaggerGrid>
       </section>
 
@@ -83,7 +99,7 @@ export const Route = createFileRoute("/athletex/")({
         <div className="mt-6">
           <Link
             to="/athletex/scholarship"
-            className="btn-micro inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+            className="btn-glow is-athletex inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
           >
             Enquire about AthleteX Pathways →
           </Link>
