@@ -72,7 +72,7 @@ export function PageHero({
 
   return (
     <section
-      className="relative w-full overflow-hidden min-h-[420px] sm:min-h-[520px] lg:min-h-[640px]"
+      className="relative w-full overflow-hidden"
       aria-label={eyebrow ? `${eyebrow} — ${title}` : title}
     >
       {/* Rotating image stack with crossfade + Ken Burns on the active layer */}
@@ -117,9 +117,10 @@ export function PageHero({
       />
 
 
-      {/* Content — bottom-left glass-dark panel */}
-      <div className="absolute inset-0 flex items-end">
-        <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pb-14 lg:px-8 lg:pb-20">
+      {/* Content — flows naturally so tall content on narrow screens is never clipped */}
+      <div className="relative flex min-h-[520px] items-end sm:min-h-[560px] lg:min-h-[640px]">
+        <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-20 sm:px-6 sm:pb-14 sm:pt-24 lg:px-8 lg:pb-20">
+
           <motion.div
             initial={reduced ? false : { opacity: 0, y: 16 }}
             animate={reduced ? undefined : { opacity: 1, y: 0 }}
