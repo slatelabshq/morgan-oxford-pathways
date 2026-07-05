@@ -1,211 +1,92 @@
-# Morgan Oxford — Navigation & Site Structure
+# States & Microinteractions Spec
 
-## 1. Top-Level Information Architecture
+## Delivery
 
-```text
-morganoxford.com (CORE — royal blue)
-├── /                         Home (dual gateway: CORE / AthleteX)
-├── /about                    Story, team, ethos, results
-├── /schools                  School directory (search + filter)
-│   ├── /schools/[slug]       School profile
-│   └── /schools/compare      Side-by-side compare (up to 3)
-├── /programmes               Programme index (search + filter)
-│   ├── /programmes/day-school
-│   ├── /programmes/boarding
-│   ├── /programmes/sixth-form
-│   ├── /programmes/summer
-│   └── /programmes/guardianship
-├── /process                  How placement works (5-step)
-├── /insights                 Articles / guides / case studies
-│   └── /insights/[slug]
-├── /athletex  ⇢ pathway root (black / red — visually distinct)
-│   ├── /athletex/about
-│   ├── /athletex/scholarship         Scholarship & scouting programme
-│   ├── /athletex/sports              Sport index
-│   │   └── /athletex/sports/[sport]  Football, rugby, tennis, athletics…
-│   ├── /athletex/schools             Sports-specialist school subset
-│   ├── /athletex/success             Athlete case studies
-│   └── /athletex/scouts              For scouts / clubs (B2B)
-├── /enquire                  General enquiry (hub)
-│   ├── /enquire/school-placement
-│   └── /enquire/contact
-├── /brand                    Internal design system
-└── /legal/{privacy,terms,cookies,safeguarding}
-```
+Extend `/brand` with a new **States & Motion** section rendered below the existing spec tables. Each component gets:
 
-**Reasoning.** CORE is the parent brand and default surface; AthleteX is a first-class pathway under `/athletex/*`, not a separate domain. A shared root keeps SEO authority, cross-linking, and one CRM pipeline while allowing full visual + editorial divergence at the pathway boundary.
+- A live demo strip (default / hover / focus / active / disabled shown side-by-side, plus loading / success / error where applicable)
+- A spec table (state → visual delta → duration → easing → a11y notes)
+- One implementation hint (Tailwind class recipe or a 2–4 line JS/CSS snippet)
+- AthleteX variant flagged inline where motion differs
 
----
+No changes to existing app components — this pass is documentation-only on `/brand`. Any future implementation of the AthleteX motion variants happens in a separate pass.
 
-## 2. Primary Navigation (persistent header)
-
-| Slot | Label | Target | Why |
-|---|---|---|---|
-| 1 | Schools | `/schools` | Highest-intent browse surface |
-| 2 | Programmes | `/programmes` | Secondary browse axis (type of study) |
-| 3 | Process | `/process` | Reassurance for first-time parents |
-| 4 | Insights | `/insights` | SEO + trust |
-| 5 | About | `/about` | Standard trust link |
-| 6 | **AthleteX** | `/athletex` | Pathway pivot — styled as pill/badge in AthleteX red on CORE, and in CORE royal on AthleteX (see §6) |
-| CTA | Enquire | `/enquire` | Persistent primary CTA, right-aligned |
-
-- Mobile: same order in a full-screen sheet; AthleteX pill sits above the CTA.
-- No mega-menu on CORE by default — Schools and Programmes open lightweight two-column flyouts (categories + "Browse all").
-
-**Reasoning.** Six items + CTA is the ceiling for scannability. AthleteX earns a slot (not a dropdown item) because it's a distinct audience and revenue line; burying it kills discovery.
-
----
-
-## 3. AthleteX Primary Navigation (when inside `/athletex/*`)
-
-| Slot | Label | Target |
-|---|---|---|
-| 1 | Sports | `/athletex/sports` |
-| 2 | Schools | `/athletex/schools` |
-| 3 | Scholarship | `/athletex/scholarship` |
-| 4 | Success Stories | `/athletex/success` |
-| 5 | For Scouts | `/athletex/scouts` |
-| 6 | **← Morgan Oxford** | `/` | Return pill, CORE royal |
-| CTA | Apply | `/athletex/scholarship#apply` |
-
-**Reasoning.** Users inside AthleteX get an AthleteX-native nav (their vocabulary: Sports, Scholarship, Scouts). The CORE return link is always the sixth slot in mirrored position — predictable pivot.
-
----
-
-## 4. Secondary Navigation
-
-**CORE — none globally.** Contextual sub-nav appears only on:
-- `/schools/*` — filter rail (see §7)
-- `/programmes/*` — tabbed sub-nav across the 5 programme types
-- `/process` — sticky step index (1–5)
-
-**AthleteX — sport sub-nav** on `/athletex/sports/*`: horizontal scroll of sports chips (Football, Rugby, Tennis, Athletics, Cricket, Hockey, Swimming, Other).
-
-**Reasoning.** Global secondary nav dilutes the primary and adds cognitive load. Contextual sub-nav is only added where the page genuinely has siblings.
-
----
-
-## 5. Footer (shared, CORE-styled with AthleteX column)
-
-Four columns + utility row.
-
-| Explore | Schools | AthleteX | Company |
-|---|---|---|---|
-| Home | Browse all schools | AthleteX home | About |
-| Process | Day school | Sports | Insights |
-| Programmes | Boarding | Scholarship | Careers |
-| Insights | Sixth Form | Success stories | Press |
-| Enquire | Summer | For scouts | Contact |
-|  | Guardianship |  |  |
-
-**Utility row:** logo lockup · office (Oxford, UK) · © year · Privacy · Terms · Cookies · Safeguarding · LinkedIn · Instagram.
-
-**Reasoning.** The AthleteX column in the shared footer reinforces that it's part of the group, and gives AthleteX permanent link equity from every CORE page.
-
----
-
-## 6. CORE ↔ AthleteX Transitions
-
-Three deliberate pivots — no accidental crossings.
-
-1. **Header pathway pill.** Always visible top-right of the primary nav. Colour inverts by context (AthleteX red on CORE, CORE royal on AthleteX). Icon + label.
-2. **Home dual gateway.** The `/` hero has two equally weighted entry cards: "Find a school" (CORE) and "Athlete pathway" (AthleteX). Sets the choice on first visit.
-3. **Contextual bridges.**
-   - School profiles with sport specialism show a "Sports scholarships at this school → AthleteX" callout.
-   - AthleteX school subset links each card back to its full `/schools/[slug]` profile.
-   - `/athletex/scholarship` success page links to `/enquire/school-placement` for non-athlete siblings.
-
-**Visual signalling.** Crossing the boundary triggers a full theme swap (background, primary, type-scale accents) with a 200 ms crossfade — no ambiguity about which brand you're in.
-
-**Reasoning.** One universal nav can't serve two distinct audiences (parents seeking a school vs athletes/scouts). Explicit pivots + theme swap make the boundary a feature, not a bug.
-
----
-
-## 7. Search & Filter — Schools and Programmes
-
-### `/schools` — School directory
-
-**Search bar (top):** free-text over name, town, county, keywords. Debounced, server-driven.
-
-**Filter rail (left on desktop, sheet on mobile):**
-
-| Filter | Type | Notes |
-|---|---|---|
-| Type | multi-select | Day, Boarding, Day+Boarding, Sixth Form only |
-| Gender | segmented | Co-ed / Boys / Girls |
-| Age range | dual slider | 3–18 |
-| Region | multi-select | UK regions + "Overseas" |
-| Fees (annual) | dual slider | £ bands |
-| Curriculum | multi-select | A-Level, IB, GCSE, iGCSE, BTEC |
-| Specialisms | chips | Arts, STEM, Sport, Music, SEND |
-| AthleteX partner | toggle | Cross-links to sports-specialist subset |
-
-**Sort:** Relevance · Fees ↑ · Fees ↓ · A–Z · Recently updated.
-**URL state:** all filters are query params (`/schools?type=boarding&region=south-east`) so results are shareable and SSR-indexable.
-**Empty state:** "No schools match — relax a filter" with one-click chip removal.
-
-### `/programmes` — Programme index
-
-Lighter surface: tabs across the 5 programme types, plus a single "Which is right for me?" quiz link. No heavy filters — programmes are a small set.
-
-### `/athletex/schools` — Sports-specialist subset
-
-Reuses the schools filter component but pre-scopes `AthleteX partner = true` and swaps the Specialisms filter for a **Sport** multi-select. AthleteX theme.
-
-**Reasoning.** One filter component, two mounts. Query-param state is essential for SEO (each filter combo is a landing page candidate) and shareability.
-
----
-
-## 8. Breadcrumbs
-
-Enabled on all pages ≥ 2 levels deep. Not on `/`, primary section indexes, or forms.
-
-Examples:
-- `Home / Schools / Eton College`
-- `Home / Programmes / Boarding`
-- `Home / AthleteX / Sports / Football`
-- `Home / AthleteX / Schools / Millfield`
-
-JSON-LD `BreadcrumbList` on every breadcrumb-bearing page.
-
-**Reasoning.** School and sport profiles are deep and reached from search — breadcrumbs are the primary "where am I / back up" affordance and a documented SEO win.
-
----
-
-## 9. Utility & Global Elements
-
-- **Skip link** to `#main` on every page.
-- **Announcement bar** (optional, dismissible) above header — used for AthleteX intake windows or open days.
-- **Persistent Enquire CTA** in header (both themes).
-- **Cookie banner** — bottom-left, non-blocking.
-- **404** — themed to current pathway; offers "Back to Schools" + "Back to AthleteX".
-
----
-
-## 10. Route Additions Required
-
-New route files (all under `src/routes/`, TanStack file-based):
+## Motion tokens (added to `src/styles.css`, referenced by the spec)
 
 ```
-about.tsx
-schools.tsx  schools.index.tsx  schools.$slug.tsx  schools.compare.tsx
-programmes.tsx  programmes.index.tsx
-programmes.day-school.tsx  programmes.boarding.tsx  programmes.sixth-form.tsx
-programmes.summer.tsx  programmes.guardianship.tsx
-process.tsx
-insights.tsx  insights.index.tsx  insights.$slug.tsx
-athletex.tsx  athletex.index.tsx  athletex.about.tsx
-athletex.sports.tsx  athletex.sports.index.tsx  athletex.sports.$sport.tsx
-athletex.schools.tsx  athletex.success.tsx  athletex.scouts.tsx
-legal.privacy.tsx  legal.terms.tsx  legal.cookies.tsx  legal.safeguarding.tsx
+--motion-fast:    120ms   /* micro state flips: hover, focus ring */
+--motion-base:    200ms   /* default component transitions */
+--motion-slow:    320ms   /* modal enter, page transitions */
+--ease-standard:  cubic-bezier(0.2, 0, 0, 1)     /* CORE default */
+--ease-emphasized:cubic-bezier(0.3, 0, 0, 1)     /* AthleteX bolder */
+--ease-exit:      cubic-bezier(0.4, 0, 1, 1)
 ```
 
-Existing routes kept: `/`, `/brand`, `/enquire`, `/enquire/school-placement`, `/athletex/scholarship`, `/enquiry/thanks`.
+CORE uses `--motion-base` + `--ease-standard`. AthleteX uses `--motion-base` (same duration — never slower) + `--ease-emphasized` and adds a subtle 1–2 px translate on hover for tactile weight.
 
-Shared components to add: `SiteHeader` (theme-aware), `SiteFooter`, `PathwayPill`, `Breadcrumbs`, `SchoolsFilterRail`, `SchoolsSearchBar`, `SportChips`.
+## Components covered (6)
 
----
+1. **Navigation** — primary header links, PathwayPill, mobile sheet trigger
+2. **Buttons** — primary / secondary / ghost / destructive + AthleteX variant + icon-only
+3. **Cards** — content card + AthleteX card (jet + signal border)
+4. **Enquiry form fields** — text input, textarea, select, checkbox, file input
+5. **Dropdowns** — Radix Select / DropdownMenu (as used by shadcn)
+6. **Modals** — Radix Dialog
 
-## 11. Out of Scope (this pass)
+## Per-component spec shape (example row)
 
-Content for each new page, school/programme data model + CMS, search backend (Postgres FTS vs Meili), real breadcrumb data sources — plan those separately once IA is approved.
+| State | Visual | Duration | Easing | Keyboard / ARIA |
+|---|---|---|---|---|
+| Default | `bg-primary text-primary-foreground` | — | — | — |
+| Hover | `bg-primary/90` | 120ms | standard | pointer-only |
+| Focus-visible | `ring-2 ring-ring ring-offset-2` | 120ms | standard | `:focus-visible` — never `:focus` |
+| Active | `translate-y-[1px]` | 80ms | exit | — |
+| Disabled | `opacity-50 cursor-not-allowed` | — | — | `aria-disabled="true"`; keep in tab order for screen readers |
+| Loading | spinner + `aria-busy="true"` | — | — | text stays; do not change width |
+| Success | check icon 240ms fade+scale | 240ms | emphasized | `role="status"` `aria-live="polite"` |
+| Error | shake 1× (6px, 160ms) + red ring | 160ms | exit | `role="alert"` + focus first invalid field |
+
+## Global rules (applied across all components)
+
+- Never animate `width`, `height`, `top`, `left` — animate `transform` + `opacity` only.
+- All hover/motion is wrapped in `@media (prefers-reduced-motion: no-preference)` — reduced-motion users get instant state changes but keep focus rings.
+- Focus rings use `focus-visible` (keyboard only). Ring token: 2px `--ring` + 2px offset on `--background`.
+- Success/error copy is announced via `role="status"` / `role="alert"`; never rely on color alone (icon + text).
+- Tap targets ≥ 44×44 on mobile.
+- Loading state must preserve layout (fixed min-width on buttons that swap label for spinner).
+
+## Component detail summary (what the /brand section will show)
+
+**Navigation** — Underline slide-in on hover (`transform: scaleX`), 200ms; active link gets solid underline + `data-status="active"`. Mobile sheet: slide-in-right 320ms standard; focus trap + `Esc` closes; scroll lock. AthleteX: underline colour is signal red, hover adds a 1px letter-spacing bump.
+
+**Buttons** — 5 base states + loading/success/error. Loading shows inline spinner and disables click; success flashes an icon for 1.2s then reverts. AthleteX variant: `bg-signal text-bone`, hover adds `translate-y(-1px)` + `shadow-[0_6px_0_-2px_var(--brand-jet)]` (chunky physical press).
+
+**Cards** — Default: 1px border. Hover: shadow rises to `lg`, border stays; 200ms. Focus-within surfaces the whole card as focus target when it wraps a link. AthleteX: signal-red 1px border on hover, plus a `-2px` translateY for physical lift.
+
+**Enquiry form fields** — Default / hover (border darkens 15%) / focus-visible (ring + border becomes `--ring`) / disabled (muted bg) / read-only. Error: border + helper text switch to destructive, `aria-invalid="true"`, `aria-describedby` points at helper. Success: subtle check icon in trailing slot, no border colour change (avoid green-noise on long forms). Textareas resize vertical-only.
+
+**Dropdowns** (Radix Select / DropdownMenu) — Trigger: same states as button-secondary. Menu enter: `fade-in + scale-in` from origin 96 → 100, 160ms emphasized. Highlighted item: `bg-accent`, arrow keys move highlight, `Enter` selects, `Esc` closes, typeahead search enabled by Radix. `aria-expanded`, `aria-controls` auto-wired by Radix.
+
+**Modals** (Radix Dialog) — Overlay: fade-in 200ms; content: fade + scale 0.96 → 1, 240ms standard (CORE) / emphasized (AthleteX). Focus trapped; initial focus on first interactive; `Esc` closes; scroll lock on body. `role="dialog"` `aria-modal="true"` + `aria-labelledby` on title. Close X has `aria-label="Close"`.
+
+## Implementation hints (one per component, in the doc)
+
+- **Nav underline**: `after:scale-x-0 hover:after:scale-x-100 after:origin-left after:transition-transform after:duration-200`
+- **Button loading**: `<Button disabled aria-busy>` with a fixed `min-w-[<measured>px]` and inline `<Loader2 className="animate-spin" />`
+- **Card lift**: `transition-shadow duration-200 hover:shadow-lg` + `focus-within:ring-2`
+- **Field error shake**: keyframe `translateX(-6px→6px→0)` once, 160ms, on `aria-invalid` toggle
+- **Dropdown enter**: Radix `data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95`
+- **Modal**: use shadcn `Dialog` as-is (Radix handles focus trap, scroll lock, ARIA); only override the content class for AthleteX easing
+
+## Files to add / change
+
+- `src/routes/brand.tsx` — append a new `<StatesAndMotion />` section
+- `src/brand/StatesAndMotion.tsx` (new) — the section component with 6 demo strips + tables
+- `src/brand/demos/` (new) — six small demo components (`NavDemo`, `ButtonDemo`, `CardDemo`, `FieldDemo`, `DropdownDemo`, `ModalDemo`), each rendering the state matrix
+- `src/styles.css` — add the motion tokens block above `@layer base`
+
+## Out of scope
+
+- Modifying real Button/Card/Input variants (`athletex` variants already exist from earlier pass; this spec only documents them)
+- New shadcn primitives
+- Real animation library (no Motion/GSAP install — CSS transitions + Tailwind's `tw-animate-css` already in the project)

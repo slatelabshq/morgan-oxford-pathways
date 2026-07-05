@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MorganOxfordLogo } from "@/brand/MorganOxfordLogo";
 import { AthleteXLogo } from "@/brand/AthleteXLogo";
+import { StatesAndMotion } from "@/brand/StatesAndMotion";
 
 export const Route = createFileRoute("/brand")({
   head: () => ({
@@ -171,6 +172,11 @@ function BrandPage() {
             />
           </div>
         </div>
+      </Section>
+
+
+      <Section eyebrow="Interaction" title="States & motion">
+        <StatesAndMotion />
       </Section>
 
       <footer className="border-t border-border">
