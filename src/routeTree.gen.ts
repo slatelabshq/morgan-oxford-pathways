@@ -12,12 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SchoolsRouteImport } from './routes/schools'
 import { Route as ProgrammesRouteImport } from './routes/programmes'
 import { Route as ProcessRouteImport } from './routes/process'
+import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as EnquireRouteImport } from './routes/enquire'
 import { Route as BrandRouteImport } from './routes/brand'
+import { Route as AthletexRouteImport } from './routes/athletex'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchoolsIndexRouteImport } from './routes/schools.index'
 import { Route as ProgrammesIndexRouteImport } from './routes/programmes.index'
+import { Route as InsightsIndexRouteImport } from './routes/insights.index'
+import { Route as AthletexIndexRouteImport } from './routes/athletex.index'
 import { Route as SchoolsCompareRouteImport } from './routes/schools.compare'
 import { Route as SchoolsSlugRouteImport } from './routes/schools.$slug'
 import { Route as ProgrammesSummerRouteImport } from './routes/programmes.summer'
@@ -25,10 +29,22 @@ import { Route as ProgrammesSixthFormRouteImport } from './routes/programmes.six
 import { Route as ProgrammesGuardianshipRouteImport } from './routes/programmes.guardianship'
 import { Route as ProgrammesDaySchoolRouteImport } from './routes/programmes.day-school'
 import { Route as ProgrammesBoardingRouteImport } from './routes/programmes.boarding'
+import { Route as LegalTermsRouteImport } from './routes/legal.terms'
+import { Route as LegalSafeguardingRouteImport } from './routes/legal.safeguarding'
+import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
+import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as EnquiryThanksRouteImport } from './routes/enquiry.thanks'
 import { Route as EnquireSchoolPlacementRouteImport } from './routes/enquire.school-placement'
+import { Route as AthletexSuccessRouteImport } from './routes/athletex.success'
+import { Route as AthletexSportsRouteImport } from './routes/athletex.sports'
+import { Route as AthletexScoutsRouteImport } from './routes/athletex.scouts'
+import { Route as AthletexSchoolsRouteImport } from './routes/athletex.schools'
 import { Route as AthletexScholarshipRouteImport } from './routes/athletex.scholarship'
+import { Route as AthletexAboutRouteImport } from './routes/athletex.about'
 import { Route as ApiEnquiriesRouteImport } from './routes/api/enquiries'
+import { Route as AthletexSportsIndexRouteImport } from './routes/athletex.sports.index'
+import { Route as AthletexSportsSportRouteImport } from './routes/athletex.sports.$sport'
 
 const SchoolsRoute = SchoolsRouteImport.update({
   id: '/schools',
@@ -45,6 +61,11 @@ const ProcessRoute = ProcessRouteImport.update({
   path: '/process',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnquireRoute = EnquireRouteImport.update({
   id: '/enquire',
   path: '/enquire',
@@ -53,6 +74,11 @@ const EnquireRoute = EnquireRouteImport.update({
 const BrandRoute = BrandRouteImport.update({
   id: '/brand',
   path: '/brand',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AthletexRoute = AthletexRouteImport.update({
+  id: '/athletex',
+  path: '/athletex',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -74,6 +100,16 @@ const ProgrammesIndexRoute = ProgrammesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ProgrammesRoute,
+} as any)
+const InsightsIndexRoute = InsightsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InsightsRoute,
+} as any)
+const AthletexIndexRoute = AthletexIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AthletexRoute,
 } as any)
 const SchoolsCompareRoute = SchoolsCompareRouteImport.update({
   id: '/compare',
@@ -110,6 +146,31 @@ const ProgrammesBoardingRoute = ProgrammesBoardingRouteImport.update({
   path: '/boarding',
   getParentRoute: () => ProgrammesRoute,
 } as any)
+const LegalTermsRoute = LegalTermsRouteImport.update({
+  id: '/legal/terms',
+  path: '/legal/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalSafeguardingRoute = LegalSafeguardingRouteImport.update({
+  id: '/legal/safeguarding',
+  path: '/legal/safeguarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalPrivacyRoute = LegalPrivacyRouteImport.update({
+  id: '/legal/privacy',
+  path: '/legal/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalCookiesRoute = LegalCookiesRouteImport.update({
+  id: '/legal/cookies',
+  path: '/legal/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => InsightsRoute,
+} as any)
 const EnquiryThanksRoute = EnquiryThanksRouteImport.update({
   id: '/enquiry/thanks',
   path: '/enquiry/thanks',
@@ -120,29 +181,76 @@ const EnquireSchoolPlacementRoute = EnquireSchoolPlacementRouteImport.update({
   path: '/school-placement',
   getParentRoute: () => EnquireRoute,
 } as any)
+const AthletexSuccessRoute = AthletexSuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => AthletexRoute,
+} as any)
+const AthletexSportsRoute = AthletexSportsRouteImport.update({
+  id: '/sports',
+  path: '/sports',
+  getParentRoute: () => AthletexRoute,
+} as any)
+const AthletexScoutsRoute = AthletexScoutsRouteImport.update({
+  id: '/scouts',
+  path: '/scouts',
+  getParentRoute: () => AthletexRoute,
+} as any)
+const AthletexSchoolsRoute = AthletexSchoolsRouteImport.update({
+  id: '/schools',
+  path: '/schools',
+  getParentRoute: () => AthletexRoute,
+} as any)
 const AthletexScholarshipRoute = AthletexScholarshipRouteImport.update({
-  id: '/athletex/scholarship',
-  path: '/athletex/scholarship',
-  getParentRoute: () => rootRouteImport,
+  id: '/scholarship',
+  path: '/scholarship',
+  getParentRoute: () => AthletexRoute,
+} as any)
+const AthletexAboutRoute = AthletexAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => AthletexRoute,
 } as any)
 const ApiEnquiriesRoute = ApiEnquiriesRouteImport.update({
   id: '/api/enquiries',
   path: '/api/enquiries',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AthletexSportsIndexRoute = AthletexSportsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AthletexSportsRoute,
+} as any)
+const AthletexSportsSportRoute = AthletexSportsSportRouteImport.update({
+  id: '/$sport',
+  path: '/$sport',
+  getParentRoute: () => AthletexSportsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/athletex': typeof AthletexRouteWithChildren
   '/brand': typeof BrandRoute
   '/enquire': typeof EnquireRouteWithChildren
+  '/insights': typeof InsightsRouteWithChildren
   '/process': typeof ProcessRoute
   '/programmes': typeof ProgrammesRouteWithChildren
   '/schools': typeof SchoolsRouteWithChildren
   '/api/enquiries': typeof ApiEnquiriesRoute
+  '/athletex/about': typeof AthletexAboutRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
+  '/athletex/schools': typeof AthletexSchoolsRoute
+  '/athletex/scouts': typeof AthletexScoutsRoute
+  '/athletex/sports': typeof AthletexSportsRouteWithChildren
+  '/athletex/success': typeof AthletexSuccessRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/safeguarding': typeof LegalSafeguardingRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/programmes/boarding': typeof ProgrammesBoardingRoute
   '/programmes/day-school': typeof ProgrammesDaySchoolRoute
   '/programmes/guardianship': typeof ProgrammesGuardianshipRoute
@@ -150,8 +258,12 @@ export interface FileRoutesByFullPath {
   '/programmes/summer': typeof ProgrammesSummerRoute
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
+  '/athletex/': typeof AthletexIndexRoute
+  '/insights/': typeof InsightsIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
   '/schools/': typeof SchoolsIndexRoute
+  '/athletex/sports/$sport': typeof AthletexSportsSportRoute
+  '/athletex/sports/': typeof AthletexSportsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -160,9 +272,18 @@ export interface FileRoutesByTo {
   '/enquire': typeof EnquireRouteWithChildren
   '/process': typeof ProcessRoute
   '/api/enquiries': typeof ApiEnquiriesRoute
+  '/athletex/about': typeof AthletexAboutRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
+  '/athletex/schools': typeof AthletexSchoolsRoute
+  '/athletex/scouts': typeof AthletexScoutsRoute
+  '/athletex/success': typeof AthletexSuccessRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/safeguarding': typeof LegalSafeguardingRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/programmes/boarding': typeof ProgrammesBoardingRoute
   '/programmes/day-school': typeof ProgrammesDaySchoolRoute
   '/programmes/guardianship': typeof ProgrammesGuardianshipRoute
@@ -170,22 +291,38 @@ export interface FileRoutesByTo {
   '/programmes/summer': typeof ProgrammesSummerRoute
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
+  '/athletex': typeof AthletexIndexRoute
+  '/insights': typeof InsightsIndexRoute
   '/programmes': typeof ProgrammesIndexRoute
   '/schools': typeof SchoolsIndexRoute
+  '/athletex/sports/$sport': typeof AthletexSportsSportRoute
+  '/athletex/sports': typeof AthletexSportsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/athletex': typeof AthletexRouteWithChildren
   '/brand': typeof BrandRoute
   '/enquire': typeof EnquireRouteWithChildren
+  '/insights': typeof InsightsRouteWithChildren
   '/process': typeof ProcessRoute
   '/programmes': typeof ProgrammesRouteWithChildren
   '/schools': typeof SchoolsRouteWithChildren
   '/api/enquiries': typeof ApiEnquiriesRoute
+  '/athletex/about': typeof AthletexAboutRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
+  '/athletex/schools': typeof AthletexSchoolsRoute
+  '/athletex/scouts': typeof AthletexScoutsRoute
+  '/athletex/sports': typeof AthletexSportsRouteWithChildren
+  '/athletex/success': typeof AthletexSuccessRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/safeguarding': typeof LegalSafeguardingRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/programmes/boarding': typeof ProgrammesBoardingRoute
   '/programmes/day-school': typeof ProgrammesDaySchoolRoute
   '/programmes/guardianship': typeof ProgrammesGuardianshipRoute
@@ -193,23 +330,39 @@ export interface FileRoutesById {
   '/programmes/summer': typeof ProgrammesSummerRoute
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
+  '/athletex/': typeof AthletexIndexRoute
+  '/insights/': typeof InsightsIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
   '/schools/': typeof SchoolsIndexRoute
+  '/athletex/sports/$sport': typeof AthletexSportsSportRoute
+  '/athletex/sports/': typeof AthletexSportsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/athletex'
     | '/brand'
     | '/enquire'
+    | '/insights'
     | '/process'
     | '/programmes'
     | '/schools'
     | '/api/enquiries'
+    | '/athletex/about'
     | '/athletex/scholarship'
+    | '/athletex/schools'
+    | '/athletex/scouts'
+    | '/athletex/sports'
+    | '/athletex/success'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
+    | '/insights/$slug'
+    | '/legal/cookies'
+    | '/legal/privacy'
+    | '/legal/safeguarding'
+    | '/legal/terms'
     | '/programmes/boarding'
     | '/programmes/day-school'
     | '/programmes/guardianship'
@@ -217,8 +370,12 @@ export interface FileRouteTypes {
     | '/programmes/summer'
     | '/schools/$slug'
     | '/schools/compare'
+    | '/athletex/'
+    | '/insights/'
     | '/programmes/'
     | '/schools/'
+    | '/athletex/sports/$sport'
+    | '/athletex/sports/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -227,9 +384,18 @@ export interface FileRouteTypes {
     | '/enquire'
     | '/process'
     | '/api/enquiries'
+    | '/athletex/about'
     | '/athletex/scholarship'
+    | '/athletex/schools'
+    | '/athletex/scouts'
+    | '/athletex/success'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
+    | '/insights/$slug'
+    | '/legal/cookies'
+    | '/legal/privacy'
+    | '/legal/safeguarding'
+    | '/legal/terms'
     | '/programmes/boarding'
     | '/programmes/day-school'
     | '/programmes/guardianship'
@@ -237,21 +403,37 @@ export interface FileRouteTypes {
     | '/programmes/summer'
     | '/schools/$slug'
     | '/schools/compare'
+    | '/athletex'
+    | '/insights'
     | '/programmes'
     | '/schools'
+    | '/athletex/sports/$sport'
+    | '/athletex/sports'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/athletex'
     | '/brand'
     | '/enquire'
+    | '/insights'
     | '/process'
     | '/programmes'
     | '/schools'
     | '/api/enquiries'
+    | '/athletex/about'
     | '/athletex/scholarship'
+    | '/athletex/schools'
+    | '/athletex/scouts'
+    | '/athletex/sports'
+    | '/athletex/success'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
+    | '/insights/$slug'
+    | '/legal/cookies'
+    | '/legal/privacy'
+    | '/legal/safeguarding'
+    | '/legal/terms'
     | '/programmes/boarding'
     | '/programmes/day-school'
     | '/programmes/guardianship'
@@ -259,21 +441,30 @@ export interface FileRouteTypes {
     | '/programmes/summer'
     | '/schools/$slug'
     | '/schools/compare'
+    | '/athletex/'
+    | '/insights/'
     | '/programmes/'
     | '/schools/'
+    | '/athletex/sports/$sport'
+    | '/athletex/sports/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AthletexRoute: typeof AthletexRouteWithChildren
   BrandRoute: typeof BrandRoute
   EnquireRoute: typeof EnquireRouteWithChildren
+  InsightsRoute: typeof InsightsRouteWithChildren
   ProcessRoute: typeof ProcessRoute
   ProgrammesRoute: typeof ProgrammesRouteWithChildren
   SchoolsRoute: typeof SchoolsRouteWithChildren
   ApiEnquiriesRoute: typeof ApiEnquiriesRoute
-  AthletexScholarshipRoute: typeof AthletexScholarshipRoute
   EnquiryThanksRoute: typeof EnquiryThanksRoute
+  LegalCookiesRoute: typeof LegalCookiesRoute
+  LegalPrivacyRoute: typeof LegalPrivacyRoute
+  LegalSafeguardingRoute: typeof LegalSafeguardingRoute
+  LegalTermsRoute: typeof LegalTermsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -299,6 +490,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProcessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/enquire': {
       id: '/enquire'
       path: '/enquire'
@@ -311,6 +509,13 @@ declare module '@tanstack/react-router' {
       path: '/brand'
       fullPath: '/brand'
       preLoaderRoute: typeof BrandRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/athletex': {
+      id: '/athletex'
+      path: '/athletex'
+      fullPath: '/athletex'
+      preLoaderRoute: typeof AthletexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -340,6 +545,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/programmes/'
       preLoaderRoute: typeof ProgrammesIndexRouteImport
       parentRoute: typeof ProgrammesRoute
+    }
+    '/insights/': {
+      id: '/insights/'
+      path: '/'
+      fullPath: '/insights/'
+      preLoaderRoute: typeof InsightsIndexRouteImport
+      parentRoute: typeof InsightsRoute
+    }
+    '/athletex/': {
+      id: '/athletex/'
+      path: '/'
+      fullPath: '/athletex/'
+      preLoaderRoute: typeof AthletexIndexRouteImport
+      parentRoute: typeof AthletexRoute
     }
     '/schools/compare': {
       id: '/schools/compare'
@@ -390,6 +609,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgrammesBoardingRouteImport
       parentRoute: typeof ProgrammesRoute
     }
+    '/legal/terms': {
+      id: '/legal/terms'
+      path: '/legal/terms'
+      fullPath: '/legal/terms'
+      preLoaderRoute: typeof LegalTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/safeguarding': {
+      id: '/legal/safeguarding'
+      path: '/legal/safeguarding'
+      fullPath: '/legal/safeguarding'
+      preLoaderRoute: typeof LegalSafeguardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/privacy': {
+      id: '/legal/privacy'
+      path: '/legal/privacy'
+      fullPath: '/legal/privacy'
+      preLoaderRoute: typeof LegalPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/cookies': {
+      id: '/legal/cookies'
+      path: '/legal/cookies'
+      fullPath: '/legal/cookies'
+      preLoaderRoute: typeof LegalCookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof InsightsRoute
+    }
     '/enquiry/thanks': {
       id: '/enquiry/thanks'
       path: '/enquiry/thanks'
@@ -404,12 +658,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnquireSchoolPlacementRouteImport
       parentRoute: typeof EnquireRoute
     }
+    '/athletex/success': {
+      id: '/athletex/success'
+      path: '/success'
+      fullPath: '/athletex/success'
+      preLoaderRoute: typeof AthletexSuccessRouteImport
+      parentRoute: typeof AthletexRoute
+    }
+    '/athletex/sports': {
+      id: '/athletex/sports'
+      path: '/sports'
+      fullPath: '/athletex/sports'
+      preLoaderRoute: typeof AthletexSportsRouteImport
+      parentRoute: typeof AthletexRoute
+    }
+    '/athletex/scouts': {
+      id: '/athletex/scouts'
+      path: '/scouts'
+      fullPath: '/athletex/scouts'
+      preLoaderRoute: typeof AthletexScoutsRouteImport
+      parentRoute: typeof AthletexRoute
+    }
+    '/athletex/schools': {
+      id: '/athletex/schools'
+      path: '/schools'
+      fullPath: '/athletex/schools'
+      preLoaderRoute: typeof AthletexSchoolsRouteImport
+      parentRoute: typeof AthletexRoute
+    }
     '/athletex/scholarship': {
       id: '/athletex/scholarship'
-      path: '/athletex/scholarship'
+      path: '/scholarship'
       fullPath: '/athletex/scholarship'
       preLoaderRoute: typeof AthletexScholarshipRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AthletexRoute
+    }
+    '/athletex/about': {
+      id: '/athletex/about'
+      path: '/about'
+      fullPath: '/athletex/about'
+      preLoaderRoute: typeof AthletexAboutRouteImport
+      parentRoute: typeof AthletexRoute
     }
     '/api/enquiries': {
       id: '/api/enquiries'
@@ -418,8 +707,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiEnquiriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/athletex/sports/': {
+      id: '/athletex/sports/'
+      path: '/'
+      fullPath: '/athletex/sports/'
+      preLoaderRoute: typeof AthletexSportsIndexRouteImport
+      parentRoute: typeof AthletexSportsRoute
+    }
+    '/athletex/sports/$sport': {
+      id: '/athletex/sports/$sport'
+      path: '/$sport'
+      fullPath: '/athletex/sports/$sport'
+      preLoaderRoute: typeof AthletexSportsSportRouteImport
+      parentRoute: typeof AthletexSportsRoute
+    }
   }
 }
+
+interface AthletexSportsRouteChildren {
+  AthletexSportsSportRoute: typeof AthletexSportsSportRoute
+  AthletexSportsIndexRoute: typeof AthletexSportsIndexRoute
+}
+
+const AthletexSportsRouteChildren: AthletexSportsRouteChildren = {
+  AthletexSportsSportRoute: AthletexSportsSportRoute,
+  AthletexSportsIndexRoute: AthletexSportsIndexRoute,
+}
+
+const AthletexSportsRouteWithChildren = AthletexSportsRoute._addFileChildren(
+  AthletexSportsRouteChildren,
+)
+
+interface AthletexRouteChildren {
+  AthletexAboutRoute: typeof AthletexAboutRoute
+  AthletexScholarshipRoute: typeof AthletexScholarshipRoute
+  AthletexSchoolsRoute: typeof AthletexSchoolsRoute
+  AthletexScoutsRoute: typeof AthletexScoutsRoute
+  AthletexSportsRoute: typeof AthletexSportsRouteWithChildren
+  AthletexSuccessRoute: typeof AthletexSuccessRoute
+  AthletexIndexRoute: typeof AthletexIndexRoute
+}
+
+const AthletexRouteChildren: AthletexRouteChildren = {
+  AthletexAboutRoute: AthletexAboutRoute,
+  AthletexScholarshipRoute: AthletexScholarshipRoute,
+  AthletexSchoolsRoute: AthletexSchoolsRoute,
+  AthletexScoutsRoute: AthletexScoutsRoute,
+  AthletexSportsRoute: AthletexSportsRouteWithChildren,
+  AthletexSuccessRoute: AthletexSuccessRoute,
+  AthletexIndexRoute: AthletexIndexRoute,
+}
+
+const AthletexRouteWithChildren = AthletexRoute._addFileChildren(
+  AthletexRouteChildren,
+)
 
 interface EnquireRouteChildren {
   EnquireSchoolPlacementRoute: typeof EnquireSchoolPlacementRoute
@@ -431,6 +772,20 @@ const EnquireRouteChildren: EnquireRouteChildren = {
 
 const EnquireRouteWithChildren =
   EnquireRoute._addFileChildren(EnquireRouteChildren)
+
+interface InsightsRouteChildren {
+  InsightsSlugRoute: typeof InsightsSlugRoute
+  InsightsIndexRoute: typeof InsightsIndexRoute
+}
+
+const InsightsRouteChildren: InsightsRouteChildren = {
+  InsightsSlugRoute: InsightsSlugRoute,
+  InsightsIndexRoute: InsightsIndexRoute,
+}
+
+const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
+  InsightsRouteChildren,
+)
 
 interface ProgrammesRouteChildren {
   ProgrammesBoardingRoute: typeof ProgrammesBoardingRoute
@@ -472,14 +827,19 @@ const SchoolsRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AthletexRoute: AthletexRouteWithChildren,
   BrandRoute: BrandRoute,
   EnquireRoute: EnquireRouteWithChildren,
+  InsightsRoute: InsightsRouteWithChildren,
   ProcessRoute: ProcessRoute,
   ProgrammesRoute: ProgrammesRouteWithChildren,
   SchoolsRoute: SchoolsRouteWithChildren,
   ApiEnquiriesRoute: ApiEnquiriesRoute,
-  AthletexScholarshipRoute: AthletexScholarshipRoute,
   EnquiryThanksRoute: EnquiryThanksRoute,
+  LegalCookiesRoute: LegalCookiesRoute,
+  LegalPrivacyRoute: LegalPrivacyRoute,
+  LegalSafeguardingRoute: LegalSafeguardingRoute,
+  LegalTermsRoute: LegalTermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
