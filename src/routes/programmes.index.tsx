@@ -27,9 +27,9 @@ export const Route = createFileRoute("/programmes/")({
       lede="Five programme types, one consultant, one shortlist."
       crumbs={[{ label: "Home", to: "/" }, { label: "Programmes" }]}
     >
-      <StaggerGrid as="ul" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <StaggerGrid className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {PROGRAMMES.map((p) => (
-          <StaggerItem key={p.to} as="li">
+          <StaggerItem key={p.to}>
             <Link to={p.to} className="block h-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 ease-in-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.02] hover:shadow-xl">
               <h2 className="font-display text-xl font-semibold">{p.label}</h2>
               <p className="mt-2 text-sm text-muted-foreground">{p.note}</p>
