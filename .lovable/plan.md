@@ -1,207 +1,211 @@
+# Morgan Oxford — Navigation & Site Structure
 
-# Enquiry Forms — Spec + Implementation
+## 1. Top-Level Information Architecture
 
-Four forms, one shared schema/validator layer, one shared submission pipeline. All submissions land in Lovable Cloud (the interim CRM) via a single server route that also works without JS.
-
-## 1. Architecture
-
-- **Storage (interim CRM)**: Lovable Cloud table `enquiries` — one table, discriminated by `kind` column (`general | school_placement | athletex | contact`). Payload-specific fields live in a `jsonb payload` column; indexed columns for `kind`, `email`, `created_at`, `status`.
-- **Client**: `react-hook-form` + `zod` resolver for inline validation + accessible error wiring.
-- **Server**: TanStack server route `POST /api/enquiries` (accepts both `application/json` and `multipart/form-data` → no-JS fallback). Re-validates with the same Zod schemas, inserts via server-side Supabase client (service role), returns `303` redirect to `/enquiry/thanks?kind=…` for form posts, `200 { ok:true, id }` for JSON.
-- **No-JS fallback**: every form is a real `<form method="post" action="/api/enquiries" enctype="multipart/form-data">` with a hidden `kind` input and hidden `redirect` input. Progressive JS enhancement intercepts submit for inline errors; without JS the browser posts natively and the server responds with a 303 to the thanks page.
-- **Shared UI**: `src/components/forms/Field.tsx` renders `<label htmlFor>`, control, `aria-describedby` linking to `#{id}-hint` + `#{id}-error`, `aria-invalid`, `aria-required`, and a `role="alert"` error node. Required marker is a visible `*` plus `<span class="sr-only"> required</span>`.
-- **Honeypot + timing**: hidden `company_website` field (must stay empty) + `started_at` timestamp (reject <1500ms). No CAPTCHA in this pass.
-- **Rate limit**: per-IP 5 submissions / 10 min in the route handler (in-memory map is fine for now; note in code as upgrade point).
-
-## 2. Files touched / added
-
-- `supabase/migrations/<ts>_enquiries.sql` — table + RLS + grants (INSERT to `anon`; SELECT restricted to `service_role` only).
-- `src/lib/enquiries/schemas.ts` — Zod schemas + shared field types + error-copy map.
-- `src/lib/enquiries/submit.ts` — client submit helper (JSON path).
-- `src/routes/api/enquiries.ts` — server route (POST, handles JSON + FormData, honeypot, rate limit, insert, redirect).
-- `src/components/forms/Field.tsx`, `Fieldset.tsx`, `FormStatus.tsx`, `Honeypot.tsx`.
-- `src/components/forms/GeneralEnquiryForm.tsx`
-- `src/components/forms/SchoolPlacementForm.tsx`
-- `src/components/forms/AthleteXScholarshipForm.tsx` (zone-athletex)
-- `src/components/forms/ContactForm.tsx`
-- `src/routes/enquire.tsx` — hosts General + Contact (tabs).
-- `src/routes/enquire.school-placement.tsx`
-- `src/routes/athletex.scholarship.tsx` (zone-athletex, flagged PROPOSAL)
-- `src/routes/enquiry.thanks.tsx` — success page (reads `?kind=` and `?ref=`).
-- `src/routes/api/public/health.ts` — not needed here; skip.
-
-No changes to `src/routes/index.tsx` or `/brand`.
-
-## 3. Shared field types + validation primitives (Zod)
-
-| Primitive | Rule | Error copy |
-|---|---|---|
-| `name` | trim, 2–80, letters/space/`'-` only | `"Enter the full name (2–80 characters, letters only)."` |
-| `email` | trim, RFC email, ≤254 | `"That email doesn't look right — check for typos like ‘gmial’."` |
-| `phone` | optional, E.164-ish `^\+?[0-9 ()-]{7,20}$` | `"Enter a phone number with country code, e.g. +44 7700 900123."` |
-| `country` | 2-letter ISO from list | `"Choose a country from the list."` |
-| `message` | trim, 20–2000 | too short: `"Tell us a bit more — at least 20 characters so we can help."` / too long: `"Keep it under 2000 characters; you can attach a document instead."` |
-| `consent` | boolean === true | `"We need your permission to reply to this enquiry."` |
-| `marketing_opt_in` | boolean, optional | — |
-| `age` | int 4–24 (student age) | `"Student age must be between 4 and 24."` |
-| `year_group` | enum `Reception … Year 13 / Sixth Form / Post-18` | `"Select the current year group."` |
-| `start_term` | enum `Sep 2026 / Jan 2027 / Sep 2027 / Later / Unsure` | `"Choose when the student would start."` |
-| `sport` | enum `Football / Basketball / Tennis / Swimming / Multi-sport / Other` | `"Pick the primary sport."` |
-| `honeypot` | must be `""` | (no user-facing copy; server rejects silently 200-style) |
-
-## 4. Form 1 — General enquiry (`kind: "general"`)
-
-**Fields**
-
-| Field | Type | Required | Notes |
-|---|---|---|---|
-| `full_name` | text | ✓ | primitive `name` |
-| `email` | email | ✓ | primitive `email` |
-| `phone` | tel | — | primitive `phone` |
-| `role` | select: `Parent / Guardian`, `Student`, `School / Agent`, `Other` | ✓ | error: `"Tell us who's enquiring."` |
-| `topic` | select: `Tutoring`, `School placement`, `AthleteX`, `Careers`, `Other` | ✓ | error: `"Choose what your enquiry is about."` |
-| `message` | textarea | ✓ | primitive `message` |
-| `consent` | checkbox | ✓ | label: `"I agree to be contacted about my enquiry."` |
-| `marketing_opt_in` | checkbox | — | label: `"Send me occasional updates from Morgan Oxford Education."` |
-
-**Success**: redirect `/enquiry/thanks?kind=general&ref=…` — H1 `"Thanks — we'll be in touch within 2 working days."` with reference code + secondary CTA `Back to home`.
-
-## 5. Form 2 — School placement enquiry (`kind: "school_placement"`)
-
-**Fields**
-
-| Field | Type | Required | Notes |
-|---|---|---|---|
-| `parent_name` | text | ✓ | primitive `name` |
-| `parent_email` | email | ✓ | |
-| `parent_phone` | tel | ✓ (required here) | error: `"We need a phone number for placement calls."` |
-| `country` | select ISO list | ✓ | |
-| `student_first_name` | text | ✓ | 2–40 chars — `"Enter the student's first name."` |
-| `student_age` | number | ✓ | primitive `age` |
-| `current_year_group` | select | ✓ | primitive `year_group` |
-| `target_start` | select | ✓ | primitive `start_term` |
-| `school_preferences` | textarea | — | 0–500; hint: `"e.g. day vs boarding, single-sex, region."` |
-| `academic_snapshot` | textarea | ✓ | 40–1500; error: `"Give us a short academic summary — grades, strengths, any support needs (at least 40 characters)."` |
-| `budget_range` | select: `Under £25k`, `£25–40k`, `£40–60k`, `£60k+`, `Prefer to discuss` | ✓ | `"Pick a budget band so we can shortlist realistically."` |
-| `documents` | file, multiple | — | accept `.pdf,.doc,.docx,.jpg,.png`; ≤10 MB each, ≤4 files; oversize: `"Each file must be under 10 MB."`; count: `"Attach up to 4 documents."`; type: `"We accept PDF, Word, JPG or PNG."` |
-| `consent` | checkbox | ✓ | as above |
-
-**Success**: `"Placement enquiry received — a consultant will call you within 1 working day."` + reference + `Add to calendar` link (mailto ICS in a later pass; stub for now).
-
-## 6. Form 3 — AthleteX scholarship / scout enquiry (`kind: "athletex"`) ⚑ PROPOSAL
-
-Rendered in `.zone-athletex`. Header ribbon: `PROPOSAL — pending sign-off`.
-
-**Fields**
-
-| Field | Type | Required | Notes |
-|---|---|---|---|
-| `applicant_type` | radio: `Athlete (18+)`, `Parent / Guardian`, `Coach / Club`, `Scout / Agency` | ✓ | `"Tell us who's applying."` |
-| `full_name` | text | ✓ | |
-| `email` | email | ✓ | |
-| `phone` | tel | ✓ | |
-| `country` | select | ✓ | |
-| `date_of_birth` | date | ✓ | age must be 13–24; too young: `"AthleteX is for athletes aged 13–24."`; future: `"Date of birth can't be in the future."` |
-| `sport` | select | ✓ | primitive `sport` |
-| `position_or_discipline` | text | ✓ | 2–60; `"Enter position or discipline (e.g. left-back, 200m free)."` |
-| `current_level` | select: `School`, `Club / Academy`, `Regional`, `National`, `International` | ✓ | `"Select the current competitive level."` |
-| `current_club_or_school` | text | ✓ | 2–120 |
-| `key_stats` | textarea | ✓ | 40–1500; `"Add key stats, PBs, achievements (at least 40 characters)."` |
-| `highlight_url` | url | — | must be http(s), Hudl/YouTube/Vimeo/Instagram host; `"Paste a public video link (YouTube, Vimeo, Hudl or Instagram)."` |
-| `target_destination` | select: `UK boarding school`, `US NCAA`, `UK university`, `Pro / semi-pro pathway`, `Unsure` | ✓ | `"Choose the pathway you're aiming at."` |
-| `available_from` | select `start_term` values | ✓ | |
-| `scout_context` | textarea | conditional-required when `applicant_type = Scout / Agency` | 20–1000; `"Scouts: tell us the athlete, event and what you're proposing."` |
-| `consent` | checkbox | ✓ | AthleteX-worded: `"I agree AthleteX / Morgan Oxford Education can contact me about this application."` |
-
-**Success**: `"Application logged — the AthleteX scouting desk will review within 3 working days."` + reference + secondary CTA `Explore CORE placements`.
-
-## 7. Form 4 — Contact (`kind: "contact"`)
-
-Short. Sits alongside address/phone block.
-
-**Fields**
-
-| Field | Type | Required | Notes |
-|---|---|---|---|
-| `full_name` | text | ✓ | |
-| `email` | email | ✓ | |
-| `subject` | text | ✓ | 3–120; `"Add a short subject (3–120 characters)."` |
-| `message` | textarea | ✓ | primitive `message` |
-| `consent` | checkbox | ✓ | |
-
-**Success**: `"Message received — expect a reply within 2 working days."` + reference.
-
-## 8. Accessibility rules (applied by shared `Field` component)
-
-- Every control has a visible `<label htmlFor={id}>`. No placeholder-as-label.
-- Required: visible `*` + `aria-required="true"` + screen-reader `" required"`.
-- Errors: `aria-invalid="true"`, `aria-describedby="{id}-hint {id}-error"`, error node has `role="alert"` and appears immediately below the control.
-- On submit failure: focus moves to the first invalid control; a top-of-form `<div role="alert" aria-live="polite">` announces `"N problems to fix — see highlighted fields."` with an unordered list of anchor links `<a href="#{id}">…</a>` to each error (native browser scroll + focus).
-- Fieldsets use `<fieldset><legend>` (e.g. `Applicant`, `Student`, `Sport & level`).
-- Focus ring: shared token from the brand system (`--ring`), never removed.
-- Submit button has explicit `type="submit"`; disabled state includes `aria-busy="true"` and text swap to `Sending…`.
-- All form elements sized ≥ 44×44 tap target.
-- Colour is never the sole error signal — icon + text + border-weight change.
-
-## 9. No-JS fallback
-
-- Every form is a real `<form method="post" action="/api/enquiries" enctype="multipart/form-data">`.
-- Hidden inputs: `<input type="hidden" name="kind" value="…">`, `<input type="hidden" name="redirect" value="/enquiry/thanks?kind=…">`.
-- Server route parses `FormData`, runs the same Zod schema, and on error re-renders the form page with `?errors=…` (server route does a `303` back to the form path with error keys; the route component reads `useSearch()` and shows the same error copy). On success, `303` to the redirect target.
-- Client JS enhancement wraps `onSubmit`, `preventDefault`s, submits JSON, and shows inline errors — but the HTML form remains valid without it.
-
-## 10. Server route — validation + CRM insert
-
-`src/routes/api/enquiries.ts`:
-
-1. Content-type sniff → `request.json()` or `request.formData()` → normalized object.
-2. Honeypot check + timing check → 200 no-op on trap.
-3. Rate-limit by IP → 429 with `Retry-After`.
-4. Discriminated Zod parse by `kind` → on error: JSON → 422 `{ errors: {field: message[]} }`; FormData → 303 back to referrer with `?errors=…`.
-5. Insert into `enquiries` (service-role client, loaded inside handler): `{ kind, email, payload, ip_hash, user_agent, ref }` where `ref = crypto.randomUUID().slice(0, 8).toUpperCase()`.
-6. On success: JSON → `{ ok:true, ref }`; FormData → `303` to `redirect` value with `&ref=…`.
-
-## 11. Migration (Lovable Cloud)
-
-```sql
-create type public.enquiry_kind as enum ('general','school_placement','athletex','contact');
-
-create table public.enquiries (
-  id uuid primary key default gen_random_uuid(),
-  kind public.enquiry_kind not null,
-  ref text not null unique,
-  email citext not null,
-  payload jsonb not null,
-  ip_hash text,
-  user_agent text,
-  status text not null default 'new',
-  created_at timestamptz not null default now()
-);
-create index on public.enquiries (kind, created_at desc);
-create index on public.enquiries (email);
-
-grant insert on public.enquiries to anon, authenticated;
-grant all on public.enquiries to service_role;
-
-alter table public.enquiries enable row level security;
-
--- No SELECT/UPDATE/DELETE policies → only service_role can read.
--- Public INSERT policy: allow anon inserts with basic shape guard.
-create policy "public can submit enquiries"
-on public.enquiries for insert
-to anon, authenticated
-with check (
-  length(coalesce(ref,'')) between 6 and 12
-  and length(email::text) between 5 and 254
-);
+```text
+morganoxford.com (CORE — royal blue)
+├── /                         Home (dual gateway: CORE / AthleteX)
+├── /about                    Story, team, ethos, results
+├── /schools                  School directory (search + filter)
+│   ├── /schools/[slug]       School profile
+│   └── /schools/compare      Side-by-side compare (up to 3)
+├── /programmes               Programme index (search + filter)
+│   ├── /programmes/day-school
+│   ├── /programmes/boarding
+│   ├── /programmes/sixth-form
+│   ├── /programmes/summer
+│   └── /programmes/guardianship
+├── /process                  How placement works (5-step)
+├── /insights                 Articles / guides / case studies
+│   └── /insights/[slug]
+├── /athletex  ⇢ pathway root (black / red — visually distinct)
+│   ├── /athletex/about
+│   ├── /athletex/scholarship         Scholarship & scouting programme
+│   ├── /athletex/sports              Sport index
+│   │   └── /athletex/sports/[sport]  Football, rugby, tennis, athletics…
+│   ├── /athletex/schools             Sports-specialist school subset
+│   ├── /athletex/success             Athlete case studies
+│   └── /athletex/scouts              For scouts / clubs (B2B)
+├── /enquire                  General enquiry (hub)
+│   ├── /enquire/school-placement
+│   └── /enquire/contact
+├── /brand                    Internal design system
+└── /legal/{privacy,terms,cookies,safeguarding}
 ```
 
-Enable Lovable Cloud in the same pass (required before running the migration).
+**Reasoning.** CORE is the parent brand and default surface; AthleteX is a first-class pathway under `/athletex/*`, not a separate domain. A shared root keeps SEO authority, cross-linking, and one CRM pipeline while allowing full visual + editorial divergence at the pathway boundary.
 
-## 12. Out of scope (this pass)
+---
 
-- Email notifications to staff (needs Resend/Mailgun connector — separate pass).
-- Real CRM export (HubSpot / Pipedrive / Zoho) — swap `submit.ts` insert for a connector call later; the `enquiries` table becomes the mirror.
-- File antivirus scanning; documents are stored size/type-validated only.
-- CAPTCHA / hCaptcha — deferred; honeypot + timing + rate-limit for now.
-- Admin dashboard for reading enquiries.
+## 2. Primary Navigation (persistent header)
+
+| Slot | Label | Target | Why |
+|---|---|---|---|
+| 1 | Schools | `/schools` | Highest-intent browse surface |
+| 2 | Programmes | `/programmes` | Secondary browse axis (type of study) |
+| 3 | Process | `/process` | Reassurance for first-time parents |
+| 4 | Insights | `/insights` | SEO + trust |
+| 5 | About | `/about` | Standard trust link |
+| 6 | **AthleteX** | `/athletex` | Pathway pivot — styled as pill/badge in AthleteX red on CORE, and in CORE royal on AthleteX (see §6) |
+| CTA | Enquire | `/enquire` | Persistent primary CTA, right-aligned |
+
+- Mobile: same order in a full-screen sheet; AthleteX pill sits above the CTA.
+- No mega-menu on CORE by default — Schools and Programmes open lightweight two-column flyouts (categories + "Browse all").
+
+**Reasoning.** Six items + CTA is the ceiling for scannability. AthleteX earns a slot (not a dropdown item) because it's a distinct audience and revenue line; burying it kills discovery.
+
+---
+
+## 3. AthleteX Primary Navigation (when inside `/athletex/*`)
+
+| Slot | Label | Target |
+|---|---|---|
+| 1 | Sports | `/athletex/sports` |
+| 2 | Schools | `/athletex/schools` |
+| 3 | Scholarship | `/athletex/scholarship` |
+| 4 | Success Stories | `/athletex/success` |
+| 5 | For Scouts | `/athletex/scouts` |
+| 6 | **← Morgan Oxford** | `/` | Return pill, CORE royal |
+| CTA | Apply | `/athletex/scholarship#apply` |
+
+**Reasoning.** Users inside AthleteX get an AthleteX-native nav (their vocabulary: Sports, Scholarship, Scouts). The CORE return link is always the sixth slot in mirrored position — predictable pivot.
+
+---
+
+## 4. Secondary Navigation
+
+**CORE — none globally.** Contextual sub-nav appears only on:
+- `/schools/*` — filter rail (see §7)
+- `/programmes/*` — tabbed sub-nav across the 5 programme types
+- `/process` — sticky step index (1–5)
+
+**AthleteX — sport sub-nav** on `/athletex/sports/*`: horizontal scroll of sports chips (Football, Rugby, Tennis, Athletics, Cricket, Hockey, Swimming, Other).
+
+**Reasoning.** Global secondary nav dilutes the primary and adds cognitive load. Contextual sub-nav is only added where the page genuinely has siblings.
+
+---
+
+## 5. Footer (shared, CORE-styled with AthleteX column)
+
+Four columns + utility row.
+
+| Explore | Schools | AthleteX | Company |
+|---|---|---|---|
+| Home | Browse all schools | AthleteX home | About |
+| Process | Day school | Sports | Insights |
+| Programmes | Boarding | Scholarship | Careers |
+| Insights | Sixth Form | Success stories | Press |
+| Enquire | Summer | For scouts | Contact |
+|  | Guardianship |  |  |
+
+**Utility row:** logo lockup · office (Oxford, UK) · © year · Privacy · Terms · Cookies · Safeguarding · LinkedIn · Instagram.
+
+**Reasoning.** The AthleteX column in the shared footer reinforces that it's part of the group, and gives AthleteX permanent link equity from every CORE page.
+
+---
+
+## 6. CORE ↔ AthleteX Transitions
+
+Three deliberate pivots — no accidental crossings.
+
+1. **Header pathway pill.** Always visible top-right of the primary nav. Colour inverts by context (AthleteX red on CORE, CORE royal on AthleteX). Icon + label.
+2. **Home dual gateway.** The `/` hero has two equally weighted entry cards: "Find a school" (CORE) and "Athlete pathway" (AthleteX). Sets the choice on first visit.
+3. **Contextual bridges.**
+   - School profiles with sport specialism show a "Sports scholarships at this school → AthleteX" callout.
+   - AthleteX school subset links each card back to its full `/schools/[slug]` profile.
+   - `/athletex/scholarship` success page links to `/enquire/school-placement` for non-athlete siblings.
+
+**Visual signalling.** Crossing the boundary triggers a full theme swap (background, primary, type-scale accents) with a 200 ms crossfade — no ambiguity about which brand you're in.
+
+**Reasoning.** One universal nav can't serve two distinct audiences (parents seeking a school vs athletes/scouts). Explicit pivots + theme swap make the boundary a feature, not a bug.
+
+---
+
+## 7. Search & Filter — Schools and Programmes
+
+### `/schools` — School directory
+
+**Search bar (top):** free-text over name, town, county, keywords. Debounced, server-driven.
+
+**Filter rail (left on desktop, sheet on mobile):**
+
+| Filter | Type | Notes |
+|---|---|---|
+| Type | multi-select | Day, Boarding, Day+Boarding, Sixth Form only |
+| Gender | segmented | Co-ed / Boys / Girls |
+| Age range | dual slider | 3–18 |
+| Region | multi-select | UK regions + "Overseas" |
+| Fees (annual) | dual slider | £ bands |
+| Curriculum | multi-select | A-Level, IB, GCSE, iGCSE, BTEC |
+| Specialisms | chips | Arts, STEM, Sport, Music, SEND |
+| AthleteX partner | toggle | Cross-links to sports-specialist subset |
+
+**Sort:** Relevance · Fees ↑ · Fees ↓ · A–Z · Recently updated.
+**URL state:** all filters are query params (`/schools?type=boarding&region=south-east`) so results are shareable and SSR-indexable.
+**Empty state:** "No schools match — relax a filter" with one-click chip removal.
+
+### `/programmes` — Programme index
+
+Lighter surface: tabs across the 5 programme types, plus a single "Which is right for me?" quiz link. No heavy filters — programmes are a small set.
+
+### `/athletex/schools` — Sports-specialist subset
+
+Reuses the schools filter component but pre-scopes `AthleteX partner = true` and swaps the Specialisms filter for a **Sport** multi-select. AthleteX theme.
+
+**Reasoning.** One filter component, two mounts. Query-param state is essential for SEO (each filter combo is a landing page candidate) and shareability.
+
+---
+
+## 8. Breadcrumbs
+
+Enabled on all pages ≥ 2 levels deep. Not on `/`, primary section indexes, or forms.
+
+Examples:
+- `Home / Schools / Eton College`
+- `Home / Programmes / Boarding`
+- `Home / AthleteX / Sports / Football`
+- `Home / AthleteX / Schools / Millfield`
+
+JSON-LD `BreadcrumbList` on every breadcrumb-bearing page.
+
+**Reasoning.** School and sport profiles are deep and reached from search — breadcrumbs are the primary "where am I / back up" affordance and a documented SEO win.
+
+---
+
+## 9. Utility & Global Elements
+
+- **Skip link** to `#main` on every page.
+- **Announcement bar** (optional, dismissible) above header — used for AthleteX intake windows or open days.
+- **Persistent Enquire CTA** in header (both themes).
+- **Cookie banner** — bottom-left, non-blocking.
+- **404** — themed to current pathway; offers "Back to Schools" + "Back to AthleteX".
+
+---
+
+## 10. Route Additions Required
+
+New route files (all under `src/routes/`, TanStack file-based):
+
+```
+about.tsx
+schools.tsx  schools.index.tsx  schools.$slug.tsx  schools.compare.tsx
+programmes.tsx  programmes.index.tsx
+programmes.day-school.tsx  programmes.boarding.tsx  programmes.sixth-form.tsx
+programmes.summer.tsx  programmes.guardianship.tsx
+process.tsx
+insights.tsx  insights.index.tsx  insights.$slug.tsx
+athletex.tsx  athletex.index.tsx  athletex.about.tsx
+athletex.sports.tsx  athletex.sports.index.tsx  athletex.sports.$sport.tsx
+athletex.schools.tsx  athletex.success.tsx  athletex.scouts.tsx
+legal.privacy.tsx  legal.terms.tsx  legal.cookies.tsx  legal.safeguarding.tsx
+```
+
+Existing routes kept: `/`, `/brand`, `/enquire`, `/enquire/school-placement`, `/athletex/scholarship`, `/enquiry/thanks`.
+
+Shared components to add: `SiteHeader` (theme-aware), `SiteFooter`, `PathwayPill`, `Breadcrumbs`, `SchoolsFilterRail`, `SchoolsSearchBar`, `SportChips`.
+
+---
+
+## 11. Out of Scope (this pass)
+
+Content for each new page, school/programme data model + CMS, search backend (Postgres FTS vs Meili), real breadcrumb data sources — plan those separately once IA is approved.

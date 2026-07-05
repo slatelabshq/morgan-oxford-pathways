@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -11,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SiteHeader } from "../components/site/SiteHeader";
+import { SiteFooter } from "../components/site/SiteFooter";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +80,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Morgan Oxford Education — UK school placement & AthleteX pathway" },
+      { name: "description", content: "Independent school placement, guardianship and the AthleteX athlete pathway. Boarding, day, sixth form and summer programmes — advised end-to-end from Oxford." },
+      { name: "author", content: "Morgan Oxford Education" },
+      { property: "og:title", content: "Morgan Oxford Education" },
+      { property: "og:description", content: "UK school placement and the AthleteX athlete pathway." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -116,11 +118,17 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isAthleteX = pathname.startsWith("/athletex");
+  const isBrand = pathname.startsWith("/brand");
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className={isAthleteX ? "zone-athletex min-h-screen bg-background text-foreground" : "min-h-screen bg-background text-foreground"}>
+        {!isBrand && <SiteHeader />}
+        <Outlet />
+        {!isBrand && <SiteFooter />}
+      </div>
     </QueryClientProvider>
   );
 }

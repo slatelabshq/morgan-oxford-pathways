@@ -1,24 +1,64 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Home() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main id="main">
+      <section className="mx-auto max-w-7xl px-4 pb-16 pt-16 sm:px-6 lg:px-8 lg:pt-24">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+          Oxford · Est. 2011
+        </p>
+        <h1 className="mt-4 max-w-4xl font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
+          British school placement, considered.
+        </h1>
+        <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
+          Independent advisory for families seeking day, boarding, sixth form and
+          summer places — and a dedicated athlete pathway for scholarship-track sport.
+        </p>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
+          <Link
+            to="/schools"
+            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 transition-shadow hover:shadow-xl"
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+              CORE
+            </p>
+            <h2 className="mt-3 font-display text-3xl font-semibold">
+              Find a school
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Browse 200+ vetted UK independent schools by age, region, fees and
+              specialism. Placement advised end-to-end.
+            </p>
+            <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-foreground">
+              Browse schools <span aria-hidden>→</span>
+            </span>
+          </Link>
+
+          <Link
+            to="/athletex"
+            className="group relative overflow-hidden rounded-2xl border border-[color:var(--brand-signal)] bg-[color:var(--brand-jet)] p-8 text-[color:var(--brand-bone)] transition-shadow hover:shadow-xl"
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest text-[color:var(--brand-signal)]">
+              AthleteX
+            </p>
+            <h2 className="mt-3 font-display text-3xl font-semibold">
+              Athlete pathway
+            </h2>
+            <p className="mt-3 text-sm text-[color:var(--brand-metallic)]">
+              Scholarship placement, scouting and school-to-pro pathways for
+              football, rugby, tennis, athletics and more.
+            </p>
+            <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold">
+              Enter AthleteX <span aria-hidden>→</span>
+            </span>
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }
