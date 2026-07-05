@@ -10,12 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SchoolsRouteImport } from './routes/schools'
+import { Route as ProgrammesRouteImport } from './routes/programmes'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as EnquireRouteImport } from './routes/enquire'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchoolsIndexRouteImport } from './routes/schools.index'
+import { Route as ProgrammesIndexRouteImport } from './routes/programmes.index'
 import { Route as SchoolsCompareRouteImport } from './routes/schools.compare'
 import { Route as SchoolsSlugRouteImport } from './routes/schools.$slug'
 import { Route as EnquiryThanksRouteImport } from './routes/enquiry.thanks'
@@ -26,6 +28,11 @@ import { Route as ApiEnquiriesRouteImport } from './routes/api/enquiries'
 const SchoolsRoute = SchoolsRouteImport.update({
   id: '/schools',
   path: '/schools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgrammesRoute = ProgrammesRouteImport.update({
+  id: '/programmes',
+  path: '/programmes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProcessRoute = ProcessRouteImport.update({
@@ -57,6 +64,11 @@ const SchoolsIndexRoute = SchoolsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SchoolsRoute,
+} as any)
+const ProgrammesIndexRoute = ProgrammesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProgrammesRoute,
 } as any)
 const SchoolsCompareRoute = SchoolsCompareRouteImport.update({
   id: '/compare',
@@ -95,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/brand': typeof BrandRoute
   '/enquire': typeof EnquireRouteWithChildren
   '/process': typeof ProcessRoute
+  '/programmes': typeof ProgrammesRouteWithChildren
   '/schools': typeof SchoolsRouteWithChildren
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
@@ -102,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/enquiry/thanks': typeof EnquiryThanksRoute
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
+  '/programmes/': typeof ProgrammesIndexRoute
   '/schools/': typeof SchoolsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -116,6 +130,7 @@ export interface FileRoutesByTo {
   '/enquiry/thanks': typeof EnquiryThanksRoute
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
+  '/programmes': typeof ProgrammesIndexRoute
   '/schools': typeof SchoolsIndexRoute
 }
 export interface FileRoutesById {
@@ -125,6 +140,7 @@ export interface FileRoutesById {
   '/brand': typeof BrandRoute
   '/enquire': typeof EnquireRouteWithChildren
   '/process': typeof ProcessRoute
+  '/programmes': typeof ProgrammesRouteWithChildren
   '/schools': typeof SchoolsRouteWithChildren
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
@@ -132,6 +148,7 @@ export interface FileRoutesById {
   '/enquiry/thanks': typeof EnquiryThanksRoute
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
+  '/programmes/': typeof ProgrammesIndexRoute
   '/schools/': typeof SchoolsIndexRoute
 }
 export interface FileRouteTypes {
@@ -142,6 +159,7 @@ export interface FileRouteTypes {
     | '/brand'
     | '/enquire'
     | '/process'
+    | '/programmes'
     | '/schools'
     | '/api/enquiries'
     | '/athletex/scholarship'
@@ -149,6 +167,7 @@ export interface FileRouteTypes {
     | '/enquiry/thanks'
     | '/schools/$slug'
     | '/schools/compare'
+    | '/programmes/'
     | '/schools/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -163,6 +182,7 @@ export interface FileRouteTypes {
     | '/enquiry/thanks'
     | '/schools/$slug'
     | '/schools/compare'
+    | '/programmes'
     | '/schools'
   id:
     | '__root__'
@@ -171,6 +191,7 @@ export interface FileRouteTypes {
     | '/brand'
     | '/enquire'
     | '/process'
+    | '/programmes'
     | '/schools'
     | '/api/enquiries'
     | '/athletex/scholarship'
@@ -178,6 +199,7 @@ export interface FileRouteTypes {
     | '/enquiry/thanks'
     | '/schools/$slug'
     | '/schools/compare'
+    | '/programmes/'
     | '/schools/'
   fileRoutesById: FileRoutesById
 }
@@ -187,6 +209,7 @@ export interface RootRouteChildren {
   BrandRoute: typeof BrandRoute
   EnquireRoute: typeof EnquireRouteWithChildren
   ProcessRoute: typeof ProcessRoute
+  ProgrammesRoute: typeof ProgrammesRouteWithChildren
   SchoolsRoute: typeof SchoolsRouteWithChildren
   ApiEnquiriesRoute: typeof ApiEnquiriesRoute
   AthletexScholarshipRoute: typeof AthletexScholarshipRoute
@@ -200,6 +223,13 @@ declare module '@tanstack/react-router' {
       path: '/schools'
       fullPath: '/schools'
       preLoaderRoute: typeof SchoolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programmes': {
+      id: '/programmes'
+      path: '/programmes'
+      fullPath: '/programmes'
+      preLoaderRoute: typeof ProgrammesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/process': {
@@ -243,6 +273,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/schools/'
       preLoaderRoute: typeof SchoolsIndexRouteImport
       parentRoute: typeof SchoolsRoute
+    }
+    '/programmes/': {
+      id: '/programmes/'
+      path: '/'
+      fullPath: '/programmes/'
+      preLoaderRoute: typeof ProgrammesIndexRouteImport
+      parentRoute: typeof ProgrammesRoute
     }
     '/schools/compare': {
       id: '/schools/compare'
@@ -300,6 +337,18 @@ const EnquireRouteChildren: EnquireRouteChildren = {
 const EnquireRouteWithChildren =
   EnquireRoute._addFileChildren(EnquireRouteChildren)
 
+interface ProgrammesRouteChildren {
+  ProgrammesIndexRoute: typeof ProgrammesIndexRoute
+}
+
+const ProgrammesRouteChildren: ProgrammesRouteChildren = {
+  ProgrammesIndexRoute: ProgrammesIndexRoute,
+}
+
+const ProgrammesRouteWithChildren = ProgrammesRoute._addFileChildren(
+  ProgrammesRouteChildren,
+)
+
 interface SchoolsRouteChildren {
   SchoolsSlugRoute: typeof SchoolsSlugRoute
   SchoolsCompareRoute: typeof SchoolsCompareRoute
@@ -321,6 +370,7 @@ const rootRouteChildren: RootRouteChildren = {
   BrandRoute: BrandRoute,
   EnquireRoute: EnquireRouteWithChildren,
   ProcessRoute: ProcessRoute,
+  ProgrammesRoute: ProgrammesRouteWithChildren,
   SchoolsRoute: SchoolsRouteWithChildren,
   ApiEnquiriesRoute: ApiEnquiriesRoute,
   AthletexScholarshipRoute: AthletexScholarshipRoute,
