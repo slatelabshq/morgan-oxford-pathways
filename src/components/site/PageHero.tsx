@@ -34,6 +34,7 @@ export function PageHero({
   const accent = image.titleAccent;
   const sources = image.images.length > 0 ? image.images : [""];
   const [index, setIndex] = useState(0);
+  const [loaded, setLoaded] = useState<Set<string>>(() => new Set());
 
   useEffect(() => {
     if (reduced || sources.length <= 1) return;
@@ -43,6 +44,32 @@ export function PageHero({
     return () => window.clearInterval(id);
   }, [reduced, sources.length]);
 
+  // Warm the browser cache for every non-first source after mount, so by
+  // the time the 5s rotation reaches them the bytes are already decoded.
+  useEffect(() => {
+    const warmers: HTMLImageElement[] = [];
+    sources.slice(1).forEach((src) => {
+      if (!src) return;
+      const img = new Image();
+      img.decoding = "async";
+      img.src = src;
+      warmers.push(img);
+    });
+    return () => {
+      warmers.forEach((img) => {
+        img.src = "";
+      });
+    };
+  }, [sources]);
+
+  const markLoaded = (src: string) =>
+    setLoaded((prev) => {
+      if (prev.has(src)) return prev;
+      const next = new Set(prev);
+      next.add(src);
+      return next;
+    });
+
   return (
     <section
       className="relative w-full overflow-hidden min-h-[420px] sm:min-h-[520px] lg:min-h-[640px]"
@@ -51,7 +78,7 @@ export function PageHero({
       {/* Rotating image stack with crossfade + Ken Burns on the active layer */}
       <div className="absolute inset-0" aria-hidden={image.alt ? undefined : true}>
         {sources.map((src, i) => {
-          const isActive = i === index;
+          const isActive = i === index && loaded.has(src);
           return (
             <motion.div
               key={src + i}
@@ -63,9 +90,10 @@ export function PageHero({
               <motion.img
                 src={src}
                 alt={i === 0 ? image.alt : ""}
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "low"}
+                loading="eager"
+                fetchPriority={i === 0 ? "high" : "auto"}
                 decoding="async"
+                onLoad={() => markLoaded(src)}
                 className="h-full w-full object-cover"
                 initial={reduced ? false : { scale: 1.08 }}
                 animate={reduced ? undefined : { scale: isActive ? 1 : 1.08 }}
@@ -75,6 +103,7 @@ export function PageHero({
           );
         })}
       </div>
+
 
       {/* Navy / jet gradient wash */}
       <div
