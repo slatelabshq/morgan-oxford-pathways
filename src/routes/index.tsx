@@ -19,9 +19,7 @@ function Home() {
       />
 
       <section className="mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 lg:px-8 lg:pt-16">
-
-
-        <StaggerGrid className="mt-12 grid gap-6 md:grid-cols-2">
+        <StaggerGrid className="grid gap-6 md:grid-cols-2">
           <StaggerItem>
             <Link
               to="/schools"
