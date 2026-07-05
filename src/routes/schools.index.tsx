@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Compass, MapPin } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
@@ -52,11 +53,21 @@ function DestinationsIndex() {
       lede="The best destination depends on your child, not a league table. We help families weigh up academic systems, culture, cost, and long-term goals across our core destinations."
       crumbs={[{ label: "Home", to: "/" }, { label: "Destinations" }]}
     >
+      <div className="mb-8 flex items-center gap-3">
+        <span className="icon-chip"><Compass className="h-5 w-5" aria-hidden /></span>
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
+          Core regions
+        </p>
+      </div>
+
       <StaggerGrid className="grid gap-6 md:grid-cols-2">
         {DESTINATIONS.map((d) => (
           <StaggerItem key={d.label}>
-            <article className="h-full rounded-2xl border border-border bg-card p-6 sm:p-8">
-              <h2 className="font-display text-2xl font-semibold">{d.label}</h2>
+            <article className="card-glow h-full rounded-2xl border border-border bg-card p-6 sm:p-8">
+              <div className="mb-3 flex items-center gap-3">
+                <span className="icon-chip"><MapPin className="h-5 w-5" aria-hidden /></span>
+                <h2 className="font-display text-2xl font-semibold">{d.label}</h2>
+              </div>
               <p className="mt-3 text-base leading-relaxed text-muted-foreground">{d.body}</p>
             </article>
           </StaggerItem>
@@ -66,7 +77,7 @@ function DestinationsIndex() {
       <div className="mt-12">
         <Link
           to="/enquire/contact"
-          className="btn-micro inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+          className="btn-glow inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
         >
           Talk to us about the right destination →
         </Link>

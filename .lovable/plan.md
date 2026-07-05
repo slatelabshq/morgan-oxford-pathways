@@ -1,35 +1,51 @@
 ## Goal
-Apply the new website copy across the existing site while keeping current colours, layout components, and route structure intact.
+Add tasteful iconography, small infographic accents, and a soft glow-on-hover to CTAs and cards across the site — without changing content, colors, or layout.
 
-## Content-to-route mapping
-The copy has 7 sections; the site has more routes. I'll map the new copy onto existing routes so nothing is orphaned and no new top-level routes are introduced:
+## What I'll add
 
-| Copy section | Target route | Notes |
-|---|---|---|
-| 01 Home | `src/routes/index.tsx` | Hero + audience routing + trust strip + "Why Families Choose Us" |
-| 02 Services | `src/routes/programmes/index.tsx` (`programmes.index.tsx`) | Intro + 5 service blocks + "How We Work" summary linking to Process |
-| 03 AthleteX Pathways | `src/routes/athletex.index.tsx` | Hero, Why AthleteX, 4 sport pathways, Scholarships & Scouting |
-| 04 Destinations | `src/routes/schools/index.tsx` (`schools.index.tsx`) | Intro + UK / North America / Europe / Beyond blocks (with the "confirm" notes left as visible placeholder text where source copy is missing) |
-| 05 Success Stories | `src/routes/insights/index.tsx` (`insights.index.tsx`) | Intro + 3 featured stories + CTAs |
-| 06 Process | `src/routes/process.tsx` | Intro + 5-step process |
-| 07 Contact / Enquiry | `src/routes/enquire.contact.tsx` | Intro + form fields (labels only, not rewiring backend) + Lagos & Oxford office blocks |
-| About | `src/routes/about.tsx` | Left as-is unless you want the "Why Families Choose Us" block moved here instead of Home |
+**1. Glow hover utility (styles.css)**
+Add a single reusable class `.card-glow` that:
+- adds `transition-shadow` on the base state
+- on hover, applies a soft outer glow using brand tokens: `box-shadow: 0 10px 40px -10px color-mix(in oklab, var(--brand-royal) 45%, transparent), 0 0 0 1px color-mix(in oklab, var(--brand-gold) 35%, transparent)`
+- in `.zone-athletex` scope, the glow re-tints to `--brand-signal` (red) so AthleteX cards glow red
+- also add `.btn-glow` variant tuned for buttons (tighter radius, primary-colored halo)
+- respects `prefers-reduced-motion` (no transition, glow still appears on hover)
 
-## Nav label question
-Current nav reads: Schools · Programmes · Process · Insights · About. The new copy names them: Destinations · Services · Process · Success Stories · About. I'll **update the visible labels** in `SiteHeader.tsx` and `SiteMobileNav.tsx` to match the copy, keeping the URLs unchanged (`/schools`, `/programmes`, `/insights`) so nothing breaks. If you'd rather keep the current labels, say so before implementation.
+**2. Apply to existing cards & CTAs**
+- Home: audience-routing cards (parent / student-athlete), primary/secondary hero CTAs, "Begin the conversation" button → `card-glow` / `btn-glow`
+- Services: 5 service cards + "See the full process" area
+- AthleteX: 4 sport pathway cards + Scholarships CTA
+- Destinations: 4 country cards + "Talk to us" CTA
+- Success Stories: 3 story cards + both footer CTAs
+- Process: 5 step cards + "Begin your consultation" CTA
+- Contact: 2 office cards + submit button
 
-## What I will change per page
-For every target route:
-- Update `head()` title + meta description to reflect the new section headline
-- Replace hero headline / subhead / CTAs with the new copy
-- Replace body sections with the new copy blocks, using existing `PageHero`, `PageShell`, and section components — no new visual system
-- Keep `hero-images.ts` entries; only adjust the `titleAccent` word if the new headline needs a different emphasis (e.g. Home accent → "inevitable", AthleteX → "right")
+**3. Icons (lucide-react, already installed)**
+Add small, semantic icons — decorative, `aria-hidden`, gold or brand-royal tint:
+- Home trust strip (5 stats): `Clock` (13 years), `BadgeCheck` (ICEF), `Globe2` (offices), `Zap` (48-hour), `School` (partners) — icon sits above the stat number
+- Services cards: `GraduationCap`, `Building2`, `BookOpen`, `Sun`, `Plane` (one per service, top-left of card)
+- AthleteX pathways: `Trophy` (Football), `Dribbble` (Basketball), `Circle` (Tennis — small), `Waves` (Swimming)
+- Destinations: `MapPin` on each country card next to the H2
+- Process steps: keep numeric badge, add a subtle right-aligned `ArrowRight` on hover of each step card
+- Contact offices: `MapPin`, `Phone`, `Mail` inline with each line
 
-## Explicitly out of scope
-- No new routes, no new components, no design/colour changes
-- No changes to the enquiry form's backend wiring (labels/options only)
-- Notes in the source copy marked "confirm with team" / "pull from live page" will be rendered as normal copy where a paragraph exists, and omitted where the source says the content isn't ready (North America block will use a short "Details coming soon" line rather than invented copy)
-- Cairo office omitted from Contact (source says confirm)
+**4. Infographic touches**
+- Home trust strip: change from plain text list to a 5-column mini-infographic — each stat gets an icon in a circular gold-tinted chip above the number, with a thin gold divider connecting them on desktop only (`.gold-divider` utility already exists)
+- Services "How we work" summary: add a horizontal connector line behind the 5 numbered steps (desktop only)
+- Process page: add a vertical connector line down the left side of the step list, visually threading the numbered circles together
 
-## Deliverable
-One batch of edits to the 7 route files above plus the two nav files, matching the copy verbatim.
+## Out of scope
+- No color/typography changes
+- No copy changes
+- No new routes or components beyond the icon/infographic additions above
+- No new dependencies (lucide-react and framer-motion are already installed)
+
+## Files to change
+- `src/styles.css` — add `.card-glow`, `.btn-glow`, athletex zone override
+- `src/routes/index.tsx` — trust strip infographic, card + CTA glows, audience-card icons
+- `src/routes/programmes.index.tsx` — service card icons, glow, connector on "How we work"
+- `src/routes/athletex.index.tsx` — sport icons, glow
+- `src/routes/schools.index.tsx` — MapPin on destination cards, glow
+- `src/routes/insights.index.tsx` — story card glow, CTA glow
+- `src/routes/process.tsx` — vertical connector, step card glow, arrow on hover
+- `src/routes/enquire.contact.tsx` — inline icons on office cards, submit button glow (via wrapper class on the ContactForm section only, not editing the form component)

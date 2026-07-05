@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Building2, Mail, MapPin, Phone } from "lucide-react";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { PageShell } from "@/components/site/PageShell";
 import { HERO } from "@/lib/hero-images";
@@ -69,29 +70,37 @@ export const Route = createFileRoute("/enquire/contact")({
             Areas we can advise on: {INTEREST_AREAS.join(" · ")}. Include your child's
             current year/grade and any country of interest in your message.
           </p>
-          <div className="mt-8">
+          <div className="contact-form-glow mt-8 [&_button[type=submit]]:btn-glow">
             <ContactForm />
           </div>
         </div>
 
         <aside className="space-y-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
-            Our offices
-          </p>
+          <div className="mb-1 flex items-center gap-3">
+            <span className="icon-chip"><Building2 className="h-5 w-5" aria-hidden /></span>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
+              Our offices
+            </p>
+          </div>
           {OFFICES.map((o) => (
             <article
               key={o.city}
-              className="rounded-2xl border border-border bg-card p-6"
+              className="card-glow rounded-2xl border border-border bg-card p-6"
             >
               <h3 className="font-display text-xl font-semibold">{o.city}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{o.address}</p>
-              <p className="mt-3 text-sm">
+              <p className="mt-3 flex items-start gap-2 text-sm text-muted-foreground">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--brand-gold)]" aria-hidden />
+                <span>{o.address}</span>
+              </p>
+              <p className="mt-2 flex items-center gap-2 text-sm">
+                <Phone className="h-4 w-4 shrink-0 text-[color:var(--brand-gold)]" aria-hidden />
                 <a href={o.phoneHref} className="font-medium text-foreground hover:underline">
                   {o.phone}
                 </a>
               </p>
-              <p className="mt-1 text-sm">
-                <a href={`mailto:${o.email}`} className="font-medium text-foreground hover:underline">
+              <p className="mt-2 flex items-center gap-2 text-sm">
+                <Mail className="h-4 w-4 shrink-0 text-[color:var(--brand-gold)]" aria-hidden />
+                <a href={`mailto:${o.email}`} className="font-medium text-foreground hover:underline break-all">
                   {o.email}
                 </a>
               </p>

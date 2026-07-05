@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
 import { HERO } from "@/lib/hero-images";
 
@@ -55,31 +56,41 @@ export const Route = createFileRoute("/process")({
       lede="Every placement follows the same careful process — because the details are where families get let down elsewhere."
       crumbs={[{ label: "Home", to: "/" }, { label: "Process" }]}
     >
-      <ol className="space-y-6">
-        {STEPS.map((s) => (
-          <li
-            key={s.n}
-            className="grid gap-4 rounded-2xl border border-border bg-card p-6 sm:grid-cols-[auto_1fr] sm:gap-8 sm:p-8"
-          >
-            <div className="flex items-start">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--brand-gold)] font-display text-lg font-semibold text-[color:var(--brand-gold)]">
-                {s.n}
-              </span>
-            </div>
-            <div>
-              <h2 className="font-display text-xl font-semibold sm:text-2xl">
-                Step {s.n} — {s.title}
-              </h2>
-              <p className="mt-2 text-base leading-relaxed text-muted-foreground">{s.body}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
+      <div className="relative">
+        {/* Vertical connector line threading the numbered circles */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-6 top-6 hidden h-[calc(100%-3rem)] w-px bg-gradient-to-b from-[color:var(--brand-gold)]/60 via-[color:var(--brand-gold)]/25 to-[color:var(--brand-gold)]/60 sm:block"
+        />
+        <ol className="space-y-6">
+          {STEPS.map((s) => (
+            <li
+              key={s.n}
+              className="card-glow group relative grid gap-4 rounded-2xl border border-border bg-card p-6 sm:grid-cols-[auto_1fr_auto] sm:gap-8 sm:p-8"
+            >
+              <div className="flex items-start">
+                <span className="relative z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--brand-gold)] bg-background font-display text-lg font-semibold text-[color:var(--brand-gold)]">
+                  {s.n}
+                </span>
+              </div>
+              <div>
+                <h2 className="font-display text-xl font-semibold sm:text-2xl">
+                  Step {s.n} — {s.title}
+                </h2>
+                <p className="mt-2 text-base leading-relaxed text-muted-foreground">{s.body}</p>
+              </div>
+              <div className="hidden self-center text-[color:var(--brand-gold)] opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 sm:block">
+                <ArrowRight className="h-5 w-5" aria-hidden />
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
 
       <div className="mt-12">
         <Link
           to="/enquire/contact"
-          className="btn-micro inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+          className="btn-glow inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
         >
           Ready to start? Begin your consultation →
         </Link>
