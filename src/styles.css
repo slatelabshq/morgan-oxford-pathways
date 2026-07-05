@@ -275,6 +275,12 @@
     border-color: var(--color-border);
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -284,5 +290,21 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-feature-settings: "ss01", "ss02";
+  }
+
+  /* Global hover motion — buttons, anchors, cards, [role=button] */
+  @media (prefers-reduced-motion: no-preference) {
+    a,
+    button,
+    [role="button"],
+    summary {
+      transition:
+        color 200ms ease-in-out,
+        background-color 200ms ease-in-out,
+        border-color 200ms ease-in-out,
+        box-shadow 250ms ease-in-out,
+        transform 250ms ease-in-out,
+        opacity 200ms ease-in-out;
+    }
   }
 }
