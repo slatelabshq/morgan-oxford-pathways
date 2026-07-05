@@ -5,6 +5,7 @@ import { StatesAndMotion } from "@/brand/StatesAndMotion";
 import { AnimationSpec } from "@/brand/AnimationSpec";
 import { ResponsiveSpec } from "@/brand/ResponsiveSpec";
 import { FunctionalSpec } from "@/brand/FunctionalSpec";
+import { TechSpec } from "@/brand/TechSpec";
 
 export const Route = createFileRoute("/brand")({
   head: () => ({
@@ -192,6 +193,10 @@ function BrandPage() {
 
       <Section eyebrow="Functional" title="Features">
         <FunctionalSpec />
+      </Section>
+
+      <Section eyebrow="Technical" title="Performance, SEO & standards">
+        <TechSpec />
       </Section>
 
 
