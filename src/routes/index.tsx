@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
+import { PageHero } from "@/components/site/PageHero";
+import { HERO } from "@/lib/hero-images";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -9,17 +11,15 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <main id="main">
-      <section className="mx-auto max-w-7xl px-4 pb-16 pt-16 sm:px-6 lg:px-8 lg:pt-24">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-          Oxford · Est. 2011
-        </p>
-        <h1 className="mt-4 max-w-4xl font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
-          British school placement, considered.
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-          Independent advisory for families seeking day, boarding, sixth form and
-          summer places — and a dedicated athlete pathway for scholarship-track sport.
-        </p>
+      <PageHero
+        image={HERO.home}
+        eyebrow="Oxford · Est. 2011"
+        title="British school placement, considered."
+        lede="Independent advisory for families seeking day, boarding, sixth form and summer places — and a dedicated athlete pathway for scholarship-track sport."
+      />
+
+      <section className="mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 lg:px-8 lg:pt-16">
+
 
         <StaggerGrid className="mt-12 grid gap-6 md:grid-cols-2">
           <StaggerItem>
