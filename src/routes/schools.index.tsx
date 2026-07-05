@@ -46,7 +46,7 @@ function SchoolsIndex() {
               id="q"
               type="search"
               value={search.q}
-              onChange={(e) => navigate({ search: (p) => ({ ...p, q: e.target.value }) })}
+              onChange={(e) => navigate({ search: (p: typeof search) => ({ ...p, q: e.target.value }) })}
               placeholder="Name, town, county…"
               className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
             />
@@ -54,13 +54,13 @@ function SchoolsIndex() {
 
           <FilterGroup label="Type">
             {(["any", "day", "boarding", "day-boarding", "sixth-form"] as const).map((v) => (
-              <FilterOption key={v} name="type" value={v} current={search.type} onSelect={(val) => navigate({ search: (p) => ({ ...p, type: val as typeof search.type }) })} />
+              <FilterOption key={v} name="type" value={v} current={search.type} onSelect={(val) => navigate({ search: (p: typeof search) => ({ ...p, type: val as typeof search.type }) })} />
             ))}
           </FilterGroup>
 
           <FilterGroup label="Gender">
             {(["any", "co-ed", "boys", "girls"] as const).map((v) => (
-              <FilterOption key={v} name="gender" value={v} current={search.gender} onSelect={(val) => navigate({ search: (p) => ({ ...p, gender: val as typeof search.gender }) })} />
+              <FilterOption key={v} name="gender" value={v} current={search.gender} onSelect={(val) => navigate({ search: (p: typeof search) => ({ ...p, gender: val as typeof search.gender }) })} />
             ))}
           </FilterGroup>
 
@@ -71,7 +71,7 @@ function SchoolsIndex() {
             <input
               id="region"
               value={search.region}
-              onChange={(e) => navigate({ search: (p) => ({ ...p, region: e.target.value }) })}
+              onChange={(e) => navigate({ search: (p: typeof search) => ({ ...p, region: e.target.value }) })}
               placeholder="e.g. South East"
               className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
             />
@@ -81,7 +81,7 @@ function SchoolsIndex() {
             <input
               type="checkbox"
               checked={search.athletex}
-              onChange={(e) => navigate({ search: (p) => ({ ...p, athletex: e.target.checked }) })}
+              onChange={(e) => navigate({ search: (p: typeof search) => ({ ...p, athletex: e.target.checked }) })}
               className="h-4 w-4 rounded border-input"
             />
             AthleteX partner schools only
@@ -95,7 +95,7 @@ function SchoolsIndex() {
               Sort
               <select
                 value={search.sort}
-                onChange={(e) => navigate({ search: (p) => ({ ...p, sort: e.target.value as typeof search.sort }) })}
+                onChange={(e) => navigate({ search: (p: typeof search) => ({ ...p, sort: e.target.value as typeof search.sort }) })}
                 className="h-9 rounded-md border border-input bg-background px-2 text-sm"
               >
                 <option value="relevance">Relevance</option>
