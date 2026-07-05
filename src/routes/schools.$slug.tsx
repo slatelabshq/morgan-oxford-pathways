@@ -15,7 +15,7 @@ export const Route = createFileRoute("/schools/$slug")({
 });
 
 function humanise(slug: string) {
-  return slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
 }
 
 function SchoolProfile() {
