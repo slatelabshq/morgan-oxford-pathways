@@ -9,16 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SchoolsRouteImport } from './routes/schools'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as EnquireRouteImport } from './routes/enquire'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SchoolsIndexRouteImport } from './routes/schools.index'
+import { Route as SchoolsCompareRouteImport } from './routes/schools.compare'
+import { Route as SchoolsSlugRouteImport } from './routes/schools.$slug'
 import { Route as EnquiryThanksRouteImport } from './routes/enquiry.thanks'
 import { Route as EnquireSchoolPlacementRouteImport } from './routes/enquire.school-placement'
 import { Route as AthletexScholarshipRouteImport } from './routes/athletex.scholarship'
 import { Route as ApiEnquiriesRouteImport } from './routes/api/enquiries'
 
+const SchoolsRoute = SchoolsRouteImport.update({
+  id: '/schools',
+  path: '/schools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProcessRoute = ProcessRouteImport.update({
   id: '/process',
   path: '/process',
@@ -43,6 +52,21 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SchoolsIndexRoute = SchoolsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SchoolsRoute,
+} as any)
+const SchoolsCompareRoute = SchoolsCompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => SchoolsRoute,
+} as any)
+const SchoolsSlugRoute = SchoolsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => SchoolsRoute,
 } as any)
 const EnquiryThanksRoute = EnquiryThanksRouteImport.update({
   id: '/enquiry/thanks',
@@ -71,10 +95,14 @@ export interface FileRoutesByFullPath {
   '/brand': typeof BrandRoute
   '/enquire': typeof EnquireRouteWithChildren
   '/process': typeof ProcessRoute
+  '/schools': typeof SchoolsRouteWithChildren
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
+  '/schools/$slug': typeof SchoolsSlugRoute
+  '/schools/compare': typeof SchoolsCompareRoute
+  '/schools/': typeof SchoolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +114,9 @@ export interface FileRoutesByTo {
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
+  '/schools/$slug': typeof SchoolsSlugRoute
+  '/schools/compare': typeof SchoolsCompareRoute
+  '/schools': typeof SchoolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -94,10 +125,14 @@ export interface FileRoutesById {
   '/brand': typeof BrandRoute
   '/enquire': typeof EnquireRouteWithChildren
   '/process': typeof ProcessRoute
+  '/schools': typeof SchoolsRouteWithChildren
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
+  '/schools/$slug': typeof SchoolsSlugRoute
+  '/schools/compare': typeof SchoolsCompareRoute
+  '/schools/': typeof SchoolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,10 +142,14 @@ export interface FileRouteTypes {
     | '/brand'
     | '/enquire'
     | '/process'
+    | '/schools'
     | '/api/enquiries'
     | '/athletex/scholarship'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
+    | '/schools/$slug'
+    | '/schools/compare'
+    | '/schools/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +161,9 @@ export interface FileRouteTypes {
     | '/athletex/scholarship'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
+    | '/schools/$slug'
+    | '/schools/compare'
+    | '/schools'
   id:
     | '__root__'
     | '/'
@@ -129,10 +171,14 @@ export interface FileRouteTypes {
     | '/brand'
     | '/enquire'
     | '/process'
+    | '/schools'
     | '/api/enquiries'
     | '/athletex/scholarship'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
+    | '/schools/$slug'
+    | '/schools/compare'
+    | '/schools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -141,6 +187,7 @@ export interface RootRouteChildren {
   BrandRoute: typeof BrandRoute
   EnquireRoute: typeof EnquireRouteWithChildren
   ProcessRoute: typeof ProcessRoute
+  SchoolsRoute: typeof SchoolsRouteWithChildren
   ApiEnquiriesRoute: typeof ApiEnquiriesRoute
   AthletexScholarshipRoute: typeof AthletexScholarshipRoute
   EnquiryThanksRoute: typeof EnquiryThanksRoute
@@ -148,6 +195,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/schools': {
+      id: '/schools'
+      path: '/schools'
+      fullPath: '/schools'
+      preLoaderRoute: typeof SchoolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/process': {
       id: '/process'
       path: '/process'
@@ -182,6 +236,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/schools/': {
+      id: '/schools/'
+      path: '/'
+      fullPath: '/schools/'
+      preLoaderRoute: typeof SchoolsIndexRouteImport
+      parentRoute: typeof SchoolsRoute
+    }
+    '/schools/compare': {
+      id: '/schools/compare'
+      path: '/compare'
+      fullPath: '/schools/compare'
+      preLoaderRoute: typeof SchoolsCompareRouteImport
+      parentRoute: typeof SchoolsRoute
+    }
+    '/schools/$slug': {
+      id: '/schools/$slug'
+      path: '/$slug'
+      fullPath: '/schools/$slug'
+      preLoaderRoute: typeof SchoolsSlugRouteImport
+      parentRoute: typeof SchoolsRoute
     }
     '/enquiry/thanks': {
       id: '/enquiry/thanks'
@@ -225,12 +300,28 @@ const EnquireRouteChildren: EnquireRouteChildren = {
 const EnquireRouteWithChildren =
   EnquireRoute._addFileChildren(EnquireRouteChildren)
 
+interface SchoolsRouteChildren {
+  SchoolsSlugRoute: typeof SchoolsSlugRoute
+  SchoolsCompareRoute: typeof SchoolsCompareRoute
+  SchoolsIndexRoute: typeof SchoolsIndexRoute
+}
+
+const SchoolsRouteChildren: SchoolsRouteChildren = {
+  SchoolsSlugRoute: SchoolsSlugRoute,
+  SchoolsCompareRoute: SchoolsCompareRoute,
+  SchoolsIndexRoute: SchoolsIndexRoute,
+}
+
+const SchoolsRouteWithChildren =
+  SchoolsRoute._addFileChildren(SchoolsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BrandRoute: BrandRoute,
   EnquireRoute: EnquireRouteWithChildren,
   ProcessRoute: ProcessRoute,
+  SchoolsRoute: SchoolsRouteWithChildren,
   ApiEnquiriesRoute: ApiEnquiriesRoute,
   AthletexScholarshipRoute: AthletexScholarshipRoute,
   EnquiryThanksRoute: EnquiryThanksRoute,
