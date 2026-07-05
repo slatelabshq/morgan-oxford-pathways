@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MorganOxfordLogo } from "@/brand/MorganOxfordLogo";
 import { AthleteXLogo } from "@/brand/AthleteXLogo";
 import { StatesAndMotion } from "@/brand/StatesAndMotion";
+import { AnimationSpec } from "@/brand/AnimationSpec";
 
 export const Route = createFileRoute("/brand")({
   head: () => ({
@@ -177,6 +178,10 @@ function BrandPage() {
 
       <Section eyebrow="Interaction" title="States & motion">
         <StatesAndMotion />
+      </Section>
+
+      <Section eyebrow="Motion" title="Animations">
+        <AnimationSpec />
       </Section>
 
       <footer className="border-t border-border">
