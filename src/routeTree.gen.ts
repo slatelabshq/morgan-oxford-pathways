@@ -20,6 +20,11 @@ import { Route as SchoolsIndexRouteImport } from './routes/schools.index'
 import { Route as ProgrammesIndexRouteImport } from './routes/programmes.index'
 import { Route as SchoolsCompareRouteImport } from './routes/schools.compare'
 import { Route as SchoolsSlugRouteImport } from './routes/schools.$slug'
+import { Route as ProgrammesSummerRouteImport } from './routes/programmes.summer'
+import { Route as ProgrammesSixthFormRouteImport } from './routes/programmes.sixth-form'
+import { Route as ProgrammesGuardianshipRouteImport } from './routes/programmes.guardianship'
+import { Route as ProgrammesDaySchoolRouteImport } from './routes/programmes.day-school'
+import { Route as ProgrammesBoardingRouteImport } from './routes/programmes.boarding'
 import { Route as EnquiryThanksRouteImport } from './routes/enquiry.thanks'
 import { Route as EnquireSchoolPlacementRouteImport } from './routes/enquire.school-placement'
 import { Route as AthletexScholarshipRouteImport } from './routes/athletex.scholarship'
@@ -80,6 +85,31 @@ const SchoolsSlugRoute = SchoolsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => SchoolsRoute,
 } as any)
+const ProgrammesSummerRoute = ProgrammesSummerRouteImport.update({
+  id: '/summer',
+  path: '/summer',
+  getParentRoute: () => ProgrammesRoute,
+} as any)
+const ProgrammesSixthFormRoute = ProgrammesSixthFormRouteImport.update({
+  id: '/sixth-form',
+  path: '/sixth-form',
+  getParentRoute: () => ProgrammesRoute,
+} as any)
+const ProgrammesGuardianshipRoute = ProgrammesGuardianshipRouteImport.update({
+  id: '/guardianship',
+  path: '/guardianship',
+  getParentRoute: () => ProgrammesRoute,
+} as any)
+const ProgrammesDaySchoolRoute = ProgrammesDaySchoolRouteImport.update({
+  id: '/day-school',
+  path: '/day-school',
+  getParentRoute: () => ProgrammesRoute,
+} as any)
+const ProgrammesBoardingRoute = ProgrammesBoardingRouteImport.update({
+  id: '/boarding',
+  path: '/boarding',
+  getParentRoute: () => ProgrammesRoute,
+} as any)
 const EnquiryThanksRoute = EnquiryThanksRouteImport.update({
   id: '/enquiry/thanks',
   path: '/enquiry/thanks',
@@ -113,6 +143,11 @@ export interface FileRoutesByFullPath {
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
+  '/programmes/boarding': typeof ProgrammesBoardingRoute
+  '/programmes/day-school': typeof ProgrammesDaySchoolRoute
+  '/programmes/guardianship': typeof ProgrammesGuardianshipRoute
+  '/programmes/sixth-form': typeof ProgrammesSixthFormRoute
+  '/programmes/summer': typeof ProgrammesSummerRoute
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
   '/programmes/': typeof ProgrammesIndexRoute
@@ -128,6 +163,11 @@ export interface FileRoutesByTo {
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
+  '/programmes/boarding': typeof ProgrammesBoardingRoute
+  '/programmes/day-school': typeof ProgrammesDaySchoolRoute
+  '/programmes/guardianship': typeof ProgrammesGuardianshipRoute
+  '/programmes/sixth-form': typeof ProgrammesSixthFormRoute
+  '/programmes/summer': typeof ProgrammesSummerRoute
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
   '/programmes': typeof ProgrammesIndexRoute
@@ -146,6 +186,11 @@ export interface FileRoutesById {
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
+  '/programmes/boarding': typeof ProgrammesBoardingRoute
+  '/programmes/day-school': typeof ProgrammesDaySchoolRoute
+  '/programmes/guardianship': typeof ProgrammesGuardianshipRoute
+  '/programmes/sixth-form': typeof ProgrammesSixthFormRoute
+  '/programmes/summer': typeof ProgrammesSummerRoute
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
   '/programmes/': typeof ProgrammesIndexRoute
@@ -165,6 +210,11 @@ export interface FileRouteTypes {
     | '/athletex/scholarship'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
+    | '/programmes/boarding'
+    | '/programmes/day-school'
+    | '/programmes/guardianship'
+    | '/programmes/sixth-form'
+    | '/programmes/summer'
     | '/schools/$slug'
     | '/schools/compare'
     | '/programmes/'
@@ -180,6 +230,11 @@ export interface FileRouteTypes {
     | '/athletex/scholarship'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
+    | '/programmes/boarding'
+    | '/programmes/day-school'
+    | '/programmes/guardianship'
+    | '/programmes/sixth-form'
+    | '/programmes/summer'
     | '/schools/$slug'
     | '/schools/compare'
     | '/programmes'
@@ -197,6 +252,11 @@ export interface FileRouteTypes {
     | '/athletex/scholarship'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
+    | '/programmes/boarding'
+    | '/programmes/day-school'
+    | '/programmes/guardianship'
+    | '/programmes/sixth-form'
+    | '/programmes/summer'
     | '/schools/$slug'
     | '/schools/compare'
     | '/programmes/'
@@ -295,6 +355,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SchoolsSlugRouteImport
       parentRoute: typeof SchoolsRoute
     }
+    '/programmes/summer': {
+      id: '/programmes/summer'
+      path: '/summer'
+      fullPath: '/programmes/summer'
+      preLoaderRoute: typeof ProgrammesSummerRouteImport
+      parentRoute: typeof ProgrammesRoute
+    }
+    '/programmes/sixth-form': {
+      id: '/programmes/sixth-form'
+      path: '/sixth-form'
+      fullPath: '/programmes/sixth-form'
+      preLoaderRoute: typeof ProgrammesSixthFormRouteImport
+      parentRoute: typeof ProgrammesRoute
+    }
+    '/programmes/guardianship': {
+      id: '/programmes/guardianship'
+      path: '/guardianship'
+      fullPath: '/programmes/guardianship'
+      preLoaderRoute: typeof ProgrammesGuardianshipRouteImport
+      parentRoute: typeof ProgrammesRoute
+    }
+    '/programmes/day-school': {
+      id: '/programmes/day-school'
+      path: '/day-school'
+      fullPath: '/programmes/day-school'
+      preLoaderRoute: typeof ProgrammesDaySchoolRouteImport
+      parentRoute: typeof ProgrammesRoute
+    }
+    '/programmes/boarding': {
+      id: '/programmes/boarding'
+      path: '/boarding'
+      fullPath: '/programmes/boarding'
+      preLoaderRoute: typeof ProgrammesBoardingRouteImport
+      parentRoute: typeof ProgrammesRoute
+    }
     '/enquiry/thanks': {
       id: '/enquiry/thanks'
       path: '/enquiry/thanks'
@@ -338,10 +433,20 @@ const EnquireRouteWithChildren =
   EnquireRoute._addFileChildren(EnquireRouteChildren)
 
 interface ProgrammesRouteChildren {
+  ProgrammesBoardingRoute: typeof ProgrammesBoardingRoute
+  ProgrammesDaySchoolRoute: typeof ProgrammesDaySchoolRoute
+  ProgrammesGuardianshipRoute: typeof ProgrammesGuardianshipRoute
+  ProgrammesSixthFormRoute: typeof ProgrammesSixthFormRoute
+  ProgrammesSummerRoute: typeof ProgrammesSummerRoute
   ProgrammesIndexRoute: typeof ProgrammesIndexRoute
 }
 
 const ProgrammesRouteChildren: ProgrammesRouteChildren = {
+  ProgrammesBoardingRoute: ProgrammesBoardingRoute,
+  ProgrammesDaySchoolRoute: ProgrammesDaySchoolRoute,
+  ProgrammesGuardianshipRoute: ProgrammesGuardianshipRoute,
+  ProgrammesSixthFormRoute: ProgrammesSixthFormRoute,
+  ProgrammesSummerRoute: ProgrammesSummerRoute,
   ProgrammesIndexRoute: ProgrammesIndexRoute,
 }
 
