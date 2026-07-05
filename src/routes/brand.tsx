@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MorganOxfordLogo } from "@/brand/MorganOxfordLogo";
 import { AthleteXLogo } from "@/brand/AthleteXLogo";
 import { StatesAndMotion } from "@/brand/StatesAndMotion";
+import { AnimationSpec } from "@/brand/AnimationSpec";
 
 export const Route = createFileRoute("/brand")({
   head: () => ({
