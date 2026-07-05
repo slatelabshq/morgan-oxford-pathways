@@ -1,10 +1,10 @@
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 import { cn } from "@/lib/utils";
 
 export type HeroImage = {
-  src: string;
+  images: string[];
   alt: string;
   /** Optional word/phrase rendered italic-gold as the accent line of the H1. */
   titleAccent?: string;
@@ -32,29 +32,49 @@ export function PageHero({
 }: PageHeroProps) {
   const reduced = useReducedMotion();
   const accent = image.titleAccent;
+  const sources = image.images.length > 0 ? image.images : [""];
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (reduced || sources.length <= 1) return;
+    const id = window.setInterval(() => {
+      setIndex((i) => (i + 1) % sources.length);
+    }, 5000);
+    return () => window.clearInterval(id);
+  }, [reduced, sources.length]);
 
   return (
     <section
       className="relative w-full overflow-hidden min-h-[420px] sm:min-h-[520px] lg:min-h-[640px]"
       aria-label={eyebrow ? `${eyebrow} — ${title}` : title}
     >
-      {/* Image + Ken Burns wrapper */}
-      <motion.div
-        className="absolute inset-0"
-        initial={reduced ? false : { scale: 1.08 }}
-        animate={reduced ? undefined : { scale: 1 }}
-        transition={{ duration: 20, ease: "easeOut" }}
-        aria-hidden={image.alt ? undefined : true}
-      >
-        <img
-          src={image.src}
-          alt={image.alt}
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          className="h-full w-full object-cover"
-        />
-      </motion.div>
+      {/* Rotating image stack with crossfade + Ken Burns on the active layer */}
+      <div className="absolute inset-0" aria-hidden={image.alt ? undefined : true}>
+        {sources.map((src, i) => {
+          const isActive = i === index;
+          return (
+            <motion.div
+              key={src + i}
+              className="absolute inset-0"
+              initial={false}
+              animate={{ opacity: isActive ? 1 : 0 }}
+              transition={{ duration: 1.1, ease: "easeInOut" }}
+            >
+              <motion.img
+                src={src}
+                alt={i === 0 ? image.alt : ""}
+                loading={i === 0 ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : "low"}
+                decoding="async"
+                className="h-full w-full object-cover"
+                initial={reduced ? false : { scale: 1.08 }}
+                animate={reduced ? undefined : { scale: isActive ? 1 : 1.08 }}
+                transition={{ duration: 6, ease: "easeOut" }}
+              />
+            </motion.div>
+          );
+        })}
+      </div>
 
       {/* Navy / jet gradient wash */}
       <div
