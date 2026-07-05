@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
+import { HERO } from "@/lib/hero-images";
 
 export const Route = createFileRoute("/process")({
   head: () => ({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/process")({
   }),
   component: () => (
     <PageShell
+      hero={HERO.process}
       eyebrow="Process"
       title="Five steps from first call to first term."
       lede="Discovery, shortlist, visits, offers, arrival — sequenced, timed and owned by a named consultant."

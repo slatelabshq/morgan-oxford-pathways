@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { PageShell } from "@/components/site/PageShell";
+import { HERO } from "@/lib/hero-images";
 
 export const Route = createFileRoute("/enquire/contact")({
   head: () => ({
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/enquire/contact")({
   }),
   component: () => (
     <PageShell
+      hero={HERO.contact}
       eyebrow="Contact"
       title="Get in touch."
       lede="Send a message and a consultant will reply within 2 working days."
