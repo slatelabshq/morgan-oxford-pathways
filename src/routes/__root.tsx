@@ -118,11 +118,17 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isAthleteX = pathname.startsWith("/athletex");
+  const isBrand = pathname.startsWith("/brand");
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className={isAthleteX ? "zone-athletex min-h-screen bg-background text-foreground" : "min-h-screen bg-background text-foreground"}>
+        {!isBrand && <SiteHeader />}
+        <Outlet />
+        {!isBrand && <SiteFooter />}
+      </div>
     </QueryClientProvider>
   );
 }
