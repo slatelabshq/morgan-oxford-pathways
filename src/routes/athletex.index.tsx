@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
+import { HERO } from "@/lib/hero-images";
 
 export const Route = createFileRoute("/athletex/")({
   head: () => ({

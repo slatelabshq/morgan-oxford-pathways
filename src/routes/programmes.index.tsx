@@ -23,6 +23,7 @@ export const Route = createFileRoute("/programmes/")({
   }),
   component: () => (
     <PageShell
+      hero={HERO.programmes}
       eyebrow="Programmes"
       title="Every route into UK independent education."
       lede="Five programme types, one consultant, one shortlist."
