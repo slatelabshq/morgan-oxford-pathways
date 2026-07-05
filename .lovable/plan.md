@@ -1,63 +1,48 @@
 
 ## Goal
-Every card grid site-wide staggers its cards into view as the grid enters the viewport, and each card lifts slightly with a stronger shadow on hover. Uses Framer Motion (already installed) and respects `prefers-reduced-motion`.
+The sticky header responds to scroll (glass blur + stronger border/shadow once you've scrolled past the hero) and gains a proper mobile menu that slides in from the right using Framer Motion.
 
-## 1. New primitives
+Current state: `SiteHeader` is already sticky with `bg-background/90 backdrop-blur`, but the effect is constant regardless of scroll, and there's no mobile navigation — the nav is `hidden md:block`, so on phones the header shows only the logo + CTA.
 
-### `src/components/StaggerGrid.tsx`
-Wrapper for a grid of animated children.
-- Renders a `motion.div` with:
-  - `initial="hidden"`, `whileInView="show"`, `viewport={{ once: true, amount: 0.15, margin: "0px 0px -8% 0px" }}`
-  - `variants={{ show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } }}`
-- Props: `as?`, `className`, `children`. Default `as="div"` — grid classes come from the caller so we don't touch existing layouts.
-- Reduced-motion: when `useReducedMotion()` returns true, render a plain `<div>` with the same className and no variants.
-- Adds `data-reveal-skip="true"` so the existing `GlobalReveal` observer leaves it alone (avoids double-animating).
+## 1. Scroll-driven header state
+- Add local `scrolled` state in `SiteHeader`.
+- On mount, attach a passive `scroll` listener that flips `scrolled` when `window.scrollY > 8`. Debounced via `requestAnimationFrame`.
+- Apply conditional classes with a 300ms `transition-all ease-in-out`:
+  - Unscrolled (top of page): `bg-background/60 backdrop-blur-sm border-transparent`
+  - Scrolled: `bg-background/85 backdrop-blur-xl border-border shadow-sm`
+- Use Tailwind's `backdrop-blur-*` utilities only — do NOT hand-write `-webkit-backdrop-filter` (Lightning CSS would drop the standard property and break Chrome).
+- Reduced-motion users still get the class swap; transitions are already guarded by the site-wide `motion-safe` base rule.
 
-### `src/components/StaggerItem.tsx`
-Single animated card slot.
-- `motion.div` with `variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.2, 0, 0, 1] } } }}`.
-- Reduced-motion: renders a plain `<div>` passing through className/children.
-- Props: `className`, `children`, `as?`.
+## 2. Mobile menu (slide-in from right)
+- Add a hamburger `<button>` visible only `md:hidden`, positioned in the header's right cluster before the CTA. Uses `lucide-react`'s `Menu` / `X` icons (already available via shadcn). `aria-expanded`, `aria-controls="mobile-nav"`, `aria-label="Open menu"`.
+- Local `open` state controls the drawer.
 
-Together the pattern is:
-```tsx
-<StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6">
-  {items.map(i => <StaggerItem key={i.id}><Card>…</Card></StaggerItem>)}
-</StaggerGrid>
-```
+### Drawer component (inline in SiteHeader or new `SiteMobileNav.tsx` — new file for clarity)
+- Uses Framer Motion `AnimatePresence` + `motion.div`.
+- **Backdrop**: full-screen `fixed inset-0 z-40 bg-black/40`, fades 200ms.
+- **Panel**: `fixed right-0 top-0 z-50 h-dvh w-[min(320px,85vw)] bg-background border-l border-border shadow-2xl`, slides from `x: "100%"` → `x: 0`, `transition={{ type: "tween", duration: 0.3, ease: [0.2, 0, 0, 1] }}`. Exit reverses.
+- Panel contents:
+  - Header row: brand mark + close button (`X` icon).
+  - `<nav>` with the same `nav` items list (CORE or AthleteX, driven by `isAthleteX`).
+  - Each link uses `<Link>` and closes the drawer via `onClick={() => setOpen(false)}`.
+  - CTA at bottom: same `Apply`/`Enquire` link as desktop.
+- Reduced motion: when `useReducedMotion()` returns true, skip motion.div variants and render the panel opened/closed with no animation.
 
-## 2. Hover: scale-up + shadow lift on `<Card>`
-Update `src/components/ui/card.tsx` base classes:
-- Replace the current `motion-safe:hover:-translate-y-0.5 hover:shadow-lg` with a slightly stronger, unified treatment:
-  `transition-all duration-300 ease-in-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.02] hover:shadow-xl`
-- Keeps the existing 200–300ms envelope from the earlier request; scale is subtle (1.02) so it doesn't shift adjacent layout.
+### A11y and interaction details
+- When `open`, add `document.body.style.overflow = "hidden"` (scroll lock) and restore on close/unmount.
+- Close on `Escape` key.
+- Close on backdrop click.
+- Close on route change: watch `pathname` in an effect and reset `open` when it changes.
+- Focus management: on open, move focus to the close button; on close, return focus to the hamburger.
 
-## 3. Retrofit all card grids
-Wrap each existing card grid in `<StaggerGrid>` and each direct child card in `<StaggerItem>`. No copy or layout changes — the wrapper carries the existing grid className so spacing is identical.
-
-Files to update (verified via `rg "grid.*cols|<Card"`):
-- `src/routes/index.tsx` — home highlights / service cards
-- `src/routes/schools.index.tsx` — schools listing grid
-- `src/routes/programmes.index.tsx` — programmes grid
-- `src/routes/athletex.index.tsx` — AthleteX highlights
-- `src/routes/insights.index.tsx` — article cards
-- `src/routes/athletex.sports.index.tsx` — sports grid
-- `src/routes/athletex.schools.tsx`, `athletex.scouts.tsx`, `athletex.scholarship.tsx` — any card grid present
-- `src/routes/schools.$slug.tsx`, `schools.compare.tsx` — comparison / detail card grids
-- `src/routes/programmes.boarding|day-school|guardianship|sixth-form|summer.tsx` — feature card grids on each
-
-I'll read each file first and only wrap actual `<Card>` grids — skip single cards, forms, and non-grid card usage.
-
-## 4. Interaction with existing motion
-- `GlobalReveal` (from the earlier scroll-fade work) targets `<section>` and `[data-reveal]`. `StaggerGrid` adds `data-reveal-skip="true"` on itself, so a grid inside a section fades in as part of the section reveal AND its children stagger independently — sequenced, not conflicting.
-- Route transition (300ms fade) runs before any of this; when the new page settles, the stagger kicks off for whatever grid is in view.
+## 3. AthleteX zone parity
+The header already switches CORE ↔ AthleteX. The mobile drawer inherits the current zone via context (it's rendered inside the same `.zone-athletex` wrapper in `__root.tsx`), so background/foreground/primary tokens Just Work — no per-zone branching in the drawer code.
 
 ## Files to touch
-- `src/components/StaggerGrid.tsx` — new
-- `src/components/StaggerItem.tsx` — new
-- `src/components/ui/card.tsx` — hover: scale + stronger shadow
-- ~10 route files listed above — wrap existing card grids
+- `src/components/site/SiteHeader.tsx` — scroll listener, conditional glass classes, hamburger button, mount drawer
+- `src/components/site/SiteMobileNav.tsx` — new; drawer, backdrop, focus/scroll-lock logic
 
 ## Out of scope
-- No visual/layout redesign of cards, no new grid columns, no palette changes.
-- Non-`<Card>` grids (forms, footer link columns, image galleries) are left alone.
+- No changes to nav item lists, CTA copy, PathwayPill, or desktop layout.
+- No changes to `__root.tsx` — header remains mounted where it is.
+- No new dependencies (Framer Motion + lucide-react already installed).
