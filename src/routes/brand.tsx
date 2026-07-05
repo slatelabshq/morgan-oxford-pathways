@@ -4,6 +4,7 @@ import { AthleteXLogo } from "@/brand/AthleteXLogo";
 import { StatesAndMotion } from "@/brand/StatesAndMotion";
 import { AnimationSpec } from "@/brand/AnimationSpec";
 import { ResponsiveSpec } from "@/brand/ResponsiveSpec";
+import { FunctionalSpec } from "@/brand/FunctionalSpec";
 
 export const Route = createFileRoute("/brand")({
   head: () => ({
@@ -188,6 +189,11 @@ function BrandPage() {
       <Section eyebrow="Adaptation" title="Responsive breakpoints">
         <ResponsiveSpec />
       </Section>
+
+      <Section eyebrow="Functional" title="Features">
+        <FunctionalSpec />
+      </Section>
+
 
       <footer className="border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-8 text-xs uppercase tracking-[0.3em] text-muted-foreground">
