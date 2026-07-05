@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "../components/site/SiteHeader";
 import { SiteFooter } from "../components/site/SiteFooter";
 import { GlobalReveal } from "../components/GlobalReveal";
+import { RouteTransition } from "../components/RouteTransition";
 
 function NotFoundComponent() {
   return (
@@ -128,7 +129,9 @@ function RootComponent() {
       <div className={isAthleteX ? "zone-athletex min-h-screen bg-background text-foreground" : "min-h-screen bg-background text-foreground"}>
         <GlobalReveal />
         {!isBrand && <SiteHeader />}
-        <Outlet />
+        <RouteTransition>
+          <Outlet />
+        </RouteTransition>
         {!isBrand && <SiteFooter />}
       </div>
     </QueryClientProvider>
