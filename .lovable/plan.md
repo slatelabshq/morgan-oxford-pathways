@@ -1,28 +1,28 @@
-## Swap site typography to Inter (single family)
+## Redesign home trust strip as dark navy card grid
 
-Replace Cormorant Garamond + Karla with **Inter** as the single family for headings and body. Clean, neutral, quietly premium — no serif, no second face.
+Rework the "Trust strip" section on the home page to match reference image 2: a dark navy panel with a 2×2 grid of rounded cards, each showing a large gold accent value and a small uppercase caption underneath. Keep the current voice by using 4 of the 5 existing items.
 
-### `src/styles.css`
+### `src/routes/index.tsx`
 
-1. Top `@import` block — remove the eight Cormorant + Karla `@fontsource` imports and replace with:
-   - `@import "@fontsource/inter/400.css";`
-   - `@import "@fontsource/inter/500.css";`
-   - `@import "@fontsource/inter/600.css";`
-   - `@import "@fontsource/inter/700.css";`
-2. `@theme` font tokens — collapse all three to Inter:
-   - `--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;`
-   - `--font-serif: "Inter", ui-sans-serif, system-ui, sans-serif;`
-   - `--font-display: "Inter", ui-sans-serif, system-ui, sans-serif;`
-3. Base heading rule — keep the `font-family: var(--font-display)` on `h1–h6`, but drop the decorative `font-feature-settings: "ss01", "ss02"` line (Inter doesn't use those stylistic sets; leaving it in is harmless but pointless). Tighten headings with `letter-spacing: -0.01em` for the minimalist look.
+Replace the current trust `<section>` (the `ul` with 5 `li` items, gold divider and `icon-chip` markup was already removed) with:
 
-### Install
+- A full-bleed `section` wrapper containing an inner `max-w-7xl` container. Inside, an outer rounded panel (`rounded-3xl border border-white/10 bg-[color:var(--brand-ink)] p-6 sm:p-10`) with a subtle radial vignette (via existing `--glass-shadow` tokens or a soft `bg-gradient-to-br from-[color:var(--brand-ink)] to-[color:var(--brand-royal)]/70`).
+- Inside the panel, a `grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6` of 4 cards. Each card: `rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-8 sm:p-10 text-center` with `card-glow` for the hover shimmer. On desktop keep 2×2 (not 1×4) to match the reference.
+- Card content: centered layout — big serif-weight display value in gold (`font-display text-4xl sm:text-5xl font-semibold text-[color:var(--brand-gold)]`), then a hair space, then a small caption (`mt-3 text-xs sm:text-sm font-medium uppercase tracking-[0.22em] text-[color:var(--brand-paper)]/75`).
+- Content mapping (4 items, dropping "Partner schools" to fit the 2×2 grid):
+  1. `13` (accent) / `YEARS GUIDING FAMILIES`
+  2. `ICEF` (accent) / `ACCREDITED AGENCY`
+  3. `3` (accent) / `GLOBAL OFFICES · OXFORD · LAGOS · CAIRO`
+  4. `48h` (accent) / `RESPONSE ON EVERY ENQUIRY`
 
-`bun add @fontsource/inter` (Cormorant + Karla packages stay in package.json but unused — no removal needed for this change).
+  Store as a `TRUST` array of `{ value, label }` and map to cards.
+- Preserve the `StaggerGrid` / `StaggerItem` wrapping so items reveal in order.
+- Keep the section vertical rhythm the same (`py-16 sm:py-20`).
 
 ### Scope
 
-Font swap only. Colors, layout, spacing, components, copy — untouched. Every `font-display` / `font-sans` / `font-serif` utility already in the codebase automatically picks up Inter through the theme tokens; no route/component edits required.
+Only the trust section on `src/routes/index.tsx`. No changes to hero, audience routing cards, "Why families choose us", Success Stories, header, footer, or other routes. No new dependencies. No token changes — all colors from existing `--brand-ink`, `--brand-royal`, `--brand-gold`, `--brand-paper` tokens, so it stays consistent with the rest of the site.
 
 ### Verification
 
-Load `/`, `/programmes`, `/athletex`, `/destinations`, `/process`, `/enquire/contact`. Confirm every heading, eyebrow, body paragraph, button, and nav item renders in Inter — no italic serif anywhere.
+At 393px mobile: cards stack 1-col, panel fits within padding, gold values legible on navy. At sm+: strict 2×2 grid, equal card heights, `card-glow` fires on hover. Rest of the home page unchanged.
