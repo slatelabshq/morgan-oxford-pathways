@@ -9,14 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProcessRouteImport } from './routes/process'
 import { Route as EnquireRouteImport } from './routes/enquire'
 import { Route as BrandRouteImport } from './routes/brand'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EnquiryThanksRouteImport } from './routes/enquiry.thanks'
 import { Route as EnquireSchoolPlacementRouteImport } from './routes/enquire.school-placement'
 import { Route as AthletexScholarshipRouteImport } from './routes/athletex.scholarship'
 import { Route as ApiEnquiriesRouteImport } from './routes/api/enquiries'
 
+const ProcessRoute = ProcessRouteImport.update({
+  id: '/process',
+  path: '/process',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnquireRoute = EnquireRouteImport.update({
   id: '/enquire',
   path: '/enquire',
@@ -25,6 +32,11 @@ const EnquireRoute = EnquireRouteImport.update({
 const BrandRoute = BrandRouteImport.update({
   id: '/brand',
   path: '/brand',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,8 +67,10 @@ const ApiEnquiriesRoute = ApiEnquiriesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/brand': typeof BrandRoute
   '/enquire': typeof EnquireRouteWithChildren
+  '/process': typeof ProcessRoute
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
@@ -64,8 +78,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/brand': typeof BrandRoute
   '/enquire': typeof EnquireRouteWithChildren
+  '/process': typeof ProcessRoute
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
@@ -74,8 +90,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/brand': typeof BrandRoute
   '/enquire': typeof EnquireRouteWithChildren
+  '/process': typeof ProcessRoute
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
@@ -85,8 +103,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/brand'
     | '/enquire'
+    | '/process'
     | '/api/enquiries'
     | '/athletex/scholarship'
     | '/enquire/school-placement'
@@ -94,8 +114,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/brand'
     | '/enquire'
+    | '/process'
     | '/api/enquiries'
     | '/athletex/scholarship'
     | '/enquire/school-placement'
@@ -103,8 +125,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/brand'
     | '/enquire'
+    | '/process'
     | '/api/enquiries'
     | '/athletex/scholarship'
     | '/enquire/school-placement'
@@ -113,8 +137,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   BrandRoute: typeof BrandRoute
   EnquireRoute: typeof EnquireRouteWithChildren
+  ProcessRoute: typeof ProcessRoute
   ApiEnquiriesRoute: typeof ApiEnquiriesRoute
   AthletexScholarshipRoute: typeof AthletexScholarshipRoute
   EnquiryThanksRoute: typeof EnquiryThanksRoute
@@ -122,6 +148,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/process': {
+      id: '/process'
+      path: '/process'
+      fullPath: '/process'
+      preLoaderRoute: typeof ProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/enquire': {
       id: '/enquire'
       path: '/enquire'
@@ -134,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/brand'
       fullPath: '/brand'
       preLoaderRoute: typeof BrandRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -187,8 +227,10 @@ const EnquireRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   BrandRoute: BrandRoute,
   EnquireRoute: EnquireRouteWithChildren,
+  ProcessRoute: ProcessRoute,
   ApiEnquiriesRoute: ApiEnquiriesRoute,
   AthletexScholarshipRoute: AthletexScholarshipRoute,
   EnquiryThanksRoute: EnquiryThanksRoute,
