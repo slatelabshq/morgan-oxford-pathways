@@ -25,7 +25,6 @@ export const Route = createFileRoute("/")({
 });
 
 const TRUST = [
-const TRUST = [
   { value: "13", label: "Years guiding families" },
   { value: "ICEF", label: "Accredited agency" },
   { value: "3", label: "Global offices · Oxford · Lagos · Cairo" },
