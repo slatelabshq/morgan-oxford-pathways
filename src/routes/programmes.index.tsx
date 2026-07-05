@@ -4,41 +4,100 @@ import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
 import { HERO } from "@/lib/hero-images";
 
-const PROGRAMMES = [
-  { to: "/programmes/day-school", label: "Day school", note: "3–18, term-time attendance from home." },
-  { to: "/programmes/boarding", label: "Boarding", note: "Full, weekly and flexi across 7–18." },
-  { to: "/programmes/sixth-form", label: "Sixth form", note: "A-Level, IB and BTEC for 16–18." },
-  { to: "/programmes/summer", label: "Summer", note: "Immersive July / August programmes." },
-  { to: "/programmes/guardianship", label: "Guardianship", note: "UK guardian appointed for international boarders." },
-] as const;
+const SERVICES = [
+  {
+    label: "K-12 Placement",
+    body: "From primary transitions through to secondary school, we help families find schools that match their child academically, culturally, and personally. We take the time to understand long-term aspirations — not just this year's report card — so the school we recommend is one your child can genuinely grow into.",
+  },
+  {
+    label: "Boarding School Placement",
+    body: "Boarding is a significant step, and we treat it as one. We guide families through the UK's boarding system in particular — a landscape with schools whose academic traditions stretch back centuries — helping you weigh pastoral care, house culture, and academic rigour alongside each other, not in isolation.",
+  },
+  {
+    label: "Pathway College Placement",
+    body: "For students preparing for IGCSE, A-Levels, the IB Diploma, or an International Foundation Year, we connect families with pathway providers and sixth-form colleges that build the right academic foundation for what comes next — with genuine advantages that are social, academic, and supportive in equal measure.",
+  },
+  {
+    label: "Summer & Winter Schools",
+    body: "Short-term, high-impact. For families who want their child to experience an international academic environment — or simply build confidence and independence — before committing to a full placement, we arrange summer and winter school programmes with trusted partner institutions abroad.",
+  },
+  {
+    label: "Student Exchange Programmes",
+    body: "For students ready to spend a term or a year immersed in another country's education system, we arrange exchange placements that combine academic continuity with the kind of cultural fluency no classroom alone can teach.",
+  },
+];
+
+const HOW_WE_WORK = [
+  { n: 1, t: "Consultation", b: "we get to know your child through a detailed questionnaire and conversation" },
+  { n: 2, t: "Recommendation", b: "a shortlist of schools matched to their strengths and your family's priorities" },
+  { n: 3, t: "Introduction", b: "we make direct contact with your chosen schools on your behalf" },
+  { n: 4, t: "Preparation", b: "entrance exam and interview support through our partner tutors" },
+  { n: 5, t: "Ongoing support", b: "visas, guardianship, and school visits, from offer through to settling in" },
+];
 
 export const Route = createFileRoute("/programmes/")({
   head: () => ({
     meta: [
-      { title: "Programmes — Morgan Oxford" },
-      { name: "description", content: "Day, boarding, sixth form, summer and guardianship programmes advised end-to-end." },
-      { property: "og:title", content: "Morgan Oxford programmes" },
-      { property: "og:description", content: "Every route into UK independent education." },
+      { title: "Services — Morgan Oxford Education" },
+      {
+        name: "description",
+        content:
+          "School placement, done properly — K-12, boarding, pathway college, summer/winter schools, and student exchange programmes.",
+      },
+      { property: "og:title", content: "Services — Morgan Oxford" },
+      {
+        property: "og:description",
+        content:
+          "Over a decade of relationships and know-how across international school admissions.",
+      },
     ],
   }),
   component: () => (
     <PageShell
       hero={HERO.programmes}
-      eyebrow="Programmes"
-      title="Every route into UK independent education."
-      lede="Five programme types, one consultant, one shortlist."
-      crumbs={[{ label: "Home", to: "/" }, { label: "Programmes" }]}
+      eyebrow="Services"
+      title="School placement, done"
+      lede="International school admissions can feel like a maze of curricula, entry requirements, and unfamiliar systems. We've spent over a decade building the relationships and know-how to cut through that — so you make a confident decision, not a rushed one."
+      crumbs={[{ label: "Home", to: "/" }, { label: "Services" }]}
     >
-      <StaggerGrid className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {PROGRAMMES.map((p) => (
-          <StaggerItem key={p.to}>
-            <Link to={p.to} className="block h-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 ease-in-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.02] hover:shadow-xl">
-              <h2 className="font-display text-xl font-semibold">{p.label}</h2>
-              <p className="mt-2 text-sm text-muted-foreground">{p.note}</p>
-            </Link>
+      <StaggerGrid className="grid gap-6 md:grid-cols-2">
+        {SERVICES.map((s) => (
+          <StaggerItem key={s.label}>
+            <article className="h-full rounded-2xl border border-border bg-card p-6 sm:p-8">
+              <h2 className="font-display text-xl font-semibold sm:text-2xl">{s.label}</h2>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">{s.body}</p>
+            </article>
           </StaggerItem>
         ))}
       </StaggerGrid>
+
+      <section className="mt-16 rounded-2xl border border-border bg-muted/30 p-6 sm:p-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
+          How we work
+        </p>
+        <h2 className="mt-3 font-display text-2xl font-semibold sm:text-3xl">
+          Five steps, one named consultant.
+        </h2>
+        <ol className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {HOW_WE_WORK.map((s) => (
+            <li key={s.n} className="border-t border-border pt-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                Step {s.n}
+              </p>
+              <p className="mt-2 font-display text-lg font-semibold">{s.t}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{s.b}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-8">
+          <Link
+            to="/process"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-foreground underline underline-offset-4"
+          >
+            See the full process →
+          </Link>
+        </div>
+      </section>
     </PageShell>
   ),
 });

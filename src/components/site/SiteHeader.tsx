@@ -6,10 +6,10 @@ import { SiteMobileNav } from "./SiteMobileNav";
 import { cn } from "@/lib/utils";
 
 const CORE_NAV = [
-  { to: "/schools", label: "Schools" },
-  { to: "/programmes", label: "Programmes" },
+  { to: "/programmes", label: "Services" },
+  { to: "/schools", label: "Destinations" },
   { to: "/process", label: "Process" },
-  { to: "/insights", label: "Insights" },
+  { to: "/insights", label: "Success Stories" },
   { to: "/about", label: "About" },
 ] as const;
 
