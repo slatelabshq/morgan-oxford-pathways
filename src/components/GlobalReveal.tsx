@@ -17,7 +17,7 @@ export function GlobalReveal() {
 
     const scan = () => {
       const candidates = document.querySelectorAll<HTMLElement>(
-        "main section, main > article, [data-reveal]",
+        "section, main > article, main > div > article, [data-reveal]",
       );
       candidates.forEach((el) => {
         if (el.dataset.revealSkip === "true") return;
