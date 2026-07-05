@@ -1,28 +1,23 @@
 ## Goal
-Give Destinations its own real route at `/destinations` and point the nav there. The Destinations copy currently lives on `/schools` — I'll move it, not duplicate it.
+Success Stories lives on the home page only. Remove it as a standalone destination.
 
 ## Changes
 
-1. **New route** `src/routes/destinations.tsx`
-   - `createFileRoute("/destinations")`
-   - Same `PageShell` + `HERO.schools` hero, same "Where in the world is right for your child?" copy, same 4 country cards (UK, North America, Europe, Beyond), same "Talk to us" CTA, same card-glow + icon treatment already used on the current Destinations page — so the banner / hero / glow styling matches exactly.
-   - Own `head()` with title `Destinations — Morgan Oxford Education` and matching og tags.
+1. **Home** — `src/routes/index.tsx`
+   Add a "Success Stories" section between the "Why families choose us" block and the closing padding. Reuse the exact 3 story cards from the current `/insights` page (quote + 2 body cards, icon chips, card-glow), plus the two footer CTAs simplified to a single "Start your own story" primary CTA to `/enquire/contact`.
 
-2. **Nav update** — `src/components/site/SiteHeader.tsx`
-   - Change the "Destinations" entry from `{ to: "/schools" }` to `{ to: "/destinations" }`. Mobile nav inherits from this array, so no separate edit.
+2. **Nav** — `src/components/site/SiteHeader.tsx`
+   Remove the `{ to: "/insights", label: "Success Stories" }` entry from `CORE_NAV`. Mobile nav inherits.
 
-3. **Revert `/schools`** — `src/routes/schools.index.tsx`
-   - Restore it to the original schools directory page (search + filters UI) that it was before Destinations copy was placed on it. This keeps `/schools` working as a directory route and avoids two pages with the same copy.
-
-4. **Home hero image key stays the same** (`HERO.schools`) — still used by both `/destinations` and the schools directory hero. Keeps one image asset, no new files needed.
+3. **/insights route** — `src/routes/insights.index.tsx`
+   Restore to the original generic Insights landing page (short intro, no Success Stories content). Route stays live so any existing insight slugs under `insights.$slug.tsx` still work, but it's no longer linked from the primary nav.
 
 ## Out of scope
-- No copy edits (Destinations text is unchanged from what's already approved)
-- No redesign, no new components
-- No changes to AthleteX, Services, Process, Contact, or Home nav entries
-- No redirect from `/schools` — it becomes the schools directory again, not a Destinations alias
+- No changes to Services, Destinations, AthleteX, Process, Contact, About
+- No changes to `insights.$slug.tsx` or `insights.tsx` layout
+- No copy edits to the story text itself — just relocated
 
 ## Files touched
-- `src/routes/destinations.tsx` — new
-- `src/components/site/SiteHeader.tsx` — one nav entry `to` swap
-- `src/routes/schools.index.tsx` — reverted to directory/filter UI
+- `src/routes/index.tsx`
+- `src/routes/insights.index.tsx`
+- `src/components/site/SiteHeader.tsx`

@@ -9,7 +9,6 @@ const CORE_NAV = [
   { to: "/programmes", label: "Services" },
   { to: "/destinations", label: "Destinations" },
   { to: "/process", label: "Process" },
-  { to: "/insights", label: "Success Stories" },
   { to: "/about", label: "About" },
 ] as const;
 
