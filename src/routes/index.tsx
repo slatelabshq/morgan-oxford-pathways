@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BadgeCheck, Clock, Globe2, GraduationCap, School, Trophy, Users, Zap } from "lucide-react";
+import { Award, BadgeCheck, Clock, Globe2, GraduationCap, Quote, School, Sparkles, Trophy, Users, Zap } from "lucide-react";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
 import { PageHero } from "@/components/site/PageHero";
@@ -147,6 +147,76 @@ function Home() {
             className="btn-glow inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
           >
             Begin the conversation →
+          </Link>
+        </div>
+      </section>
+
+      {/* Success Stories */}
+      <section className="mx-auto max-w-7xl px-4 pb-24 pt-4 sm:px-6 lg:px-8">
+        <div className="mb-6 flex items-center gap-3">
+          <span className="icon-chip"><Sparkles className="h-5 w-5" aria-hidden /></span>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
+            Success stories
+          </p>
+        </div>
+        <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+          Real students. Real placements. Real outcomes.
+        </h2>
+        <p className="mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">
+          We measure success one student at a time — not by volume, but by whether the school we recommended turned out to be the right one.
+        </p>
+
+        <StaggerGrid className="mt-10 grid gap-6 md:grid-cols-3">
+          <StaggerItem>
+            <article className="card-glow flex h-full flex-col rounded-2xl border border-border bg-card p-6 sm:p-8">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="icon-chip"><Quote className="h-5 w-5" aria-hidden /></span>
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                  A-Level Placement · UK Boarding School
+                </p>
+              </div>
+              <blockquote className="mt-2 font-display text-lg italic leading-snug text-foreground">
+                “He went the extra mile in assisting me in my application to do A-Level at a UK boarding school — hands-on at every stage, always there to deal with issues and answer queries as they arose.”
+              </blockquote>
+              <p className="mt-4 text-sm text-muted-foreground">— Alumna, Day Waterman College</p>
+            </article>
+          </StaggerItem>
+
+          <StaggerItem>
+            <article className="card-glow flex h-full flex-col rounded-2xl border border-border bg-card p-6 sm:p-8">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="icon-chip"><Award className="h-5 w-5" aria-hidden /></span>
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                  Scholarship Placement · Mount St. Mary
+                </p>
+              </div>
+              <p className="mt-2 text-base leading-relaxed text-muted-foreground">
+                An alumna of Day Waterman College was awarded a full scholarship to study her A-Levels at Mount St. Mary in the UK — a placement built on matching her academic profile precisely to a school's scholarship criteria.
+              </p>
+            </article>
+          </StaggerItem>
+
+          <StaggerItem>
+            <article className="card-glow flex h-full flex-col rounded-2xl border border-border bg-card p-6 sm:p-8">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="icon-chip"><Sparkles className="h-5 w-5" aria-hidden /></span>
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                  Sixth Form & Pathway Options
+                </p>
+              </div>
+              <p className="mt-2 text-base leading-relaxed text-muted-foreground">
+                For students weighing up A-Levels, an International Foundation Year, the IB Diploma, or vocational routes, we've placed students into sixth-form colleges chosen for their social, academic, and pastoral strengths — not just their exam results.
+              </p>
+            </article>
+          </StaggerItem>
+        </StaggerGrid>
+
+        <div className="mt-10">
+          <Link
+            to="/enquire/contact"
+            className="btn-glow inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+          >
+            Start your own story →
           </Link>
         </div>
       </section>
