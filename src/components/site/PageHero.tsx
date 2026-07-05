@@ -67,16 +67,6 @@ export function PageHero({
         )}
       />
 
-      {/* Floating ambient orb for glass refraction */}
-      <div
-        aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute right-[10%] top-[18%] h-72 w-72 rounded-full blur-3xl animate-float-slow",
-          zone === "athletex"
-            ? "bg-[color:var(--brand-signal)]/25"
-            : "bg-[color:var(--brand-gold)]/30",
-        )}
-      />
 
       {/* Content — bottom-left glass-dark panel */}
       <div className="absolute inset-0 flex items-end">
@@ -85,7 +75,7 @@ export function PageHero({
             initial={reduced ? false : { opacity: 0, y: 16 }}
             animate={reduced ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.2, 0, 0, 1], delay: 0.15 }}
-            className="glass-dark max-w-3xl rounded-[2rem] p-6 sm:p-10 md:p-14 text-[color:var(--brand-paper)]"
+            className="max-w-3xl p-6 sm:p-10 md:p-14 text-[color:var(--brand-paper)]"
           >
             {crumbs && crumbs.length > 0 && (
               <div className="mb-5 [&_*]:text-[color:var(--brand-paper)]/75 [&_a:hover]:text-[color:var(--brand-paper)]">
