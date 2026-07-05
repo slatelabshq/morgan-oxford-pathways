@@ -180,6 +180,10 @@ function BrandPage() {
         <StatesAndMotion />
       </Section>
 
+      <Section eyebrow="Motion" title="Animations">
+        <AnimationSpec />
+      </Section>
+
       <footer className="border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-8 text-xs uppercase tracking-[0.3em] text-muted-foreground">
           Morgan Oxford Education · Brand v0.1
