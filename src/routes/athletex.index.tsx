@@ -4,39 +4,91 @@ import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
 import { HERO } from "@/lib/hero-images";
 
+const PATHWAYS = [
+  {
+    sport: "Football",
+    body: "Placement into schools and academies with structured football pathways, from grassroots development through to academy-affiliated programmes.",
+  },
+  {
+    sport: "Basketball",
+    body: "Schools with competitive basketball programmes and coaching pedigree, for students serious about the game at school and beyond.",
+  },
+  {
+    sport: "Tennis",
+    body: "Access to schools with strong tennis coaching infrastructure, suited to players balancing tournament schedules with academic study.",
+  },
+  {
+    sport: "Swimming",
+    body: "Placement into schools with performance swimming programmes, pool access, and coaching support for competitive swimmers.",
+  },
+];
+
 export const Route = createFileRoute("/athletex/")({
   head: () => ({
     meta: [
-      { title: "AthleteX — sports scholarship pathway" },
-      { name: "description", content: "Scholarship placement, scouting and school-to-pro pathways for athletes 13–24." },
-      { property: "og:title", content: "AthleteX by Morgan Oxford" },
-      { property: "og:description", content: "The athlete pathway into UK boarding, NCAA and pro sport." },
+      { title: "AthleteX Pathways — Where talent meets the right school" },
+      {
+        name: "description",
+        content:
+          "Morgan Oxford's dedicated route for student-athletes — placing footballers, basketballers, tennis players and swimmers into schools that take both academics and sport seriously.",
+      },
+      { property: "og:title", content: "AthleteX Pathways" },
+      {
+        property: "og:description",
+        content:
+          "Schools built to develop the whole athlete — sport and academics, without compromise.",
+      },
     ],
   }),
   component: () => (
     <PageShell
       hero={HERO.athletex}
       zone="athletex"
-      eyebrow="AthleteX"
-      title="Sport-first placement, without compromise on schooling."
-      lede="Scholarship-track placement, scouting and school-to-pro pathways for athletes 13–24."
+      eyebrow="AthleteX Pathways"
+      title="Where talent meets the"
+      lede="AthleteX Pathways is Morgan Oxford Education's dedicated route for student-athletes — placing young footballers, basketballers, tennis players, and swimmers into schools that take both their academics and their sport seriously."
       crumbs={[{ label: "Home", to: "/" }, { label: "AthleteX" }]}
     >
-      <StaggerGrid className="grid gap-4 sm:grid-cols-2">
-        <StaggerItem><CardLink to="/athletex/sports" title="Sports we cover" note="Football, rugby, tennis, athletics and more." /></StaggerItem>
-        <StaggerItem><CardLink to="/athletex/schools" title="Sports-specialist schools" note="The subset of UK schools with real programmes." /></StaggerItem>
-        <StaggerItem><CardLink to="/athletex/scholarship" title="Scholarship & scout enquiry" note="Athlete profile, key stats, highlight reel." /></StaggerItem>
-        <StaggerItem><CardLink to="/athletex/success" title="Success stories" note="Case studies from placed athletes." /></StaggerItem>
-      </StaggerGrid>
+      <section>
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
+          Why AthleteX exists
+        </p>
+        <h2 className="mt-3 font-display text-2xl font-semibold sm:text-3xl">
+          A talented young athlete doesn't need a compromise — they need a school built to develop both.
+        </h2>
+        <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          AthleteX Pathways exists to find that school: institutions with serious sporting programmes, pathways into representative and academy football, basketball, tennis, and swimming, and academic environments strong enough to keep every door open.
+        </p>
+      </section>
+
+      <section className="mt-12">
+        <h3 className="font-display text-xl font-semibold sm:text-2xl">Pathways</h3>
+        <StaggerGrid className="mt-6 grid gap-4 sm:grid-cols-2">
+          {PATHWAYS.map((p) => (
+            <StaggerItem key={p.sport}>
+              <article className="h-full rounded-2xl border border-border bg-card p-6">
+                <h4 className="font-display text-lg font-semibold">{p.sport}</h4>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+              </article>
+            </StaggerItem>
+          ))}
+        </StaggerGrid>
+      </section>
+
+      <section className="mt-12 rounded-2xl border border-border bg-muted/30 p-6 sm:p-10">
+        <h3 className="font-display text-xl font-semibold sm:text-2xl">Scholarships & Scouting</h3>
+        <p className="mt-3 max-w-3xl text-base leading-relaxed text-muted-foreground">
+          We work to connect promising student-athletes with schools offering sports scholarships, and with scouting relationships where they exist. Every family's situation is different — some students are looking for their first serious sporting environment, others are already competing at a representative level and need a school that won't get in the way of that trajectory.
+        </p>
+        <div className="mt-6">
+          <Link
+            to="/athletex/scholarship"
+            className="btn-micro inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+          >
+            Enquire about AthleteX Pathways →
+          </Link>
+        </div>
+      </section>
     </PageShell>
   ),
 });
-
-function CardLink({ to, title, note }: { to: string; title: string; note: string }) {
-  return (
-    <Link to={to} className="block h-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 ease-in-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.02] hover:shadow-xl">
-      <h2 className="font-display text-xl font-semibold">{title}</h2>
-      <p className="mt-2 text-sm text-muted-foreground">{note}</p>
-    </Link>
-  );
-}

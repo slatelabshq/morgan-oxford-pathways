@@ -7,7 +7,7 @@ export const HERO: Record<string, HeroImage> = {
   home: {
     src: p("208701"),
     alt: "Oxford college quadrangle at golden hour",
-    titleAccent: "Oxford",
+    titleAccent: "inevitable.",
   },
   about: {
     src: p("2041540"),
@@ -17,31 +17,31 @@ export const HERO: Record<string, HeroImage> = {
   schools: {
     src: p("289737"),
     alt: "Elegant British boarding school building at dusk",
-    titleAccent: "future",
+    titleAccent: "child?",
   },
   programmes: {
     src: p("1181396"),
     alt: "Students collaborating around a table in bright natural light",
-    titleAccent: "journey",
+    titleAccent: "properly.",
   },
   athletex: {
     src: p("2402777"),
     alt: "Athlete on a floodlit stadium running track",
-    titleAccent: "excellence",
+    titleAccent: "right school.",
   },
   insights: {
     src: p("1370295"),
     alt: "Open book resting on a dark polished wooden desk",
-    titleAccent: "ideas",
+    titleAccent: "Real outcomes.",
   },
   process: {
     src: p("1181534"),
     alt: "Focused student writing at a desk in warm light",
-    titleAccent: "step by step",
+    titleAccent: "first day.",
   },
   contact: {
     src: p("1454360"),
     alt: "Historic Oxford sandstone buildings on a bright afternoon",
-    titleAccent: "in touch",
+    titleAccent: "together.",
   },
 };

@@ -1,143 +1,76 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
-import { z } from "zod";
 import { PageShell } from "@/components/site/PageShell";
+import { StaggerGrid } from "@/components/StaggerGrid";
+import { StaggerItem } from "@/components/StaggerItem";
 import { HERO } from "@/lib/hero-images";
 
-const schoolsSearch = z.object({
-  q: fallback(z.string(), "").default(""),
-  type: fallback(z.enum(["any", "day", "boarding", "day-boarding", "sixth-form"]), "any").default("any"),
-  gender: fallback(z.enum(["any", "co-ed", "boys", "girls"]), "any").default("any"),
-  region: fallback(z.string(), "").default(""),
-  athletex: fallback(z.boolean(), false).default(false),
-  sort: fallback(z.enum(["relevance", "fees-asc", "fees-desc", "az"]), "relevance").default("relevance"),
-});
+const DESTINATIONS = [
+  {
+    label: "United Kingdom",
+    body: "A world-class destination for school education, home to boarding schools with centuries of academic tradition and some of the most respected qualifications in the world. The UK system can look complicated from the outside — GCSEs, A-Levels, IB, sixth form — but it's also one of the most flexible in the world once you understand how the pieces fit together. Strong investment in facilities, highly regarded teaching staff, and a genuinely international, multicultural student population make it a consistent first choice for the families we work with.",
+  },
+  {
+    label: "North America",
+    body: "From day schools across the US and Canada to boarding options with strong pathway records into North American universities, we advise on placement that fits the family's long-term destination as well as the child's academic profile. Full destination details coming soon — talk to us for a shortlist matched to your child.",
+  },
+  {
+    label: "Europe",
+    body: "Placement options across mainland Europe for families looking beyond the UK — with existing partner relationships across countries including Germany, Hungary, and the Republic of Ireland. We'll help you weigh curriculum, language of instruction, and long-term progression before shortlisting.",
+  },
+  {
+    label: "Beyond",
+    body: "For families exploring further afield — Australia, New Zealand, Malaysia, and destinations across Africa — we can advise on school placement options as part of a wider conversation about what's right for your child.",
+  },
+];
 
 export const Route = createFileRoute("/schools/")({
-  validateSearch: zodValidator(schoolsSearch),
   head: () => ({
     meta: [
-      { title: "UK independent schools directory — Morgan Oxford" },
-      { name: "description", content: "Search 200+ UK independent schools by type, gender, region, fees and AthleteX partnership." },
-      { property: "og:title", content: "UK independent schools directory" },
-      { property: "og:description", content: "Vetted UK independent schools, filterable and shareable." },
+      { title: "Destinations — Morgan Oxford Education" },
+      {
+        name: "description",
+        content:
+          "Where in the world is right for your child? UK, North America, Europe and beyond — advised by country, curriculum, culture and long-term goals.",
+      },
+      { property: "og:title", content: "Destinations — Morgan Oxford" },
+      {
+        property: "og:description",
+        content:
+          "The best destination depends on your child, not a league table.",
+      },
     ],
   }),
-  component: SchoolsIndex,
+  component: DestinationsIndex,
 });
 
-function SchoolsIndex() {
-  const search = Route.useSearch();
-  const navigate = Route.useNavigate();
-
+function DestinationsIndex() {
   return (
     <PageShell
       hero={HERO.schools}
-      eyebrow="Directory"
-      title="Schools"
-      lede="Vetted UK independent schools. Filter, compare, then enquire."
-      crumbs={[{ label: "Home", to: "/" }, { label: "Schools" }]}
+      eyebrow="Destinations"
+      title="Where in the world is right for your"
+      lede="The best destination depends on your child, not a league table. We help families weigh up academic systems, culture, cost, and long-term goals across our core destinations."
+      crumbs={[{ label: "Home", to: "/" }, { label: "Destinations" }]}
     >
-      <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
-        <aside aria-label="Filters" className="space-y-6">
-          <div>
-            <label htmlFor="q" className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Search
-            </label>
-            <input
-              id="q"
-              type="search"
-              value={search.q}
-              onChange={(e) => navigate({ search: (p: typeof search) => ({ ...p, q: e.target.value }) })}
-              placeholder="Name, town, county…"
-              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            />
-          </div>
+      <StaggerGrid className="grid gap-6 md:grid-cols-2">
+        {DESTINATIONS.map((d) => (
+          <StaggerItem key={d.label}>
+            <article className="h-full rounded-2xl border border-border bg-card p-6 sm:p-8">
+              <h2 className="font-display text-2xl font-semibold">{d.label}</h2>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">{d.body}</p>
+            </article>
+          </StaggerItem>
+        ))}
+      </StaggerGrid>
 
-          <FilterGroup label="Type">
-            {(["any", "day", "boarding", "day-boarding", "sixth-form"] as const).map((v) => (
-              <FilterOption key={v} name="type" value={v} current={search.type} onSelect={(val) => navigate({ search: (p: typeof search) => ({ ...p, type: val as typeof search.type }) })} />
-            ))}
-          </FilterGroup>
-
-          <FilterGroup label="Gender">
-            {(["any", "co-ed", "boys", "girls"] as const).map((v) => (
-              <FilterOption key={v} name="gender" value={v} current={search.gender} onSelect={(val) => navigate({ search: (p: typeof search) => ({ ...p, gender: val as typeof search.gender }) })} />
-            ))}
-          </FilterGroup>
-
-          <div>
-            <label htmlFor="region" className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Region
-            </label>
-            <input
-              id="region"
-              value={search.region}
-              onChange={(e) => navigate({ search: (p: typeof search) => ({ ...p, region: e.target.value }) })}
-              placeholder="e.g. South East"
-              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            />
-          </div>
-
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={search.athletex}
-              onChange={(e) => navigate({ search: (p: typeof search) => ({ ...p, athletex: e.target.checked }) })}
-              className="h-4 w-4 rounded border-input"
-            />
-            AthleteX partner schools only
-          </label>
-        </aside>
-
-        <section aria-label="Results">
-          <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
-            <p>Directory data coming soon — filters are wired to the URL for shareable results.</p>
-            <label className="flex items-center gap-2">
-              Sort
-              <select
-                value={search.sort}
-                onChange={(e) => navigate({ search: (p: typeof search) => ({ ...p, sort: e.target.value as typeof search.sort }) })}
-                className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-              >
-                <option value="relevance">Relevance</option>
-                <option value="fees-asc">Fees ↑</option>
-                <option value="fees-desc">Fees ↓</option>
-                <option value="az">A–Z</option>
-              </select>
-            </label>
-          </div>
-          <div className="rounded-2xl border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
-            No schools indexed yet. <Link to="/enquire/school-placement" className="font-semibold text-foreground underline">Talk to a consultant</Link> for a bespoke shortlist.
-          </div>
-        </section>
+      <div className="mt-12">
+        <Link
+          to="/enquire/contact"
+          className="btn-micro inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+        >
+          Talk to us about the right destination →
+        </Link>
       </div>
     </PageShell>
-  );
-}
-
-function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <fieldset>
-      <legend className="mb-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        {label}
-      </legend>
-      <div className="flex flex-wrap gap-1.5">{children}</div>
-    </fieldset>
-  );
-}
-
-function FilterOption({ name, value, current, onSelect }: { name: string; value: string; current: string; onSelect: (v: string) => void }) {
-  const active = current === value;
-  return (
-    <button
-      type="button"
-      onClick={() => onSelect(value)}
-      className={`rounded-full border px-3 py-1 text-xs capitalize transition-colors ${active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-foreground/80 hover:border-foreground"}`}
-      aria-pressed={active}
-      name={name}
-    >
-      {value.replace(/-/g, " ")}
-    </button>
   );
 }

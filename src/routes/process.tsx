@@ -1,23 +1,89 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 import { HERO } from "@/lib/hero-images";
+
+const STEPS = [
+  {
+    n: 1,
+    title: "Consultation",
+    body: "We start with a detailed questionnaire covering your child's academic history, interests, and long-term aspirations — plus your priorities as a family. The more we know, the better our advice.",
+  },
+  {
+    n: 2,
+    title: "Recommendation",
+    body: "Using everything we've learned, we put together a shortlist of schools genuinely matched to your child — with clear reasoning for every recommendation, including destination country where relevant.",
+  },
+  {
+    n: 3,
+    title: "Introduction",
+    body: "Once you've chosen a direction, we make contact with your shortlisted schools directly, opening the door on your behalf.",
+  },
+  {
+    n: 4,
+    title: "Preparation",
+    body: "If a school requires entrance exams or interviews, we connect you with partner tutors who prepare students specifically for that school's process.",
+  },
+  {
+    n: 5,
+    title: "Ongoing Support",
+    body: "From visas and guardianship arrangements through to organising school visits wherever possible, we stay involved until your child is settled — not just until the offer letter arrives.",
+  },
+];
 
 export const Route = createFileRoute("/process")({
   head: () => ({
     meta: [
-      { title: "Our placement process — Morgan Oxford" },
-      { name: "description", content: "Five steps from first call to first term: discovery, shortlist, visits, offers, arrival." },
+      { title: "Process — From first conversation to first day" },
+      {
+        name: "description",
+        content:
+          "Every placement follows the same careful process — consultation, recommendation, introduction, preparation, and ongoing support.",
+      },
       { property: "og:title", content: "The Morgan Oxford placement process" },
-      { property: "og:description", content: "How we place families in UK independent schools, end-to-end." },
+      {
+        property: "og:description",
+        content:
+          "How we place families in international schools, end-to-end — because the details are where families get let down elsewhere.",
+      },
     ],
   }),
   component: () => (
     <PageShell
       hero={HERO.process}
       eyebrow="Process"
-      title="Five steps from first call to first term."
-      lede="Discovery, shortlist, visits, offers, arrival — sequenced, timed and owned by a named consultant."
+      title="From first conversation to"
+      lede="Every placement follows the same careful process — because the details are where families get let down elsewhere."
       crumbs={[{ label: "Home", to: "/" }, { label: "Process" }]}
-    />
+    >
+      <ol className="space-y-6">
+        {STEPS.map((s) => (
+          <li
+            key={s.n}
+            className="grid gap-4 rounded-2xl border border-border bg-card p-6 sm:grid-cols-[auto_1fr] sm:gap-8 sm:p-8"
+          >
+            <div className="flex items-start">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--brand-gold)] font-display text-lg font-semibold text-[color:var(--brand-gold)]">
+                {s.n}
+              </span>
+            </div>
+            <div>
+              <h2 className="font-display text-xl font-semibold sm:text-2xl">
+                Step {s.n} — {s.title}
+              </h2>
+              <p className="mt-2 text-base leading-relaxed text-muted-foreground">{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div className="mt-12">
+        <Link
+          to="/enquire/contact"
+          className="btn-micro inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+        >
+          Ready to start? Begin your consultation →
+        </Link>
+      </div>
+    </PageShell>
   ),
 });
