@@ -3,6 +3,7 @@ import { MorganOxfordLogo } from "@/brand/MorganOxfordLogo";
 import { AthleteXLogo } from "@/brand/AthleteXLogo";
 import { StatesAndMotion } from "@/brand/StatesAndMotion";
 import { AnimationSpec } from "@/brand/AnimationSpec";
+import { ResponsiveSpec } from "@/brand/ResponsiveSpec";
 
 export const Route = createFileRoute("/brand")({
   head: () => ({
@@ -182,6 +183,10 @@ function BrandPage() {
 
       <Section eyebrow="Motion" title="Animations">
         <AnimationSpec />
+      </Section>
+
+      <Section eyebrow="Adaptation" title="Responsive breakpoints">
+        <ResponsiveSpec />
       </Section>
 
       <footer className="border-t border-border">
