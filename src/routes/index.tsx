@@ -25,11 +25,11 @@ export const Route = createFileRoute("/")({
 });
 
 const TRUST = [
-  { k: "13 years", v: "guiding families through international school placement" },
-  { k: "ICEF-accredited", v: "renewed annually as a mark of quality and professional standards" },
-  { k: "3 global offices", v: "Oxford · Lagos · Cairo" },
-  { k: "48-hour response", v: "on every enquiry" },
-  { k: "Partner schools", v: "across the UK, North America, Europe, and beyond" },
+const TRUST = [
+  { value: "13", label: "Years guiding families" },
+  { value: "ICEF", label: "Accredited agency" },
+  { value: "3", label: "Global offices · Oxford · Lagos · Cairo" },
+  { value: "48h", label: "Response on every enquiry" },
 ];
 
 function Home() {
@@ -96,17 +96,28 @@ function Home() {
         </StaggerGrid>
       </section>
 
-      {/* Trust strip */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          {TRUST.map((t) => (
-            <li key={t.k} className="flex flex-col items-start">
-              <span className="gold-divider mb-3" aria-hidden />
-              <p className="font-display text-lg font-semibold text-foreground">{t.k}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{t.v}</p>
-            </li>
-          ))}
-        </ul>
+      {/* Trust strip — dark navy stat panel */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[color:var(--brand-ink)] via-[color:var(--brand-ink)] to-[color:var(--brand-royal)]/70 p-6 shadow-[0_30px_80px_-30px_rgb(var(--glass-shadow)/0.6)] sm:p-10">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-24 right-[-10%] h-72 w-72 rounded-full bg-[color:var(--brand-gold)]/10 blur-3xl"
+          />
+          <StaggerGrid className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+            {TRUST.map((t) => (
+              <StaggerItem key={t.label}>
+                <div className="card-glow flex h-full flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] p-8 text-center backdrop-blur-sm sm:p-10">
+                  <p className="font-display text-4xl font-semibold leading-none tracking-tight text-[color:var(--brand-gold)] sm:text-5xl">
+                    {t.value}
+                  </p>
+                  <p className="mt-4 text-xs font-medium uppercase tracking-[0.22em] text-[color:var(--brand-paper)]/75 sm:text-sm">
+                    {t.label}
+                  </p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerGrid>
+        </div>
       </section>
 
       {/* Why families choose us */}
