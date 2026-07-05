@@ -146,14 +146,18 @@
   --ring: var(--brand-gold);
 }
 
-/* Motion tokens — see /brand States & Motion */
+/* Motion tokens — see /brand States & Motion + Animations */
 :root {
   --motion-fast: 120ms;
   --motion-base: 200ms;
   --motion-slow: 320ms;
+  --motion-hero: 640ms;
+  --motion-section: 520ms;
+  --motion-handoff: 480ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-athletex-land: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes brand-shake {
@@ -161,6 +165,110 @@
   25% { transform: translateX(-6px); }
   75% { transform: translateX(6px); }
 }
+
+@keyframes reveal-up-core {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes reveal-up-athletex {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes reveal-section-core {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes reveal-section-athletex {
+  from { opacity: 0; transform: translateY(32px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes border-wipe-ltr {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes border-wipe-rtl {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes zone-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Reveal utilities — element starts hidden, .reveal-visible triggers keyframe */
+@utility reveal {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+@utility reveal-visible {
+  animation: reveal-up-core var(--motion-hero) var(--ease-standard) forwards;
+  animation-delay: calc(var(--reveal-index, 0) * 80ms);
+}
+@utility reveal-section {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+@utility reveal-section-visible {
+  animation: reveal-section-core var(--motion-section) var(--ease-standard) forwards;
+}
+@utility reveal-done {
+  will-change: auto;
+}
+
+/* AthleteX variants — punchier easing, tighter timings */
+.zone-athletex .reveal-visible,
+[data-motion="athletex"].reveal-visible {
+  animation: reveal-up-athletex 580ms var(--ease-athletex-land) forwards;
+  animation-delay: calc(var(--reveal-index, 0) * 60ms);
+}
+.zone-athletex .reveal-section-visible,
+[data-motion="athletex"].reveal-section-visible {
+  animation: reveal-section-athletex 460ms var(--ease-athletex-land) forwards;
+}
+
+/* Section top-border wipe */
+@utility section-wipe {
+  position: relative;
+}
+.section-wipe::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+.section-wipe.reveal-section-visible::before {
+  animation: border-wipe-ltr var(--motion-handoff) var(--ease-standard) 120ms forwards;
+}
+.zone-athletex .section-wipe::before,
+[data-motion="athletex"].section-wipe::before {
+  transform-origin: right;
+}
+.zone-athletex .section-wipe.reveal-section-visible::before {
+  animation: border-wipe-rtl 380ms var(--ease-athletex-land) 0ms forwards;
+}
+
+/* Zone handoff — animates zone theme swap on the outer wrapper */
+[data-zone] {
+  animation: zone-fade-in var(--motion-handoff) var(--ease-standard);
+}
+[data-zone="athletex"] {
+  animation: zone-fade-in 320ms var(--ease-athletex-land);
+}
+
+/* Reduced motion: kill every custom animation, keep opacity end-state */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-section { opacity: 1 !important; }
+  .reveal-visible, .reveal-section-visible,
+  [data-zone], .section-wipe::before {
+    animation: none !important;
+  }
+  .section-wipe::before { transform: scaleX(1); }
+}
+
 
 @layer base {
   * {
