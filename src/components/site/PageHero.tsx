@@ -3,12 +3,11 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 import { cn } from "@/lib/utils";
 
-export type HeroCredit = { name: string; url: string };
-
 export type HeroImage = {
   src: string;
   alt: string;
-  credit?: HeroCredit;
+  /** Optional word/phrase rendered italic-gold as the accent line of the H1. */
+  titleAccent?: string;
 };
 
 type PageHeroProps = {
@@ -32,10 +31,11 @@ export function PageHero({
   children,
 }: PageHeroProps) {
   const reduced = useReducedMotion();
+  const accent = image.titleAccent;
 
   return (
     <section
-      className="relative w-full overflow-hidden min-h-[280px] sm:min-h-[360px] lg:h-[460px]"
+      className="relative w-full overflow-hidden min-h-[420px] sm:min-h-[520px] lg:min-h-[640px]"
       aria-label={eyebrow ? `${eyebrow} — ${title}` : title}
     >
       {/* Image + Ken Burns wrapper */}
@@ -56,58 +56,78 @@ export function PageHero({
         />
       </motion.div>
 
-      {/* Dark gradient overlay for legibility */}
+      {/* Navy / jet gradient wash */}
       <div
         aria-hidden="true"
         className={cn(
-          "absolute inset-0 bg-gradient-to-t",
+          "absolute inset-0 bg-gradient-to-b",
           zone === "athletex"
-            ? "from-[color:var(--brand-jet)]/90 via-black/55 to-black/20"
-            : "from-black/75 via-black/45 to-black/15",
+            ? "from-[color:var(--brand-jet)]/80 via-[color:var(--brand-jet)]/45 to-[color:var(--brand-jet)]/90"
+            : "from-[color:var(--brand-ink)]/75 via-[color:var(--brand-ink)]/40 to-[color:var(--brand-ink)]/90",
         )}
       />
 
-      {/* Content */}
+      {/* Floating ambient orb for glass refraction */}
+      <div
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute right-[10%] top-[18%] h-72 w-72 rounded-full blur-3xl animate-float-slow",
+          zone === "athletex"
+            ? "bg-[color:var(--brand-signal)]/25"
+            : "bg-[color:var(--brand-gold)]/30",
+        )}
+      />
+
+      {/* Content — bottom-left glass-dark panel */}
       <div className="absolute inset-0 flex items-end">
-        <div className="mx-auto w-full max-w-7xl px-4 pb-8 pt-16 sm:px-6 sm:pb-12 sm:pt-20 lg:px-8 lg:pb-16">
+        <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pb-14 lg:px-8 lg:pb-20">
           <motion.div
-            initial={reduced ? false : { opacity: 0, y: 12 }}
+            initial={reduced ? false : { opacity: 0, y: 16 }}
             animate={reduced ? undefined : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: [0.2, 0, 0, 1], delay: 0.1 }}
-            className="max-w-3xl text-white"
+            transition={{ duration: 0.6, ease: [0.2, 0, 0, 1], delay: 0.15 }}
+            className="glass-dark max-w-3xl rounded-[2rem] p-6 sm:p-10 md:p-14 text-[color:var(--brand-paper)]"
           >
             {crumbs && crumbs.length > 0 && (
-              <div className="mb-4 [&_*]:text-white/80 [&_a:hover]:text-white">
+              <div className="mb-5 [&_*]:text-[color:var(--brand-paper)]/75 [&_a:hover]:text-[color:var(--brand-paper)]">
                 <Breadcrumbs items={crumbs} />
               </div>
             )}
             {eyebrow && (
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/85">
+              <p className="mb-5 text-xs font-medium uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
                 {eyebrow}
               </p>
             )}
-            <h1 className="font-display text-4xl font-semibold tracking-tight text-white drop-shadow-sm sm:text-5xl lg:text-6xl">
-              {title}
+            <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+              {accent ? (
+                <>
+                  {title}
+                  <br />
+                  <span className="italic font-normal text-[color:var(--brand-gold)]">
+                    {accent}
+                  </span>
+                </>
+              ) : (
+                title
+              )}
             </h1>
             {lede && (
-              <p className="mt-4 max-w-2xl text-lg text-white/85">{lede}</p>
+              <p className="mt-7 max-w-xl text-base leading-relaxed text-[color:var(--brand-paper)]/85 sm:text-lg">
+                {lede}
+              </p>
             )}
-            {children && <div className="mt-6">{children}</div>}
+            {children && <div className="mt-8">{children}</div>}
           </motion.div>
         </div>
       </div>
 
-      {/* Attribution */}
-      {image.credit && (
-        <a
-          href={image.credit.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute bottom-1.5 right-3 z-10 text-[10px] uppercase tracking-wider text-white/60 hover:text-white/90"
-        >
-          Photo · {image.credit.name} / Unsplash
-        </a>
-      )}
+      {/* Scroll cue */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[0.65rem] uppercase tracking-[0.32em] text-[color:var(--brand-paper)]/60 sm:flex"
+      >
+        <span>Scroll</span>
+        <div className="h-10 w-px animate-pulse bg-[color:var(--brand-paper)]/30" />
+      </div>
     </section>
   );
 }

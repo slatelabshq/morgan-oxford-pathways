@@ -40,9 +40,9 @@ export function PageShell({ eyebrow, title, lede, crumbs, hero, zone, children }
           <Breadcrumbs items={crumbs} />
         </div>
       )}
-      <header className="max-w-3xl">
+      <header className="glass-subtle max-w-3xl rounded-3xl p-6 sm:p-8 md:p-10">
         {eyebrow && (
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--brand-gold)]">
             {eyebrow}
           </p>
         )}
