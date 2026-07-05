@@ -15,6 +15,8 @@ export const Route = createFileRoute("/athletex/")({
   }),
   component: () => (
     <PageShell
+      hero={HERO.athletex}
+      zone="athletex"
       eyebrow="AthleteX"
       title="Sport-first placement, without compromise on schooling."
       lede="Scholarship-track placement, scouting and school-to-pro pathways for athletes 13–24."
