@@ -74,9 +74,6 @@ function DestinationsPage() {
         </p>
       </div>
 
-      <StaggerGrid className="grid gap-6 md:grid-cols-2">
-        {DESTINATIONS.map((d) => (
-          <StaggerItem key={d.label}>
       <StaggerGrid className="grid gap-8 md:grid-cols-2">
         {DESTINATIONS.map((d) => (
           <StaggerItem key={d.label}>
