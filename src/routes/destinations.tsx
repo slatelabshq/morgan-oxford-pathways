@@ -77,22 +77,30 @@ function DestinationsPage() {
       <StaggerGrid className="grid gap-6 md:grid-cols-2">
         {DESTINATIONS.map((d) => (
           <StaggerItem key={d.label}>
-            <article className="card-glow flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card">
-              <div className="aspect-[16/10] w-full overflow-hidden bg-muted">
+      <StaggerGrid className="grid gap-8 md:grid-cols-2">
+        {DESTINATIONS.map((d) => (
+          <StaggerItem key={d.label}>
+            <Link
+              to="/enquire/contact"
+              className="group card-glow flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_48px_-12px_color-mix(in_oklab,var(--brand-navy)_35%,transparent)]"
+            >
+              <div className="aspect-[4/5] w-full overflow-hidden bg-muted">
                 <img
                   src={d.image}
                   alt={d.alt}
                   loading="lazy"
-                  width={1280}
-                  height={800}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-1 flex-col p-6 sm:p-8">
-                <h2 className="font-display text-2xl font-semibold">{d.label}</h2>
-                <p className="mt-3 text-base leading-relaxed text-muted-foreground">{d.body}</p>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
+                  <MapPin className="h-3 w-3" /> Destination
+                </div>
+                <h2 className="mt-2 font-display text-2xl font-semibold">{d.label}</h2>
+                <p className="mt-1 text-sm text-muted-foreground">{d.blurb}</p>
+                <p className="mt-4 text-base leading-relaxed text-muted-foreground">{d.body}</p>
               </div>
-            </article>
+            </Link>
           </StaggerItem>
         ))}
       </StaggerGrid>
