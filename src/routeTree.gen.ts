@@ -15,6 +15,7 @@ import { Route as ProcessRouteImport } from './routes/process'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as EnquireRouteImport } from './routes/enquire'
 import { Route as DestinationsRouteImport } from './routes/destinations'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as AthletexRouteImport } from './routes/athletex'
 import { Route as AboutRouteImport } from './routes/about'
@@ -76,6 +77,11 @@ const EnquireRoute = EnquireRouteImport.update({
 const DestinationsRoute = DestinationsRouteImport.update({
   id: '/destinations',
   path: '/destinations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BrandRoute = BrandRouteImport.update({
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/athletex': typeof AthletexRouteWithChildren
   '/brand': typeof BrandRoute
+  '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRoute
   '/enquire': typeof EnquireRouteWithChildren
   '/insights': typeof InsightsRouteWithChildren
@@ -283,6 +290,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/brand': typeof BrandRoute
+  '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRoute
   '/enquire': typeof EnquireRouteWithChildren
   '/process': typeof ProcessRoute
@@ -320,6 +328,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/athletex': typeof AthletexRouteWithChildren
   '/brand': typeof BrandRoute
+  '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRoute
   '/enquire': typeof EnquireRouteWithChildren
   '/insights': typeof InsightsRouteWithChildren
@@ -362,6 +371,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/athletex'
     | '/brand'
+    | '/contact'
     | '/destinations'
     | '/enquire'
     | '/insights'
@@ -401,6 +411,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/brand'
+    | '/contact'
     | '/destinations'
     | '/enquire'
     | '/process'
@@ -437,6 +448,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/athletex'
     | '/brand'
+    | '/contact'
     | '/destinations'
     | '/enquire'
     | '/insights'
@@ -478,6 +490,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AthletexRoute: typeof AthletexRouteWithChildren
   BrandRoute: typeof BrandRoute
+  ContactRoute: typeof ContactRoute
   DestinationsRoute: typeof DestinationsRoute
   EnquireRoute: typeof EnquireRouteWithChildren
   InsightsRoute: typeof InsightsRouteWithChildren
@@ -534,6 +547,13 @@ declare module '@tanstack/react-router' {
       path: '/destinations'
       fullPath: '/destinations'
       preLoaderRoute: typeof DestinationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/brand': {
@@ -870,6 +890,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AthletexRoute: AthletexRouteWithChildren,
   BrandRoute: BrandRoute,
+  ContactRoute: ContactRoute,
   DestinationsRoute: DestinationsRoute,
   EnquireRoute: EnquireRouteWithChildren,
   InsightsRoute: InsightsRouteWithChildren,
