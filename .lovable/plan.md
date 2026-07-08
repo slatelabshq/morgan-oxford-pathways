@@ -1,22 +1,31 @@
-# Liquid Glass Navigation
+# Contact Page
 
-The design system already defines `.glass`, `.glass-subtle`, and `.glass-dark` utilities in `src/styles.css` (frosted background, inner highlight, tinted border, ambient blur). Right now the header only uses a plain `bg-background/85 backdrop-blur-xl` — it doesn't tap into that system. This plan wires the existing Liquid Glass utilities into the top-level chrome so navigation feels consistent with the brand.
+Create a new `/contact` route that combines the Morgan Oxford reference project's contact details with our existing `ContactForm` component and glass styling.
 
-## Changes
+## New file: `src/routes/contact.tsx`
 
-### 1. `src/components/site/SiteHeader.tsx`
-- Replace the header's `bg-background/*` + `backdrop-blur-*` classes with the shared glass utility:
-  - Scrolled state → `glass` (fuller frosted panel, stronger inner highlight, tinted border).
-  - Top-of-page state → `glass-subtle` (lighter frost so the hero still reads through).
-- Keep the sticky/z-index/border transition wrapper; drop the manual `bg-background/85` and `border-border` since `.glass` supplies its own edge treatment. Add a hairline `border-b border-white/10` fallback only in the scrolled state for definition.
-- Zone-aware: AthleteX pages automatically re-tint because `.zone-athletex` overrides `--glass-*` tokens — no per-zone branching needed.
-- Leave the CTA button, nav links, PathwayPill, and mobile trigger untouched.
+Route: `createFileRoute("/contact")` with SEO `head()` (title, description, og:title, og:description).
 
-### 2. `src/components/site/SiteMobileNav.tsx`
-- Apply `glass` (Core) / inherits AthleteX tint via zone class to the sliding nav panel surface so the mobile menu matches the header's material.
-- Keep the backdrop scrim as-is (plain dim overlay).
+Uses `PageShell` for hero + breadcrumbs (matching `enquire.contact.tsx` pattern) so the page slots into the site's existing look.
+
+Layout: 2-col grid on `lg` (form left, offices aside right).
+
+**Left column** — heading + short lede + `<ContactForm />` wrapped in the same `contact-form-glow` treatment used on `enquire.contact.tsx`.
+
+**Right column (aside)** — office cards using data from the reference `SITE.offices` (hard-coded inline; we don't need a shared `site.ts`):
+- **United Kingdom** — 54 Davenant Road, Oxford OX2 8BY, UK · +44 (0)7710 763474 · enquiries@morganoxfordeducation.co.uk
+- **Nigeria** — Rooftop, 33 Kofo Abayomi Street, Victoria Island, Lagos 100001 · +234 (0)806 527 7726 · enquiries@morganoxfordeducation.co.uk
+
+Each card: `glass rounded-3xl p-6 card-glow` with country eyebrow in `text-brand-gold`, `MapPin`/`Phone`/`Mail` icons, `tel:` and `mailto:` links, and a WhatsApp CTA link (`https://wa.me/2348065277726`) styled as a subtle inline row.
+
+Below the cards: a lazy-loaded Google Maps iframe (`https://www.google.com/maps?q=Oxford,UK&output=embed`) inside a `glass rounded-3xl aspect-[4/3]` frame, matching the reference.
+
+## Nav
+
+Add a `Contact` entry to the Core nav in `src/components/site/SiteHeader.tsx` (`CORE_NAV`, pointing to `/contact`) and to `SiteFooter` if it has a matching quick-links list. Keep the "Enquire" CTA button unchanged.
 
 ## Out of scope
-- No changes to footer, cards, hero, forms, or page sections. "Where necessary" here = the primary nav surfaces only; broader glass rollout can be a follow-up if you want it on cards / CTAs.
-- No new tokens or utilities — reuse what's already in `styles.css`.
-- No color, typography, spacing, or link-behavior changes.
+- No changes to `ContactForm`, its schema, or the submit endpoint — reused as-is (posts to `/api/enquiries`, redirects to `/enquiry/thanks`).
+- No changes to `enquire.contact.tsx` (it stays as the enquire-flow variant).
+- No new shared `site.ts` — office data lives inline in the route file.
+- No design token changes; reuses existing `glass`, `card-glow`, `brand-gold`, `PageShell`, `HERO`.
