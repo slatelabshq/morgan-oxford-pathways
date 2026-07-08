@@ -1,25 +1,22 @@
-## Goal
-Match the Destinations page — imagery and card style — to the reference Morgan Oxford project.
+# Liquid Glass Navigation
 
-## Image source change
-Replace the 4 AI-generated country images with the same editorial Unsplash photography the reference project uses. Delete the current `destination-*.jpg.asset.json` CDN pointers and reference Unsplash URLs directly (that's how the reference project does it):
+The design system already defines `.glass`, `.glass-subtle`, and `.glass-dark` utilities in `src/styles.css` (frosted background, inner highlight, tinted border, ambient blur). Right now the header only uses a plain `bg-background/85 backdrop-blur-xl` — it doesn't tap into that system. This plan wires the existing Liquid Glass utilities into the top-level chrome so navigation feels consistent with the brand.
 
-- **United Kingdom** → `https://images.unsplash.com/photo-1486299267070-83823f5448dd?auto=format&fit=crop&w=1600&q=80`
-- **North America** (maps to USA in the reference) → `https://images.unsplash.com/photo-1564981797816-1043664bf78d?auto=format&fit=crop&w=1600&q=80`
-- **Europe** → `https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1600&q=80`
-- **Beyond** (maps to "Other Destinations" in the reference) → `https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1600&q=80`
+## Changes
 
-Delete: `src/assets/destination-uk.jpg.asset.json`, `destination-north-america.jpg.asset.json`, `destination-europe.jpg.asset.json`, `destination-beyond.jpg.asset.json` (via `lovable-assets delete`).
+### 1. `src/components/site/SiteHeader.tsx`
+- Replace the header's `bg-background/*` + `backdrop-blur-*` classes with the shared glass utility:
+  - Scrolled state → `glass` (fuller frosted panel, stronger inner highlight, tinted border).
+  - Top-of-page state → `glass-subtle` (lighter frost so the hero still reads through).
+- Keep the sticky/z-index/border transition wrapper; drop the manual `bg-background/85` and `border-border` since `.glass` supplies its own edge treatment. Add a hairline `border-b border-white/10` fallback only in the scrolled state for definition.
+- Zone-aware: AthleteX pages automatically re-tint because `.zone-athletex` overrides `--glass-*` tokens — no per-zone branching needed.
+- Leave the CTA button, nav links, PathwayPill, and mobile trigger untouched.
 
-## Card style change (to match reference)
-Update `src/routes/destinations.tsx` card markup:
-- Aspect ratio `aspect-[4/5]` (portrait), not `16/10`.
-- Whole card is a `<Link>` to `/enquire/contact` — clickable like the reference.
-- Image `object-cover` + hover `scale-105` with `transition-transform duration-700` on group hover; `overflow-hidden` on the image wrapper.
-- Card: `rounded-3xl overflow-hidden border border-border bg-card` with hover lift (`hover:-translate-y-1`) + subtle shadow, matching reference glass/rounded feel while staying on this site's tokens.
-- Body: small MapPin + `DESTINATION` eyebrow in brand-gold uppercase tracked, then serif `text-2xl` title, then short one-line blurb (keep current long body underneath, unchanged copy).
-
-Keep hero, page copy, CTA, and grid (`md:grid-cols-2`) as-is. No changes to other pages, colours, or fonts.
+### 2. `src/components/site/SiteMobileNav.tsx`
+- Apply `glass` (Core) / inherits AthleteX tint via zone class to the sliding nav panel surface so the mobile menu matches the header's material.
+- Keep the backdrop scrim as-is (plain dim overlay).
 
 ## Out of scope
-Adding new destinations (Canada, Africa split out), routing to detail pages, copy edits, other pages.
+- No changes to footer, cards, hero, forms, or page sections. "Where necessary" here = the primary nav surfaces only; broader glass rollout can be a follow-up if you want it on cards / CTAs.
+- No new tokens or utilities — reuse what's already in `styles.css`.
+- No color, typography, spacing, or link-behavior changes.
