@@ -56,10 +56,10 @@ export function SiteHeader() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-40 border-b transition-all duration-300 ease-in-out",
+          "sticky top-0 z-40 transition-all duration-300 ease-in-out",
           scrolled
-            ? "border-border bg-background/85 shadow-sm backdrop-blur-xl"
-            : "border-transparent bg-background/60 backdrop-blur-sm",
+            ? "glass border-b border-white/10 shadow-sm"
+            : "glass-subtle border-b border-transparent",
         )}
       >
         <a
