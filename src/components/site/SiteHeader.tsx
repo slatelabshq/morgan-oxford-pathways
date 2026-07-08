@@ -10,6 +10,7 @@ const CORE_NAV = [
   { to: "/destinations", label: "Destinations" },
   { to: "/process", label: "Process" },
   { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
 ] as const;
 
 const ATHLETEX_NAV = [

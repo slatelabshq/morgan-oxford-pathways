@@ -37,7 +37,7 @@ const COLS = [
     links: [
       { to: "/about", label: "About" },
       { to: "/insights", label: "Insights" },
-      { to: "/enquire/contact", label: "Contact" },
+      { to: "/contact", label: "Contact" },
     ],
   },
 ] as const;
