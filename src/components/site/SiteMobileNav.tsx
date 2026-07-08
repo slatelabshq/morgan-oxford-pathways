@@ -74,7 +74,7 @@ export function SiteMobileNav({
             role="dialog"
             aria-modal="true"
             aria-label="Site menu"
-            className="fixed right-0 top-0 z-50 flex h-dvh w-[min(320px,85vw)] flex-col border-l border-border bg-background shadow-2xl md:hidden"
+            className="glass fixed right-0 top-0 z-50 flex h-dvh w-[min(320px,85vw)] flex-col border-l border-white/15 shadow-2xl md:hidden"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
