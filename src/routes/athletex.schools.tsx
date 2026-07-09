@@ -1,21 +1,209 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { z } from "zod";
 import { PageShell } from "@/components/site/PageShell";
+import { HERO } from "@/lib/hero-images";
+import { StaggerGrid } from "@/components/StaggerGrid";
+import { StaggerItem } from "@/components/StaggerItem";
+import {
+  athletexRegions,
+  athletexSchoolCount,
+  sportLabel,
+  type Sport,
+} from "@/lib/athletex-schools";
+
+const searchSchema = z.object({
+  sport: fallback(z.enum(["all", "soccer", "basketball", "swimming"]), "all").default("all"),
+});
 
 export const Route = createFileRoute("/athletex/schools")({
+  validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: [
-      { title: "Sports-specialist schools — AthleteX" },
-      { name: "description", content: "UK independent schools with genuine sports programmes and scholarship pathways." },
-      { property: "og:title", content: "Sports-specialist schools" },
-      { property: "og:description", content: "The AthleteX subset of UK independent schools." },
+      { title: "Partner sports-specialist schools — AthleteX" },
+      {
+        name: "description",
+        content: `${athletexSchoolCount} partner schools across the UK, Canada, USA and Europe with soccer, basketball and swimming pathways.`,
+      },
+      { property: "og:title", content: "AthleteX partner schools" },
+      {
+        property: "og:description",
+        content: "The AthleteX network of independent schools with credible sport programmes.",
+      },
     ],
   }),
-  component: () => (
-    <PageShell
-      eyebrow="AthleteX"
-      title="Sports-specialist schools."
-      lede="The subset of UK independent schools with credible programmes and scholarship pathways."
-      crumbs={[{ label: "Home", to: "/" }, { label: "AthleteX", to: "/athletex" }, { label: "Schools" }]}
-    />
-  ),
+  component: SchoolsPage,
 });
+
+const sportFilters: { value: "all" | Sport; label: string }[] = [
+  { value: "all", label: "All sports" },
+  { value: "soccer", label: "Soccer" },
+  { value: "basketball", label: "Basketball" },
+  { value: "swimming", label: "Swimming" },
+];
+
+function SchoolsPage() {
+  const { sport } = Route.useSearch();
+  const navigate = Route.useNavigate();
+
+  const filtered = athletexRegions.map((r) => ({
+    ...r,
+    schools: sport === "all" ? r.schools : r.schools.filter((s) => s.sports.includes(sport)),
+  }));
+  const totalShown = filtered.reduce((n, r) => n + r.schools.length, 0);
+
+  return (
+    <PageShell
+      hero={HERO.athletex}
+      zone="athletex"
+      eyebrow="AthleteX"
+      title="Partner schools."
+      lede={`${athletexSchoolCount} independent schools across the UK, Canada, USA and Europe with credible soccer, basketball and swimming pathways.`}
+      crumbs={[
+        { label: "Home", to: "/" },
+        { label: "AthleteX", to: "/athletex" },
+        { label: "Schools" },
+      ]}
+    >
+      <section aria-label="Network at a glance" className="mb-12">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <StatChip label="Partner schools" value={String(athletexSchoolCount)} />
+          <StatChip label="Regions" value="4" />
+          <StatChip label="Sports" value="3" />
+          <StatChip label="Elite partners" value="PSG · MUFC · MCFC" small />
+        </div>
+      </section>
+
+      <section aria-label="Filter by sport" className="mb-10">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="mr-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Filter
+          </span>
+          {sportFilters.map((f) => {
+            const active = sport === f.value;
+            return (
+              <button
+                key={f.value}
+                type="button"
+                onClick={() => navigate({ search: { sport: f.value } })}
+                aria-pressed={active}
+                className={`btn-micro rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                  active
+                    ? "border-[color:var(--brand-signal)] bg-[color:var(--brand-signal)] text-[color:var(--brand-bone)]"
+                    : "border-border bg-background text-foreground/80 hover:border-foreground"
+                }`}
+              >
+                {f.label}
+              </button>
+            );
+          })}
+          <span className="ml-auto text-xs text-muted-foreground">
+            Showing {totalShown} of {athletexSchoolCount}
+          </span>
+        </div>
+      </section>
+
+      <div className="space-y-16">
+        {filtered.map((region) =>
+          region.schools.length === 0 ? null : (
+            <section key={region.id} aria-labelledby={`region-${region.id}`}>
+              <header className="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-border pb-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--brand-signal)]">
+                    Region
+                  </p>
+                  <h2
+                    id={`region-${region.id}`}
+                    className="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
+                  >
+                    {region.label}
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{region.blurb}</p>
+                </div>
+                <span className="rounded-full border border-border px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {region.schools.length} school{region.schools.length === 1 ? "" : "s"}
+                </span>
+              </header>
+
+              <StaggerGrid className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {region.schools.map((school) => (
+                  <StaggerItem key={`${region.id}-${school.name}`}>
+                    <article className="hover-lift group flex h-full flex-col rounded-2xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-lg">
+                      <h3 className="font-display text-lg font-semibold leading-tight">
+                        {school.name}
+                      </h3>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {school.location}
+                        {school.country !== region.label ? ` · ${school.country}` : ""}
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {school.sports.map((s) => (
+                          <span
+                            key={s}
+                            className="inline-flex items-center rounded-full border border-[color:var(--brand-signal)]/40 bg-[color:var(--brand-signal)]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--brand-signal)]"
+                          >
+                            {sportLabel[s]}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="mt-4 text-sm leading-relaxed text-foreground/80">
+                        {school.note}
+                      </p>
+                    </article>
+                  </StaggerItem>
+                ))}
+              </StaggerGrid>
+            </section>
+          ),
+        )}
+      </div>
+
+      <section
+        aria-label="Next steps"
+        className="mt-20 rounded-3xl border border-[color:var(--brand-signal)]/40 bg-[color:var(--brand-jet)] p-8 text-[color:var(--brand-bone)] sm:p-10"
+      >
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--brand-signal)]">
+          Ready to move
+        </p>
+        <h2 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+          Find the right school for your athlete.
+        </h2>
+        <p className="mt-3 max-w-2xl text-sm text-[color:var(--brand-bone)]/80">
+          Send us the sport, level and target start term — we'll shortlist partner schools with the
+          right pathway and open the scholarship conversation on your behalf.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link
+            to="/athletex/scholarship"
+            className="btn-micro inline-flex min-h-11 items-center rounded-md bg-[color:var(--brand-signal)] px-6 text-sm font-semibold text-[color:var(--brand-bone)] shadow-sm hover:bg-[color:var(--brand-signal)]/90"
+          >
+            Start a scholarship enquiry
+          </Link>
+          <Link
+            to="/enquire/school-placement"
+            className="btn-micro inline-flex min-h-11 items-center rounded-md border border-[color:var(--brand-bone)]/40 px-6 text-sm font-semibold text-[color:var(--brand-bone)] hover:bg-[color:var(--brand-bone)]/10"
+          >
+            General placement enquiry
+          </Link>
+        </div>
+      </section>
+    </PageShell>
+  );
+}
+
+function StatChip({ label, value, small }: { label: string; value: string; small?: boolean }) {
+  return (
+    <div className="rounded-2xl border border-border bg-card p-4">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        {label}
+      </p>
+      <p
+        className={`mt-1 font-display font-semibold tracking-tight text-[color:var(--brand-signal)] ${
+          small ? "text-base sm:text-lg" : "text-2xl sm:text-3xl"
+        }`}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}
