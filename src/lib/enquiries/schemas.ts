@@ -81,6 +81,8 @@ const sports = [
   "Basketball",
   "Tennis",
   "Swimming",
+  "Volleyball",
+  "Athletics or Track",
   "Multi-sport",
   "Other",
 ] as const;
@@ -102,10 +104,11 @@ const currentLevels = [
 ] as const;
 
 const destinations = [
-  "UK boarding school",
-  "US NCAA",
-  "UK university",
-  "Pro / semi-pro pathway",
+  "Boarding School",
+  "Sixth Form College",
+  "University",
+  "University Pathway",
+  "Pro or Semi-Pro Pathway",
   "Unsure",
 ] as const;
 
@@ -113,7 +116,31 @@ const applicantTypes = [
   "Athlete (18+)",
   "Parent / Guardian",
   "Coach / Club",
-  "Scout / Agency",
+] as const;
+
+const exploringOptions = [
+  "Day school",
+  "Boarding",
+  "Sixth Form & Pathway",
+  "Summer or Winter Programme",
+  "Guardianship",
+  "AthleteX",
+  "Not sure yet",
+] as const;
+
+const targetDestinations = [
+  "UK",
+  "USA",
+  "Canada",
+  "Rest of Europe & Beyond",
+  "Not sure yet",
+] as const;
+
+const scoutProposals = [
+  "Trial invitation",
+  "Scholarship offer",
+  "Ongoing scouting relationship",
+  "Other",
 ] as const;
 
 // -- Form schemas ----------------------------------------------------------
@@ -271,19 +298,6 @@ export const athletexSchema = z
       .default(""),
     consent: consentField,
     company_website: honeypotField,
-  })
-  .superRefine((val, ctx) => {
-    if (
-      val.applicant_type === "Scout / Agency" &&
-      (val.scout_context ?? "").trim().length < 20
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["scout_context"],
-        message:
-          "Scouts: tell us the athlete, event and what you're proposing (at least 20 characters).",
-      });
-    }
   });
 
 export const contactSchema = z.object({
@@ -300,17 +314,82 @@ export const contactSchema = z.object({
   company_website: honeypotField,
 });
 
+export const parentEnquirySchema = z.object({
+  kind: z.literal("parent"),
+  parent_name: nameField,
+  email: emailField,
+  phone: phoneField,
+  child_school_year: z
+    .string()
+    .trim()
+    .max(200, "Keep this under 200 characters.")
+    .optional()
+    .default(""),
+  exploring: z.enum(exploringOptions, {
+    errorMap: () => ({ message: "Tell us what you're exploring." }),
+  }),
+  destination: z.enum(targetDestinations, {
+    errorMap: () => ({ message: "Choose a target destination." }),
+  }),
+  destination_other: z
+    .string()
+    .trim()
+    .max(200, "Keep this under 200 characters.")
+    .optional()
+    .default(""),
+  target_start: z.enum(startTerms, {
+    errorMap: () => ({ message: "Choose a target start term." }),
+  }),
+  about_child: messageField,
+  consent: consentField,
+  marketing_opt_in: marketingField,
+  company_website: honeypotField,
+});
+
+export const scoutEnquirySchema = z.object({
+  kind: z.literal("scout"),
+  scout_name: nameField,
+  organisation: z
+    .string()
+    .trim()
+    .min(2, "Enter the organisation name.")
+    .max(120, "Keep the organisation name under 120 characters."),
+  email: emailField,
+  phone: phoneField,
+  country: countryField,
+  athletes_of_interest: z
+    .string()
+    .trim()
+    .min(10, "Tell us which athlete(s) you're interested in.")
+    .max(2000, "Keep this under 2000 characters."),
+  proposal: z.enum(scoutProposals, {
+    errorMap: () => ({ message: "Tell us what you're proposing." }),
+  }),
+  additional_context: z
+    .string()
+    .trim()
+    .max(2000, "Keep this under 2000 characters.")
+    .optional()
+    .default(""),
+  consent: consentField,
+  company_website: honeypotField,
+});
+
 export const enquirySchema = z.union([
   generalEnquirySchema,
   schoolPlacementSchema,
   athletexSchema,
   contactSchema,
+  parentEnquirySchema,
+  scoutEnquirySchema,
 ]);
 
 export type GeneralEnquiryInput = z.input<typeof generalEnquirySchema>;
 export type SchoolPlacementInput = z.input<typeof schoolPlacementSchema>;
 export type AthletexInput = z.input<typeof athletexSchema>;
 export type ContactInput = z.input<typeof contactSchema>;
+export type ParentEnquiryInput = z.input<typeof parentEnquirySchema>;
+export type ScoutEnquiryInput = z.input<typeof scoutEnquirySchema>;
 export type EnquiryInput = z.input<typeof enquirySchema>;
 
 export const enums = {
@@ -321,6 +400,20 @@ export const enums = {
   currentLevels,
   destinations,
   applicantTypes,
+  exploringOptions,
+  targetDestinations,
+  scoutProposals,
+};
+
+export const sportDisciplineLabels: Record<(typeof sports)[number], string> = {
+  Football: "Position (e.g. striker, midfielder)",
+  Basketball: "Position (e.g. guard, forward)",
+  Tennis: "UTR / national ranking",
+  Swimming: "Best times & strokes",
+  Volleyball: "Position (e.g. setter, libero)",
+  "Athletics or Track": "Event(s) & personal bests",
+  "Multi-sport": "Primary discipline",
+  Other: "Position / discipline",
 };
 
 // Small ISO country subset (extend later).

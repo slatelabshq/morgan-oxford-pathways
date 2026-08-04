@@ -23,6 +23,14 @@ const PATHWAYS: Pathway[] = [
     sport: "Swimming",
     body: "Placement into schools with performance swimming programmes, pool access, and coaching support for competitive swimmers.",
   },
+  {
+    sport: "Volleyball",
+    body: "Placement into schools with competitive volleyball programmes and coaching pathways, for players balancing club and school commitments.",
+  },
+  {
+    sport: "Athletics/Track",
+    body: "Access to schools with strong athletics and track programmes, for sprinters, distance runners and field athletes serious about competing at school and beyond.",
+  },
 ];
 
 export const Route = createFileRoute("/athletex/")({

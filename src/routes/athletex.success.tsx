@@ -14,7 +14,12 @@ export const Route = createFileRoute("/athletex/success")({
     <PageShell
       eyebrow="AthleteX"
       title="Success stories."
-      crumbs={[{ label: "Home", to: "/" }, { label: "AthleteX", to: "/athletex" }, { label: "Success" }]}
+      lede="Every athlete's path is different — some are looking for their first serious sporting environment, others are already competing at a representative level. Here's how a few of those journeys have gone."
+      crumbs={[
+        { label: "Home", to: "/" },
+        { label: "AthleteX", to: "/athletex" },
+        { label: "Success" },
+      ]}
     />
   ),
 });

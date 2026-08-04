@@ -8,20 +8,16 @@ type Service = { label: string; body: string };
 
 const SERVICES: Service[] = [
   {
-    label: "K-12 Placement",
-    body: "From primary transitions through to secondary school, we help families find schools that match their child academically, culturally, and personally. We take the time to understand long-term aspirations — not just this year's report card — so the school we recommend is one your child can genuinely grow into.",
+    label: "K-12 & Boarding School Placement",
+    body: "From primary transitions through to secondary and boarding, we help families find schools that match their child academically, culturally, and personally.",
   },
   {
-    label: "Boarding School Placement",
-    body: "Boarding is a significant step, and we treat it as one. We guide families through the UK's boarding system in particular — a landscape with schools whose academic traditions stretch back centuries — helping you weigh pastoral care, house culture, and academic rigour alongside each other, not in isolation.",
+    label: "Pathway Placement",
+    body: "For students preparing for IGCSE, A-Levels, the IB Diploma, or an International Foundation Year, we connect families with pathway providers and sixth-form colleges that build the right foundation for what comes next.",
   },
   {
-    label: "Pathway College Placement",
-    body: "For students preparing for IGCSE, A-Levels, the IB Diploma, or an International Foundation Year, we connect families with pathway providers and sixth-form colleges that build the right academic foundation for what comes next — with genuine advantages that are social, academic, and supportive in equal measure.",
-  },
-  {
-    label: "Summer & Winter Schools",
-    body: "Short-term, high-impact. For families who want their child to experience an international academic environment — or simply build confidence and independence — before committing to a full placement, we arrange summer and winter school programmes with trusted partner institutions abroad.",
+    label: "Summer & Winter Programs",
+    body: "Short-term, high-impact. For families who want their child to experience an international academic environment — or simply build confidence and independence — before committing to a full placement, we arrange summer and winter programmes with trusted partner institutions abroad.",
   },
   {
     label: "Student Exchange Programmes",
@@ -32,21 +28,21 @@ const SERVICES: Service[] = [
 const HOW_WE_WORK = [
   { n: 1, t: "Consultation", b: "we get to know your child through a detailed questionnaire and conversation" },
   { n: 2, t: "Recommendation", b: "a shortlist of schools matched to their strengths and your family's priorities" },
-  { n: 3, t: "Introduction", b: "we make direct contact with your chosen schools on your behalf" },
+  { n: 3, t: "Application", b: "we make direct contact with your chosen schools and manage the application on your behalf" },
   { n: 4, t: "Preparation", b: "entrance exam and interview support through our partner tutors" },
-  { n: 5, t: "Ongoing support", b: "visas, guardianship, and school visits, from offer through to settling in" },
+  { n: 5, t: "Visa Support", b: "we manage the visa process end-to-end once your child has an offer" },
 ];
 
 export const Route = createFileRoute("/programmes/")({
   head: () => ({
     meta: [
-      { title: "Services — Morgan Oxford Education" },
+      { title: "Programmes — Morgan Oxford Education" },
       {
         name: "description",
         content:
-          "School placement, done properly — K-12, boarding, pathway college, summer/winter schools, and student exchange programmes.",
+          "School placement, done properly — K-12 & boarding, pathway placement, summer/winter programs, and student exchange programmes.",
       },
-      { property: "og:title", content: "Services — Morgan Oxford" },
+      { property: "og:title", content: "Programmes — Morgan Oxford" },
       {
         property: "og:description",
         content:
@@ -57,10 +53,10 @@ export const Route = createFileRoute("/programmes/")({
   component: () => (
     <PageShell
       hero={HERO.programmes}
-      eyebrow="Services"
+      eyebrow="Programmes"
       title="School placement, done"
       lede="International school admissions can feel like a maze of curricula, entry requirements, and unfamiliar systems. We've spent over a decade building the relationships and know-how to cut through that — so you make a confident decision, not a rushed one."
-      crumbs={[{ label: "Home", to: "/" }, { label: "Services" }]}
+      crumbs={[{ label: "Home", to: "/" }, { label: "Programmes" }]}
     >
       <StaggerGrid className="grid gap-6 md:grid-cols-2">
         {SERVICES.map((s) => (

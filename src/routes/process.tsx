@@ -15,8 +15,8 @@ const STEPS = [
   },
   {
     n: 3,
-    title: "Introduction",
-    body: "Once you've chosen a direction, we make contact with your shortlisted schools directly, opening the door on your behalf.",
+    title: "Application",
+    body: "Once you've chosen a direction, we make contact with your shortlisted schools directly and manage the application on your behalf.",
   },
   {
     n: 4,
@@ -25,19 +25,19 @@ const STEPS = [
   },
   {
     n: 5,
-    title: "Ongoing Support",
-    body: "From visas and guardianship arrangements through to organising school visits wherever possible, we stay involved until your child is settled — not just until the offer letter arrives.",
+    title: "Visa Support",
+    body: "Once your child has an offer, we manage the visa process end-to-end — the paperwork, the timelines, and the follow-up with the relevant consulate.",
   },
 ];
 
 export const Route = createFileRoute("/process")({
   head: () => ({
     meta: [
-      { title: "Process — From first conversation to first day" },
+      { title: "Process — From first conversation to enrollment" },
       {
         name: "description",
         content:
-          "Every placement follows the same careful process — consultation, recommendation, introduction, preparation, and ongoing support.",
+          "Every placement follows the same careful process — consultation, recommendation, application, preparation, and visa support.",
       },
       { property: "og:title", content: "The Morgan Oxford placement process" },
       {
@@ -82,7 +82,16 @@ export const Route = createFileRoute("/process")({
         </ol>
       </div>
 
-      <div className="mt-12">
+      <p className="mt-10 text-base leading-relaxed text-muted-foreground">
+        Looking for guardianship, tutoring, or accommodation support too? These are offered as
+        separate, dedicated services — see{" "}
+        <Link to="/programmes" className="font-semibold text-foreground underline">
+          Programmes
+        </Link>{" "}
+        for details.
+      </p>
+
+      <div className="mt-8">
         <Link
           to="/enquire/contact"
           className="btn-glow inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"

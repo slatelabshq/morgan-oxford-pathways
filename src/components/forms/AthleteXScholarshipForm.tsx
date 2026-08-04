@@ -6,6 +6,7 @@ import {
   athletexSchema,
   countries,
   enums,
+  sportDisciplineLabels,
   type AthletexInput,
 } from "@/lib/enquiries/schemas";
 import { submitEnquiry } from "@/lib/enquiries/submit";
@@ -29,7 +30,6 @@ const fieldOrder: (keyof AthletexInput & string)[] = [
   "highlight_url",
   "target_destination",
   "available_from",
-  "scout_context",
   "consent",
 ];
 
@@ -44,11 +44,14 @@ export function AthleteXScholarshipForm() {
     setFocus,
   } = useForm<AthletexInput>({
     resolver: zodResolver(athletexSchema),
-    defaultValues: { kind: "athletex", company_website: "" },
+    defaultValues: { kind: "athletex", company_website: "", scout_context: "" },
   });
 
-  const applicantType = watch("applicant_type");
-  const isScout = applicantType === "Scout / Agency";
+  const selectedSport = watch("sport");
+  const disciplineLabel =
+    selectedSport && selectedSport in sportDisciplineLabels
+      ? sportDisciplineLabels[selectedSport as keyof typeof sportDisciplineLabels]
+      : "Position / discipline";
 
   const onSubmit = handleSubmit(
     async (data) => {
@@ -203,7 +206,7 @@ export function AthleteXScholarshipForm() {
         </Field>
         <Field
           id="position_or_discipline"
-          label="Position / discipline"
+          label={disciplineLabel}
           required
           error={errors.position_or_discipline?.message}
         >
@@ -267,7 +270,7 @@ export function AthleteXScholarshipForm() {
         </Field>
         <Field
           id="highlight_url"
-          label="Highlight video URL"
+          label="Video URL"
           hint="Optional. YouTube, Vimeo, Hudl or Instagram."
           error={errors.highlight_url?.message}
           className="md:col-span-2"
@@ -332,23 +335,6 @@ export function AthleteXScholarshipForm() {
                 </option>
               ))}
             </NativeSelect>
-          )}
-        </Field>
-        <Field
-          id="scout_context"
-          label={isScout ? "Scout context" : "Scout context (optional)"}
-          required={isScout}
-          hint="Scouts: tell us the athlete, event and what you're proposing."
-          error={errors.scout_context?.message}
-          className="md:col-span-2"
-        >
-          {(p) => (
-            <TextArea
-              rows={4}
-              {...p}
-              {...register("scout_context")}
-              name="scout_context"
-            />
           )}
         </Field>
       </Fieldset>

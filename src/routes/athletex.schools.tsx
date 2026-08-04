@@ -6,14 +6,18 @@ import { HERO } from "@/lib/hero-images";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
 import {
-  athletexRegions,
-  athletexSchoolCount,
+  partnerRegions,
+  partnerSchoolCount,
   sportLabel,
+  sportFilters,
   type Sport,
 } from "@/lib/athletex-schools";
 
 const searchSchema = z.object({
-  sport: fallback(z.enum(["all", "soccer", "basketball", "swimming"]), "all").default("all"),
+  sport: fallback(
+    z.enum(["all", "football", "basketball", "tennis", "swimming", "volleyball", "athletics"]),
+    "all",
+  ).default("all"),
 });
 
 export const Route = createFileRoute("/athletex/schools")({
@@ -23,7 +27,7 @@ export const Route = createFileRoute("/athletex/schools")({
       { title: "Partner sports-specialist schools — AthleteX" },
       {
         name: "description",
-        content: `${athletexSchoolCount} partner schools across the UK, Canada, USA and Europe with soccer, basketball and swimming pathways.`,
+        content: `${partnerSchoolCount} partner schools across the UK, Canada, USA and Europe with football, basketball, tennis, swimming, volleyball and athletics pathways.`,
       },
       { property: "og:title", content: "AthleteX partner schools" },
       {
@@ -35,20 +39,14 @@ export const Route = createFileRoute("/athletex/schools")({
   component: SchoolsPage,
 });
 
-const sportFilters: { value: "all" | Sport; label: string }[] = [
-  { value: "all", label: "All sports" },
-  { value: "soccer", label: "Soccer" },
-  { value: "basketball", label: "Basketball" },
-  { value: "swimming", label: "Swimming" },
-];
-
 function SchoolsPage() {
   const { sport } = Route.useSearch();
   const navigate = Route.useNavigate();
 
-  const filtered = athletexRegions.map((r) => ({
+  const filtered = partnerRegions.map((r) => ({
     ...r,
-    schools: sport === "all" ? r.schools : r.schools.filter((s) => s.sports.includes(sport)),
+    schools:
+      sport === "all" ? r.schools : r.schools.filter((s) => s.sports.includes(sport as Sport)),
   }));
   const totalShown = filtered.reduce((n, r) => n + r.schools.length, 0);
 
@@ -57,20 +55,25 @@ function SchoolsPage() {
       hero={HERO.athletex}
       zone="athletex"
       eyebrow="AthleteX"
-      title="Partner schools."
-      lede={`${athletexSchoolCount} independent schools across the UK, Canada, USA and Europe with credible soccer, basketball and swimming pathways.`}
+      title="The right school for your"
+      lede={`${partnerSchoolCount} independent schools across the UK, Canada, USA and Europe with credible football, basketball, tennis, swimming, volleyball and athletics pathways.`}
       crumbs={[
         { label: "Home", to: "/" },
         { label: "AthleteX", to: "/athletex" },
         { label: "Schools" },
       ]}
     >
+      <p className="mb-10 max-w-3xl text-base leading-relaxed text-muted-foreground">
+        A number of our partner schools hold their own direct arrangements with professional club
+        academies — including Paris Saint-Germain, Manchester United, and Manchester City — for
+        specialist training programmes.
+      </p>
+
       <section aria-label="Network at a glance" className="mb-12">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <StatChip label="Partner schools" value={String(athletexSchoolCount)} />
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <StatChip label="Partner schools" value={String(partnerSchoolCount)} />
           <StatChip label="Regions" value="4" />
-          <StatChip label="Sports" value="3" />
-          <StatChip label="Elite partners" value="PSG · MUFC · MCFC" small />
+          <StatChip label="Sports" value="6" />
         </div>
       </section>
 
@@ -98,7 +101,7 @@ function SchoolsPage() {
             );
           })}
           <span className="ml-auto text-xs text-muted-foreground">
-            Showing {totalShown} of {athletexSchoolCount}
+            Showing {totalShown} of {partnerSchoolCount}
           </span>
         </div>
       </section>
@@ -180,7 +183,7 @@ function SchoolsPage() {
             Start a scholarship enquiry
           </Link>
           <Link
-            to="/enquire/school-placement"
+            to="/enquire/contact"
             className="btn-micro inline-flex min-h-11 items-center rounded-md border border-[color:var(--brand-bone)]/40 px-6 text-sm font-semibold text-[color:var(--brand-bone)] hover:bg-[color:var(--brand-bone)]/10"
           >
             General placement enquiry
@@ -191,17 +194,13 @@ function SchoolsPage() {
   );
 }
 
-function StatChip({ label, value, small }: { label: string; value: string; small?: boolean }) {
+function StatChip({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-border bg-card p-4">
       <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
         {label}
       </p>
-      <p
-        className={`mt-1 font-display font-semibold tracking-tight text-[color:var(--brand-signal)] ${
-          small ? "text-base sm:text-lg" : "text-2xl sm:text-3xl"
-        }`}
-      >
+      <p className="mt-1 font-display text-2xl font-semibold tracking-tight text-[color:var(--brand-signal)] sm:text-3xl">
         {value}
       </p>
     </div>

@@ -15,7 +15,7 @@ export const Route = createFileRoute("/insights/")({
     <PageShell
       hero={HERO.insights}
       eyebrow="Insights"
-      title="Guides, case studies,"
+      title="Guides and real outcomes,"
       lede="Long-form thinking from the placement desk."
       crumbs={[{ label: "Home", to: "/" }, { label: "Insights" }]}
     />

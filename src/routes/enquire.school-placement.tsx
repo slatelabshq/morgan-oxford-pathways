@@ -8,7 +8,7 @@ export const Route = createFileRoute("/enquire/school-placement")({
       {
         name: "description",
         content:
-          "Start a UK school placement enquiry with Morgan Oxford Education — day, boarding, sixth form. A consultant replies within one working day.",
+          "Start a UK school placement enquiry with Morgan Oxford Education — day, boarding, sixth form. A consultant replies within 48 hours.",
       },
       {
         property: "og:title",
@@ -45,7 +45,7 @@ function Page() {
         </h1>
         <p className="mt-3 max-w-xl text-muted-foreground">
           Tell us about the student and what you're aiming for. A consultant will
-          reply within one working day.
+          reply within 48 hours.
         </p>
       </header>
       <SchoolPlacementForm />

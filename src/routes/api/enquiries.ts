@@ -134,15 +134,22 @@ export const Route = createFileRoute("/api/enquiries")({
         const { kind, ...payload } = input as Record<string, unknown> & {
           kind: string;
         };
-        const email = String((payload as Record<string, unknown>).email ?? "");
+        const email = String(
+          (payload as Record<string, unknown>).email ??
+            (payload as Record<string, unknown>).parent_email ??
+            "",
+        );
         delete (payload as Record<string, unknown>).company_website;
 
+        const dbKind =
+          kind === "parent"
+            ? "contact"
+            : kind === "scout"
+              ? "general"
+              : (kind as "general" | "school_placement" | "athletex" | "contact");
+
         const { error } = await supabaseAdmin.from("enquiries").insert({
-          kind: kind as
-            | "general"
-            | "school_placement"
-            | "athletex"
-            | "contact",
+          kind: dbKind,
           ref,
           email: email || `unknown+${ref}@morganoxford.local`,
           payload: payload as never,

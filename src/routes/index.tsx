@@ -11,13 +11,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "For 13 years, Morgan Oxford Education has guided families through international school placement — matching students to the right school, in the right country, for the right reasons.",
+          "For 13 years, Morgan Oxford Education has guided Nigerian and international families through school placement in the UK, USA, Canada and beyond — matching every child to the right school, for the right reasons.",
       },
       { property: "og:title", content: "Morgan Oxford Education" },
       {
         property: "og:description",
         content:
-          "Independent international school placement — Oxford, Lagos, Cairo. ICEF-accredited, 13 years of guiding families.",
+          "Independent international school placement, run from Oxford and across Nigeria. ICEF-accredited. 13 years of guiding families.",
       },
     ],
   }),
@@ -27,8 +27,8 @@ export const Route = createFileRoute("/")({
 const TRUST = [
   { value: "13", label: "Years guiding families" },
   { value: "ICEF", label: "Accredited agency" },
-  { value: "3", label: "Global offices · Oxford · Lagos · Cairo" },
-  { value: "48h", label: "Response on every enquiry" },
+  { value: "4", label: "Offices · Oxford, Lagos, Abuja & Port Harcourt" },
+  { value: "48h", label: "We reply within 48 hours" },
 ];
 
 function Home() {
@@ -36,8 +36,8 @@ function Home() {
     <main id="main">
       <PageHero
         image={HERO.home}
-        eyebrow="Oxford · Lagos · Cairo · Est. 2011"
-        title="Every child's next school should feel"
+        eyebrow="Oxford · Lagos · Abuja · Port Harcourt · Est. 2013"
+        title="Your child's dream school is now"
         lede="For 13 years, Morgan Oxford Education has guided families through the world of international school placement — matching students to the right school, in the right country, for the right reasons."
       >
         <div className="flex flex-wrap gap-3">
@@ -140,7 +140,7 @@ function Home() {
             to="/enquire/contact"
             className="btn-glow inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
           >
-            Begin the conversation →
+            Talk to us about your child →
           </Link>
         </div>
       </section>

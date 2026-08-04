@@ -1,13 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 
-const SPORTS = ["football", "rugby", "tennis", "athletics", "cricket", "hockey", "swimming"] as const;
+const SPORTS = [
+  "football",
+  "basketball",
+  "tennis",
+  "swimming",
+  "volleyball",
+  "athletics",
+] as const;
 
 export const Route = createFileRoute("/athletex/sports/")({
   head: () => ({
     meta: [
       { title: "AthleteX sports" },
-      { name: "description", content: "Sports covered by the AthleteX pathway: football, rugby, tennis, athletics, cricket, hockey, swimming." },
+      {
+        name: "description",
+        content:
+          "Sports covered by the AthleteX pathway: football, basketball, tennis, swimming, volleyball, athletics/track.",
+      },
       { property: "og:title", content: "AthleteX sports" },
       { property: "og:description", content: "Sports covered by the AthleteX pathway." },
     ],
@@ -26,7 +37,7 @@ export const Route = createFileRoute("/athletex/sports/")({
               params={{ sport: s }}
               className="inline-flex rounded-full border border-border bg-card px-4 py-2 text-sm font-medium capitalize transition-colors hover:border-primary hover:text-primary"
             >
-              {s}
+              {s === "athletics" ? "Athletics/Track" : s}
             </Link>
           </li>
         ))}

@@ -1,23 +1,35 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import { ContactForm } from "@/components/forms/ContactForm";
 import { PageShell } from "@/components/site/PageShell";
 import { HERO } from "@/lib/hero-images";
 
 const OFFICES = [
   {
-    country: "United Kingdom",
+    city: "Oxford",
     address: "54 Davenant Road, Oxford OX2 8BY, United Kingdom",
     phone: "+44 (0)7710 763474",
     phoneHref: "tel:+447710763474",
     email: "enquiries@morganoxfordeducation.co.uk",
   },
   {
-    country: "Nigeria",
-    address:
-      "Rooftop, 33 Kofo Abayomi Street, Victoria Island, Lagos 100001",
+    city: "Lagos",
+    address: "10, Ologun Agbaje, Victoria Island, Lagos",
     phone: "+234 (0)806 527 7726",
     phoneHref: "tel:+2348065277726",
+    email: "enquiries@morganoxfordeducation.co.uk",
+  },
+  {
+    city: "Abuja",
+    address: "Address to be confirmed",
+    phone: null,
+    phoneHref: null,
+    email: "enquiries@morganoxfordeducation.co.uk",
+  },
+  {
+    city: "Port Harcourt",
+    address: "Address to be confirmed",
+    phone: null,
+    phoneHref: null,
     email: "enquiries@morganoxfordeducation.co.uk",
   },
 ];
@@ -32,13 +44,12 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Speak to Morgan Oxford Education. Offices in Oxford and Lagos. We respond to every enquiry within two working days.",
+          "Speak to Morgan Oxford Education. Offices in Oxford, Lagos, Abuja and Port Harcourt. We respond within 48 hours.",
       },
       { property: "og:title", content: "Contact — Morgan Oxford Education" },
       {
         property: "og:description",
-        content:
-          "Offices in Oxford and Lagos. We respond within two working days.",
+        content: "Offices across Oxford and Nigeria. We respond within 48 hours.",
       },
     ],
   }),
@@ -50,54 +61,60 @@ function ContactPage() {
     <PageShell
       hero={HERO.contact}
       eyebrow="Contact"
-      title="Begin the conversation"
-      lede="Tell us a little about your goals. A consultant will respond within two working days."
+      title="Let's begin"
+      lede="A consultant will respond within 48 hours."
       crumbs={[{ label: "Home", to: "/" }, { label: "Contact" }]}
     >
       <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr]">
-        {/* Form */}
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
-            Enquiry
+            Enquire
           </p>
           <h2 className="mt-3 font-display text-2xl font-semibold sm:text-3xl">
-            Send us a message
+            Parents — start here
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            Share a few details about the student or opportunity you have in
-            mind. We'll come back to you within two working days.
+            Tell us about your child and what you're exploring. We'll come back to you within 48
+            hours.
           </p>
-          <div className="contact-form-glow mt-8 [&_button[type=submit]]:btn-glow">
-            <ContactForm />
+          <div className="mt-6">
+            <Link
+              to="/enquire/contact"
+              className="btn-glow inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+            >
+              Tell us about your child →
+            </Link>
           </div>
+          <p className="mt-6 text-sm text-muted-foreground">
+            Schools, agents, or something else?{" "}
+            <Link to="/enquire" className="font-semibold text-foreground underline">
+              Use our general enquiry form →
+            </Link>
+          </p>
         </div>
 
-        {/* Offices */}
         <aside className="space-y-6">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
             Our offices
           </p>
 
           {OFFICES.map((o) => (
-            <article
-              key={o.country}
-              className="glass card-glow rounded-3xl p-6"
-            >
-              <h3 className="font-display text-lg font-semibold">
-                {o.country}
-              </h3>
+            <article key={o.city} className="glass card-glow rounded-3xl p-6">
+              <h3 className="font-display text-lg font-semibold">{o.city}</h3>
               <div className="mt-4 space-y-3 text-sm">
                 <p className="flex items-start gap-3 text-muted-foreground">
                   <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-[color:var(--brand-gold)]" />
                   <span>{o.address}</span>
                 </p>
-                <a
-                  href={o.phoneHref}
-                  className="flex items-center gap-3 text-foreground hover:text-[color:var(--brand-gold)]"
-                >
-                  <Phone className="h-4 w-4 flex-shrink-0 text-[color:var(--brand-gold)]" />
-                  {o.phone}
-                </a>
+                {o.phone && o.phoneHref ? (
+                  <a
+                    href={o.phoneHref}
+                    className="flex items-center gap-3 text-foreground hover:text-[color:var(--brand-gold)]"
+                  >
+                    <Phone className="h-4 w-4 flex-shrink-0 text-[color:var(--brand-gold)]" />
+                    {o.phone}
+                  </a>
+                ) : null}
                 <a
                   href={`mailto:${o.email}`}
                   className="flex items-center gap-3 break-all text-foreground hover:text-[color:var(--brand-gold)]"
@@ -120,9 +137,7 @@ function ContactPage() {
               <span className="block text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--brand-gold)]">
                 WhatsApp
               </span>
-              <span className="mt-1 block font-medium text-foreground">
-                {WHATSAPP_DISPLAY}
-              </span>
+              <span className="mt-1 block font-medium text-foreground">{WHATSAPP_DISPLAY}</span>
             </span>
           </a>
 

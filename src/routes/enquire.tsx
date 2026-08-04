@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GeneralEnquiryForm } from "@/components/forms/GeneralEnquiryForm";
-import { ContactForm } from "@/components/forms/ContactForm";
 
 export const Route = createFileRoute("/enquire")({
   head: () => ({
@@ -58,7 +57,7 @@ function EnquirePage() {
         </p>
       </header>
 
-      <section aria-labelledby="general-heading" className="mb-16">
+      <section aria-labelledby="general-heading">
         <h2
           id="general-heading"
           className="mb-4 text-lg font-semibold text-foreground"
@@ -66,16 +65,6 @@ function EnquirePage() {
           General enquiry
         </h2>
         <GeneralEnquiryForm />
-      </section>
-
-      <section aria-labelledby="contact-heading">
-        <h2
-          id="contact-heading"
-          className="mb-4 text-lg font-semibold text-foreground"
-        >
-          Contact us
-        </h2>
-        <ContactForm />
       </section>
     </main>
   );

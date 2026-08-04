@@ -3,7 +3,7 @@ import { z } from "zod";
 
 const searchSchema = z.object({
   kind: z
-    .enum(["general", "school_placement", "athletex", "contact"])
+    .enum(["general", "school_placement", "athletex", "contact", "parent", "scout"])
     .optional(),
   ref: z.string().optional(),
   error: z.string().optional(),
@@ -37,23 +37,33 @@ const copy: Record<
   { title: string; body: string; cta?: { to: string; label: string } }
 > = {
   general: {
-    title: "Thanks — we'll be in touch within 2 working days.",
+    title: "Thanks — we'll be in touch within 48 hours.",
+    body: "Your enquiry is with the Morgan Oxford team. Keep an eye on your inbox (and spam folder just in case).",
+    cta: { to: "/", label: "Back to home" },
+  },
+  parent: {
+    title: "Thanks — we'll be in touch within 48 hours.",
     body: "Your enquiry is with the Morgan Oxford team. Keep an eye on your inbox (and spam folder just in case).",
     cta: { to: "/", label: "Back to home" },
   },
   school_placement: {
     title: "Placement enquiry received.",
-    body: "A consultant will call you within 1 working day to talk through options.",
+    body: "A consultant will be in touch within 48 hours to talk through options.",
     cta: { to: "/", label: "Back to home" },
   },
   athletex: {
     title: "Application logged.",
-    body: "The AthleteX scouting desk will review within 3 working days and be in touch.",
-    cta: { to: "/enquire", label: "Explore CORE placements" },
+    body: "The AthleteX scouting desk will review your application and be in touch within 48 hours.",
+    cta: { to: "/athletex", label: "Back to AthleteX" },
+  },
+  scout: {
+    title: "Enquiry received.",
+    body: "The AthleteX scouting desk will be in touch within 48 hours.",
+    cta: { to: "/athletex/scouts", label: "Back to scouts" },
   },
   contact: {
     title: "Message received.",
-    body: "Expect a reply within 2 working days.",
+    body: "Expect a reply within 48 hours.",
     cta: { to: "/", label: "Back to home" },
   },
 };
