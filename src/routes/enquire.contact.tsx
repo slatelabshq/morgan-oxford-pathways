@@ -6,13 +6,13 @@ import { HERO } from "@/lib/hero-images";
 export const Route = createFileRoute("/enquire/contact")({
   head: () => ({
     meta: [
-      { title: "Tell us about your child — Morgan Oxford Education" },
+      { title: "Talk to Us — Morgan Oxford Education" },
       {
         name: "description",
         content:
           "Tell us about your child and we'll be in touch within 48 hours. Offices in Oxford, Lagos, Abuja and Port Harcourt.",
       },
-      { property: "og:title", content: "Parent enquiry — Morgan Oxford Education" },
+      { property: "og:title", content: "Talk to Us — Morgan Oxford Education" },
       {
         property: "og:description",
         content: "We'll be in touch within 48 hours.",
@@ -21,9 +21,9 @@ export const Route = createFileRoute("/enquire/contact")({
   }),
   component: () => (
     <PageShell
-      hero={HERO.contact}
+      hero={{ ...HERO.contact, titleAccent: undefined }}
       eyebrow="Enquire"
-      title="Tell us about your child."
+      title="Talk to Us"
       lede="Share a few details and we'll be in touch within 48 hours."
       crumbs={[
         { label: "Home", to: "/" },

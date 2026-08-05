@@ -127,3 +127,5 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | UI.11 | Point all `/enquire/school-placement` links to `/enquire/contact` | ✅ |
 | UI.12 | Programmes / Destinations / Process heroes — accent keyword on same line as title | ✅ |
 | UI.13 | AthleteX schools hero — “rest of Europe and beyond” (was “Europe”) | ✅ |
+| UI.14 | `/enquire/contact` hero title → “Talk to Us” | ✅ |
+| UI.15 | Fix hero images blank until hard refresh / remount (cached `onLoad` miss) | ✅ |

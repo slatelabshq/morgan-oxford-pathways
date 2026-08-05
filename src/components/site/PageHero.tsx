@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 import { cn } from "@/lib/utils";
@@ -39,6 +39,25 @@ export function PageHero({
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState<Set<string>>(() => new Set());
 
+  const markLoaded = useCallback((src: string) => {
+    if (!src) return;
+    setLoaded((prev) => {
+      if (prev.has(src)) return prev;
+      const next = new Set(prev);
+      next.add(src);
+      return next;
+    });
+  }, []);
+
+  // Cached / SSR-hydrated images often skip onLoad — catch those via .complete.
+  const bindImageRef = useCallback(
+    (src: string) => (el: HTMLImageElement | null) => {
+      if (!el || !src) return;
+      if (el.complete && el.naturalWidth > 0) markLoaded(src);
+    },
+    [markLoaded],
+  );
+
   useEffect(() => {
     if (reduced || sources.length <= 1) return;
     const id = window.setInterval(() => {
@@ -55,33 +74,31 @@ export function PageHero({
       if (!src) return;
       const img = new Image();
       img.decoding = "async";
+      img.onload = () => markLoaded(src);
       img.src = src;
+      if (img.complete && img.naturalWidth > 0) markLoaded(src);
       warmers.push(img);
     });
     return () => {
       warmers.forEach((img) => {
+        img.onload = null;
         img.src = "";
       });
     };
-  }, [sources]);
-
-  const markLoaded = (src: string) =>
-    setLoaded((prev) => {
-      if (prev.has(src)) return prev;
-      const next = new Set(prev);
-      next.add(src);
-      return next;
-    });
+  }, [sources, markLoaded]);
 
   return (
     <section
       className="relative w-full overflow-hidden"
       aria-label={eyebrow ? `${eyebrow} — ${title}` : title}
     >
-      {/* Rotating image stack with crossfade + Ken Burns on the active layer */}
+      {/* Rotating image stack with crossfade + Ken Burns on the active layer.
+          Active slide is always visible (opacity by index only) so a missed
+          onLoad can never leave the hero blank. */}
       <div className="absolute inset-0" aria-hidden={image.alt ? undefined : true}>
         {sources.map((src, i) => {
-          const isActive = i === index && loaded.has(src);
+          const isActive = i === index;
+          const isReady = !src || loaded.has(src);
           return (
             <motion.div
               key={src + i}
@@ -91,22 +108,25 @@ export function PageHero({
               transition={{ duration: 1.1, ease: "easeInOut" }}
             >
               <motion.img
+                ref={bindImageRef(src)}
                 src={src}
                 alt={i === 0 ? image.alt : ""}
-                loading="eager"
-                fetchPriority={i === 0 ? "high" : "auto"}
+                loading={i === 0 ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : "low"}
                 decoding="async"
                 onLoad={() => markLoaded(src)}
+                onError={() => markLoaded(src)}
                 className="h-full w-full object-cover"
                 initial={reduced ? false : { scale: 1.08 }}
-                animate={reduced ? undefined : { scale: isActive ? 1 : 1.08 }}
+                animate={
+                  reduced ? undefined : { scale: isActive && isReady ? 1 : 1.08 }
+                }
                 transition={{ duration: 6, ease: "easeOut" }}
               />
             </motion.div>
           );
         })}
       </div>
-
 
       {/* Navy / jet gradient wash */}
       <div
@@ -119,11 +139,9 @@ export function PageHero({
         )}
       />
 
-
       {/* Content — flows naturally so tall content on narrow screens is never clipped */}
       <div className="relative flex min-h-[520px] items-end sm:min-h-[560px] lg:min-h-[640px]">
         <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-20 sm:px-6 sm:pb-14 sm:pt-24 lg:px-8 lg:pb-20">
-
           <motion.div
             initial={reduced ? false : { opacity: 0, y: 16 }}
             animate={reduced ? undefined : { opacity: 1, y: 0 }}
