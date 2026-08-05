@@ -27,7 +27,7 @@ export const Route = createFileRoute("/athletex/schools")({
       { title: "Partner sports-specialist schools — AthleteX" },
       {
         name: "description",
-        content: `${partnerSchoolCount} partner schools across the UK, Canada, USA and Europe with football, basketball, tennis, swimming, volleyball and athletics pathways.`,
+        content: `${partnerSchoolCount} partner schools across the UK, Canada, USA and the rest of Europe and beyond with football, basketball, tennis, swimming, volleyball and athletics pathways.`,
       },
       { property: "og:title", content: "AthleteX partner schools" },
       {
@@ -55,8 +55,8 @@ function SchoolsPage() {
       hero={HERO.athletex}
       zone="athletex"
       eyebrow="AthleteX"
-      title="The right school for your"
-      lede={`${partnerSchoolCount} independent schools across the UK, Canada, USA and Europe with credible football, basketball, tennis, swimming, volleyball and athletics pathways.`}
+      title="The right school for"
+      lede={`${partnerSchoolCount} independent schools across the UK, Canada, USA and the rest of Europe and beyond with credible football, basketball, tennis, swimming, volleyball and athletics pathways.`}
       crumbs={[
         { label: "Home", to: "/" },
         { label: "AthleteX", to: "/athletex" },
@@ -88,7 +88,13 @@ function SchoolsPage() {
               <button
                 key={f.value}
                 type="button"
-                onClick={() => navigate({ search: { sport: f.value } })}
+                onClick={() =>
+                  navigate({
+                    search: { sport: f.value },
+                    replace: true,
+                    resetScroll: false,
+                  })
+                }
                 aria-pressed={active}
                 className={`btn-micro rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
                   active

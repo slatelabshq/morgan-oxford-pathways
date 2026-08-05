@@ -162,7 +162,7 @@ function FeatureFiltering() {
       criteria={[
         <>Filters visible on <Code>/schools</Code> and <Code>/programmes</Code> index pages.</>,
         <>State stored in URL query (<Code>?age=13&type=boarding&region=south</Code>) so links are shareable and back-button safe.</>,
-        <>Empty-result state offers <em>"Enquire and we'll shortlist for you"</em> → <Code>/enquire/school-placement</Code>.</>,
+        <>Empty-result state offers <em>"Enquire and we'll shortlist for you"</em> → <Code>/enquire/contact</Code>.</>,
         <>Comparison view (<Code>/schools/compare?a=&b=&c=</Code>) accepts up to 3 school slugs.</>,
         <>Loader-driven filtering so results are SSR'd and indexable.</>,
       ]}

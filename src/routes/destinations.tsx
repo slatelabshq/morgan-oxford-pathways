@@ -24,9 +24,8 @@ const DESTINATIONS = [
   },
   {
     label: "Canada",
-    image:
-      "https://images.unsplash.com/photo-1517935708355-206722a1a9fd?auto=format&fit=crop&w=1600&q=80",
-    alt: "Canadian school campus and skyline",
+    image: "/destinations/canada.jpg",
+    alt: "Toronto skyline and harbour representing Canadian school destinations",
     blurb: "Academic rigour at a lower cost of living than the US or UK.",
     body: "Canada's boarding and day schools are a strong option for families weighing academic rigour against a lower cost of living than the US or UK.",
   },
@@ -62,10 +61,10 @@ export const Route = createFileRoute("/destinations")({
 function DestinationsPage() {
   return (
     <PageShell
-      hero={HERO.schools}
+      hero={HERO.destinations}
       eyebrow="Destinations"
-      title="Where in the world is right for your"
-      lede="The best destination depends on your child, not a league table. We help families weigh up academic systems, culture, cost, and long-term goals across our core destinations."
+      title="Where in the world is right for"
+      lede="We help families weigh up academic systems, culture, cost, and long-term goals across our core destinations."
       crumbs={[{ label: "Home", to: "/" }, { label: "Destinations" }]}
     >
       <StaggerGrid className="grid gap-8 md:grid-cols-2">

@@ -76,6 +76,16 @@ const startTerms = [
   "Unsure",
 ] as const;
 
+const placementStartTerms = [
+  "September 2026",
+  "January 2027",
+  "September 2027",
+  "Later",
+  "Unsure",
+] as const;
+
+const phoneCodes = ["+234", "+44", "+1", "+233", "+other"] as const;
+
 const sports = [
   "Football",
   "Basketball",
@@ -165,52 +175,27 @@ export const generalEnquirySchema = z.object({
 export const schoolPlacementSchema = z.object({
   kind: z.literal("school_placement"),
   parent_name: nameField,
-  parent_email: emailField,
-  parent_phone: phoneField.refine(() => true, {
-    message: "We need a phone number for placement calls.",
+  email: emailField,
+  phone_code: z.enum(phoneCodes, {
+    errorMap: () => ({ message: "Choose a country code." }),
   }),
-  country: countryField,
-  student_first_name: z
+  phone_number: z
     .string()
     .trim()
-    .min(2, "Enter the student's first name.")
-    .max(40, "Enter the student's first name."),
-  student_age: z
-    .coerce.number({ invalid_type_error: "Student age must be between 4 and 24." })
-    .int("Student age must be between 4 and 24.")
-    .min(4, "Student age must be between 4 and 24.")
-    .max(24, "Student age must be between 4 and 24."),
-  current_year_group: z.enum(yearGroups, {
-    errorMap: () => ({ message: "Select the current year group." }),
-  }),
-  target_start: z.enum(startTerms, {
-    errorMap: () => ({ message: "Choose when the student would start." }),
-  }),
-  school_preferences: z
+    .min(6, "Please enter a phone number.")
+    .max(20, "That phone number looks too long."),
+  child_school_year: z
     .string()
     .trim()
-    .max(500, "Keep preferences under 500 characters.")
+    .max(200, "Keep this under 200 characters.")
     .optional()
     .default(""),
-  academic_snapshot: z
-    .string()
-    .trim()
-    .min(
-      40,
-      "Give us a short academic summary — grades, strengths, any support needs (at least 40 characters).",
-    )
-    .max(1500, "Keep the academic snapshot under 1500 characters."),
-  budget_range: z.enum(budgetBands, {
-    errorMap: () => ({
-      message: "Pick a budget band so we can shortlist realistically.",
-    }),
-  }),
-  document_names: z
-    .array(z.string().max(200))
-    .max(4, "Attach up to 4 documents.")
-    .optional()
-    .default([]),
+  exploring: z.union([z.literal(""), z.enum(exploringOptions)]).optional().default(""),
+  destination: z.union([z.literal(""), z.enum(targetDestinations)]).optional().default(""),
+  target_start: z.union([z.literal(""), z.enum(placementStartTerms)]).optional().default(""),
+  about_child: messageField,
   consent: consentField,
+  marketing_opt_in: marketingField,
   company_website: honeypotField,
 });
 
@@ -395,6 +380,8 @@ export type EnquiryInput = z.input<typeof enquirySchema>;
 export const enums = {
   yearGroups,
   startTerms,
+  placementStartTerms,
+  phoneCodes,
   sports,
   budgetBands,
   currentLevels,

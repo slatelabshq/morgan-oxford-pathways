@@ -6,8 +6,10 @@ import { cn } from "@/lib/utils";
 export type HeroImage = {
   images: string[];
   alt: string;
-  /** Optional word/phrase rendered italic-gold as the accent line of the H1. */
+  /** Optional word/phrase rendered italic-gold as the accent of the H1. */
   titleAccent?: string;
+  /** When true, accent stays on the same line as the title (no forced break). */
+  titleAccentInline?: boolean;
 };
 
 type PageHeroProps = {
@@ -32,6 +34,7 @@ export function PageHero({
 }: PageHeroProps) {
   const reduced = useReducedMotion();
   const accent = image.titleAccent;
+  const accentInline = image.titleAccentInline === true;
   const sources = image.images.length > 0 ? image.images : [""];
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState<Set<string>>(() => new Set());
@@ -141,7 +144,7 @@ export function PageHero({
               {accent ? (
                 <>
                   {title}
-                  <br />
+                  {accentInline ? " " : <br />}
                   <span className="italic font-normal text-[color:var(--brand-gold)]">
                     {accent}
                   </span>

@@ -15,14 +15,26 @@ export const HERO: Record<string, HeroImage> = {
     titleAccent: "we serve.",
   },
   schools: {
-    images: [p("289737"), p("1454360"), p("208701"), p("2305098")],
-    alt: "Elegant British boarding school building at dusk",
+    images: [
+      "/schools/hero/1.jpg",
+      "/schools/hero/2.jpg",
+      "/schools/hero/3.jpg",
+      "/schools/hero/4.jpg",
+    ],
+    alt: "Partner school campuses and academic environments",
     titleAccent: "your child.",
+  },
+  destinations: {
+    images: [p("289737"), p("1454360"), p("208701"), p("2305098")],
+    alt: "International school destinations across the UK, USA, Canada and beyond",
+    titleAccent: "your child.",
+    titleAccentInline: true,
   },
   programmes: {
     images: [p("1181396"), p("1181533"), p("1181671"), p("5905709")],
     alt: "Students collaborating around a table in bright natural light",
     titleAccent: "properly.",
+    titleAccentInline: true,
   },
   athletex: {
     images: [p("2402777"), p("1263426"), p("209977"), p("1263349")],
@@ -38,6 +50,7 @@ export const HERO: Record<string, HeroImage> = {
     images: [p("1181534"), p("1181671"), p("5905709"), p("1181396")],
     alt: "Focused student writing at a desk in warm light",
     titleAccent: "enrollment.",
+    titleAccentInline: true,
   },
   contact: {
     images: [p("1454360"), p("208701"), p("289737"), p("356065")],

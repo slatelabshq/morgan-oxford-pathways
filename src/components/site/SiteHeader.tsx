@@ -6,18 +6,18 @@ import { SiteMobileNav } from "./SiteMobileNav";
 import { cn } from "@/lib/utils";
 
 const CORE_NAV = [
+  { to: "/about", label: "About" },
   { to: "/programmes", label: "Programmes" },
   { to: "/destinations", label: "Destinations" },
+  { to: "/schools", label: "Schools" },
   { to: "/process", label: "Process" },
-  { to: "/about", label: "About" },
+  { to: "/insights", label: "Blogs" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
 const ATHLETEX_NAV = [
-  { to: "/athletex/sports", label: "Sports" },
   { to: "/athletex/schools", label: "Schools" },
   { to: "/athletex/scholarship", label: "Scholarship" },
-  { to: "/athletex/success", label: "Success Stories" },
   { to: "/athletex/scouts", label: "For Scouts" },
 ] as const;
 

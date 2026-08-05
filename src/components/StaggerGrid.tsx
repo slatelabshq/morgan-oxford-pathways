@@ -38,7 +38,7 @@ export function StaggerGrid({
       data-reveal-skip="true"
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.15, margin: "0px 0px -8% 0px" }}
+      viewport={{ once: true, amount: "some", margin: "0px 0px -40px 0px" }}
       variants={{
         hidden: {},
         show: { transition: { staggerChildren: stagger, delayChildren: delay } },

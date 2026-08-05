@@ -52,10 +52,10 @@ export const Route = createFileRoute("/athletex/")({
   }),
   component: () => (
     <PageShell
-      hero={HERO.athletex}
+      hero={{ ...HERO.athletex, titleAccent: "Preparations." }}
       zone="athletex"
       eyebrow="AthleteX Pathways"
-      title="Where talent meets the"
+      title="Where talent meets"
       lede="AthleteX Pathways is Morgan Oxford Education's dedicated route for student-athletes — placing young footballers, basketballers, tennis players, and swimmers into schools that take both their academics and their sport seriously."
       crumbs={[{ label: "Home", to: "/" }, { label: "AthleteX" }]}
     >
@@ -67,7 +67,7 @@ export const Route = createFileRoute("/athletex/")({
           A talented young athlete doesn't need a compromise — they need a school built to develop both.
         </h2>
         <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          AthleteX Pathways exists to find that school: institutions with serious sporting programmes, pathways into representative and academy football, basketball, tennis, and swimming, and academic environments strong enough to keep every door open.
+          AthleteX Pathways exists to find that school: institutions with serious sporting programmes and academic environments strong enough to keep every door open.
         </p>
       </section>
 

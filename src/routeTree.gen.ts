@@ -23,6 +23,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SchoolsIndexRouteImport } from './routes/schools.index'
 import { Route as ProgrammesIndexRouteImport } from './routes/programmes.index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
+import { Route as EnquireIndexRouteImport } from './routes/enquire.index'
 import { Route as AthletexIndexRouteImport } from './routes/athletex.index'
 import { Route as SchoolsCompareRouteImport } from './routes/schools.compare'
 import { Route as SchoolsSlugRouteImport } from './routes/schools.$slug'
@@ -118,6 +119,11 @@ const InsightsIndexRoute = InsightsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => InsightsRoute,
+} as any)
+const EnquireIndexRoute = EnquireIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EnquireRoute,
 } as any)
 const AthletexIndexRoute = AthletexIndexRouteImport.update({
   id: '/',
@@ -280,6 +286,7 @@ export interface FileRoutesByFullPath {
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
   '/athletex/': typeof AthletexIndexRoute
+  '/enquire/': typeof EnquireIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
   '/schools/': typeof SchoolsIndexRoute
@@ -292,7 +299,6 @@ export interface FileRoutesByTo {
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRoute
-  '/enquire': typeof EnquireRouteWithChildren
   '/process': typeof ProcessRoute
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/about': typeof AthletexAboutRoute
@@ -316,6 +322,7 @@ export interface FileRoutesByTo {
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
   '/athletex': typeof AthletexIndexRoute
+  '/enquire': typeof EnquireIndexRoute
   '/insights': typeof InsightsIndexRoute
   '/programmes': typeof ProgrammesIndexRoute
   '/schools': typeof SchoolsIndexRoute
@@ -358,6 +365,7 @@ export interface FileRoutesById {
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
   '/athletex/': typeof AthletexIndexRoute
+  '/enquire/': typeof EnquireIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
   '/schools/': typeof SchoolsIndexRoute
@@ -401,6 +409,7 @@ export interface FileRouteTypes {
     | '/schools/$slug'
     | '/schools/compare'
     | '/athletex/'
+    | '/enquire/'
     | '/insights/'
     | '/programmes/'
     | '/schools/'
@@ -413,7 +422,6 @@ export interface FileRouteTypes {
     | '/brand'
     | '/contact'
     | '/destinations'
-    | '/enquire'
     | '/process'
     | '/api/enquiries'
     | '/athletex/about'
@@ -437,6 +445,7 @@ export interface FileRouteTypes {
     | '/schools/$slug'
     | '/schools/compare'
     | '/athletex'
+    | '/enquire'
     | '/insights'
     | '/programmes'
     | '/schools'
@@ -478,6 +487,7 @@ export interface FileRouteTypes {
     | '/schools/$slug'
     | '/schools/compare'
     | '/athletex/'
+    | '/enquire/'
     | '/insights/'
     | '/programmes/'
     | '/schools/'
@@ -604,6 +614,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/insights/'
       preLoaderRoute: typeof InsightsIndexRouteImport
       parentRoute: typeof InsightsRoute
+    }
+    '/enquire/': {
+      id: '/enquire/'
+      path: '/'
+      fullPath: '/enquire/'
+      preLoaderRoute: typeof EnquireIndexRouteImport
+      parentRoute: typeof EnquireRoute
     }
     '/athletex/': {
       id: '/athletex/'
@@ -824,11 +841,13 @@ const AthletexRouteWithChildren = AthletexRoute._addFileChildren(
 interface EnquireRouteChildren {
   EnquireContactRoute: typeof EnquireContactRoute
   EnquireSchoolPlacementRoute: typeof EnquireSchoolPlacementRoute
+  EnquireIndexRoute: typeof EnquireIndexRoute
 }
 
 const EnquireRouteChildren: EnquireRouteChildren = {
   EnquireContactRoute: EnquireContactRoute,
   EnquireSchoolPlacementRoute: EnquireSchoolPlacementRoute,
+  EnquireIndexRoute: EnquireIndexRoute,
 }
 
 const EnquireRouteWithChildren =

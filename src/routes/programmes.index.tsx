@@ -4,24 +4,42 @@ import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
 import { HERO } from "@/lib/hero-images";
 
-type Service = { label: string; body: string };
+type Programme = {
+  label: string;
+  body: string;
+  to:
+    | "/programmes/day-school"
+    | "/programmes/boarding"
+    | "/programmes/sixth-form"
+    | "/programmes/summer"
+    | "/programmes/guardianship";
+};
 
-const SERVICES: Service[] = [
+const PROGRAMMES: Programme[] = [
   {
-    label: "K-12 & Boarding School Placement",
-    body: "From primary transitions through to secondary and boarding, we help families find schools that match their child academically, culturally, and personally.",
+    label: "Day School",
+    to: "/programmes/day-school",
+    body: "Whether your child is moving from a Nigerian primary or prep school into an international day school, or transferring mid-way through secondary education, we start with your child.",
   },
   {
-    label: "Pathway Placement",
-    body: "For students preparing for IGCSE, A-Levels, the IB Diploma, or an International Foundation Year, we connect families with pathway providers and sixth-form colleges that build the right foundation for what comes next.",
+    label: "Boarding",
+    to: "/programmes/boarding",
+    body: "Boarding is a bigger decision than day placement, and we treat it as one — weighing pastoral care, house culture and academic rigour alongside each other.",
   },
   {
-    label: "Summer & Winter Programs",
-    body: "Short-term, high-impact. For families who want their child to experience an international academic environment — or simply build confidence and independence — before committing to a full placement, we arrange summer and winter programmes with trusted partner institutions abroad.",
+    label: "Sixth Form",
+    to: "/programmes/sixth-form",
+    body: "For students weighing up A-Levels, the IB Diploma, an International Foundation Year, or a vocational route, we place students into sixth-form colleges and pathway providers.",
   },
   {
-    label: "Student Exchange Programmes",
-    body: "For students ready to spend a term or a year immersed in another country's education system, we arrange exchange placements that combine academic continuity with the kind of cultural fluency no classroom alone can teach.",
+    label: "Summer",
+    to: "/programmes/summer",
+    body: "Short-term, high-impact summer and winter programmes abroad — a low-commitment way to test a destination before a full placement decision.",
+  },
+  {
+    label: "Guardianship",
+    to: "/programmes/guardianship",
+    body: "For students boarding or studying in the UK without family close by, we arrange guardianship with vetted, experienced guardians.",
   },
 ];
 
@@ -40,7 +58,7 @@ export const Route = createFileRoute("/programmes/")({
       {
         name: "description",
         content:
-          "School placement, done properly — K-12 & boarding, pathway placement, summer/winter programs, and student exchange programmes.",
+          "School placement, done properly — day school, boarding, sixth form, summer programmes, and guardianship.",
       },
       { property: "og:title", content: "Programmes — Morgan Oxford" },
       {
@@ -59,12 +77,18 @@ export const Route = createFileRoute("/programmes/")({
       crumbs={[{ label: "Home", to: "/" }, { label: "Programmes" }]}
     >
       <StaggerGrid className="grid gap-6 md:grid-cols-2">
-        {SERVICES.map((s) => (
-          <StaggerItem key={s.label}>
-            <article className="card-glow h-full rounded-2xl border border-border bg-card p-6 sm:p-8">
-              <h2 className="font-display text-xl font-semibold sm:text-2xl">{s.label}</h2>
-              <p className="mt-3 text-base leading-relaxed text-muted-foreground">{s.body}</p>
-            </article>
+        {PROGRAMMES.map((p) => (
+          <StaggerItem key={p.to}>
+            <Link
+              to={p.to}
+              className="card-glow group flex h-full flex-col rounded-2xl border border-border bg-card p-6 sm:p-8 transition-colors hover:border-[color:var(--brand-gold)]/50"
+            >
+              <h2 className="font-display text-xl font-semibold sm:text-2xl">{p.label}</h2>
+              <p className="mt-3 flex-1 text-base leading-relaxed text-muted-foreground">{p.body}</p>
+              <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-foreground">
+                Learn more <span aria-hidden>→</span>
+              </span>
+            </Link>
           </StaggerItem>
         ))}
       </StaggerGrid>

@@ -41,6 +41,7 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | 2.8 | `/contact` — H1, 48h, remove form, 4 office blocks | ✅ (Abuja/PH addresses placeholder) |
 | 2.9 | `/enquire` — remove duplicate Contact form | ✅ |
 | 2.10 | `/enquire/contact` — dedicated parent form (Section 2) | ✅ |
+| 2.11 | `/enquire/school-placement` — parent enquiry form from HTML prototype | ✅ |
 
 ---
 
@@ -107,3 +108,22 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 ## Build status
 
 ✅ `bun run build` passes (verified)
+
+## Recent UI fixes
+
+| # | Task | Status |
+|---|------|--------|
+| UI.1 | AthleteX home — shorten “Why AthleteX exists” body | ✅ |
+| UI.2 | Destinations hero — remove duplicate “your” | ✅ |
+| UI.3 | Destinations Canada card — local Toronto image (`/public/destinations/canada.jpg`) | ✅ |
+| UI.4 | AthleteX — remove Sports tab from nav | ✅ |
+| UI.5 | AthleteX schools hero — remove duplicate white “your” | ✅ |
+| UI.6 | AthleteX — remove Success Stories tab from nav | ✅ |
+| UI.7 | AthleteX home hero accent — “Preparations.” (was “your athlete.”) | ✅ |
+| UI.7 | Schools filters — stop scroll jump on search/checkbox (`resetScroll: false`) | ✅ |
+| UI.8 | `/enquire/school-placement` — integrate `parent-enquiry-form.html` fields + copy | ✅ |
+| UI.9 | Fix enquire routing — layout `Outlet` so `/enquire/school-placement` renders its own page | ✅ |
+| UI.10 | Home “Why families choose us” CTA → `/enquire/contact` | ✅ |
+| UI.11 | Point all `/enquire/school-placement` links to `/enquire/contact` | ✅ |
+| UI.12 | Programmes / Destinations / Process heroes — accent keyword on same line as title | ✅ |
+| UI.13 | AthleteX schools hero — “rest of Europe and beyond” (was “Europe”) | ✅ |

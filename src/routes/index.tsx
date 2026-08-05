@@ -61,7 +61,7 @@ function Home() {
         <StaggerGrid className="grid gap-6 md:grid-cols-2">
           <StaggerItem>
             <Link
-              to="/enquire/contact"
+              to="/programmes"
               className="card-glow group relative block h-full overflow-hidden rounded-2xl border border-border bg-card p-8"
             >
               <p className="text-xs font-semibold uppercase tracking-widest text-primary">
@@ -130,9 +130,6 @@ function Home() {
         <div className="mt-6 space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
           <p>
             Choosing a school overseas is one of the biggest decisions a family will make — and one of the hardest to get right from a distance. We built Morgan Oxford Education to close that gap: real relationships with real schools, built over more than a decade, so that the advice you get isn't generic. It's specific to your child.
-          </p>
-          <p>
-            We start by listening. Every placement begins with understanding who your child actually is — their strengths, their ambitions, the kind of environment they'll thrive in — before we ever suggest a single school.
           </p>
         </div>
         <div className="mt-8">

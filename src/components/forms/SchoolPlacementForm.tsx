@@ -1,57 +1,72 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   schoolPlacementSchema,
-  countries,
   enums,
   type SchoolPlacementInput,
 } from "@/lib/enquiries/schemas";
 import { submitEnquiry } from "@/lib/enquiries/submit";
 import { Field, TextInput, TextArea, NativeSelect } from "./Field";
-import { Fieldset } from "./Fieldset";
 import { FormStatus } from "./FormStatus";
 import { Honeypot } from "./Honeypot";
 
 const fieldOrder: (keyof SchoolPlacementInput & string)[] = [
   "parent_name",
-  "parent_email",
-  "parent_phone",
-  "country",
-  "student_first_name",
-  "student_age",
-  "current_year_group",
+  "email",
+  "phone_number",
+  "child_school_year",
+  "exploring",
+  "destination",
   "target_start",
-  "academic_snapshot",
-  "budget_range",
-  "school_preferences",
+  "about_child",
   "consent",
 ];
+
+const PHONE_CODE_LABELS: Record<(typeof enums.phoneCodes)[number], string> = {
+  "+234": "🇳🇬 +234",
+  "+44": "🇬🇧 +44",
+  "+1": "🇺🇸 +1",
+  "+233": "🇬🇭 +233",
+  "+other": "Other",
+};
 
 export function SchoolPlacementForm() {
   const navigate = useNavigate();
   const [serverMessage, setServerMessage] = useState<string | undefined>();
-  const [pickedFiles, setPickedFiles] = useState<string[]>([]);
-
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
     setFocus,
   } = useForm<SchoolPlacementInput>({
     resolver: zodResolver(schoolPlacementSchema),
     defaultValues: {
       kind: "school_placement",
+      phone_code: "+234",
+      phone_number: "",
+      child_school_year: "",
+      exploring: "",
+      destination: "",
+      target_start: "",
+      marketing_opt_in: false,
       company_website: "",
-      document_names: [],
     },
   });
+
+  const aboutChild = watch("about_child") ?? "";
+  const aboutLen = aboutChild.length;
+  const charLabel =
+    aboutLen < 20
+      ? `${aboutLen} / 20 characters minimum`
+      : `${aboutLen} / 2000 characters`;
 
   const onSubmit = handleSubmit(
     async (data) => {
       setServerMessage(undefined);
-      const res = await submitEnquiry({ ...data, document_names: pickedFiles });
+      const res = await submitEnquiry(data);
       if (res.ok) {
         navigate({
           to: "/enquiry/thanks",
@@ -74,7 +89,7 @@ export function SchoolPlacementForm() {
       encType="multipart/form-data"
       onSubmit={onSubmit}
       noValidate
-      className="flex flex-col gap-6"
+      className="rounded-2xl border border-border bg-card p-6 sm:p-9"
     >
       <input type="hidden" name="kind" value="school_placement" />
       <input type="hidden" name="redirect" value="/enquiry/thanks" />
@@ -85,130 +100,117 @@ export function SchoolPlacementForm() {
       />
       <Honeypot register={register} name="company_website" />
 
-      <FormStatus errors={errors} fieldOrder={fieldOrder} message={serverMessage} />
+      <div className="flex flex-col gap-6">
+        <FormStatus errors={errors} fieldOrder={fieldOrder} message={serverMessage} />
 
-      <Fieldset legend="Parent / guardian">
-        <Field id="parent_name" label="Full name" required error={errors.parent_name?.message}>
-          {(p) => (
-            <TextInput
-              {...p}
-              autoComplete="name"
-              {...register("parent_name")}
-              name="parent_name"
-            />
-          )}
-        </Field>
-        <Field id="parent_email" label="Email" required error={errors.parent_email?.message}>
-          {(p) => (
-            <TextInput
-              {...p}
-              type="email"
-              autoComplete="email"
-              {...register("parent_email")}
-              name="parent_email"
-            />
-          )}
-        </Field>
-        <Field id="parent_phone" label="Phone" required error={errors.parent_phone?.message}>
-          {(p) => (
-            <TextInput
-              {...p}
-              type="tel"
-              autoComplete="tel"
-              {...register("parent_phone")}
-              name="parent_phone"
-            />
-          )}
-        </Field>
-        <Field id="country" label="Country of residence" required error={errors.country?.message}>
-          {(p) => (
-            <NativeSelect {...p} {...register("country")} name="country" defaultValue="">
-              <option value="" disabled>
-                Select a country
-              </option>
-              {countries.map((c) => (
-                <option key={c.code} value={c.code}>
-                  {c.name}
-                </option>
-              ))}
-            </NativeSelect>
-          )}
-        </Field>
-      </Fieldset>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field
+            id="parent_name"
+            label="Parent / Guardian full name"
+            required
+            error={errors.parent_name?.message}
+          >
+            {(p) => (
+              <TextInput
+                {...p}
+                autoComplete="name"
+                placeholder="e.g. Funmilayo Adeyemi"
+                {...register("parent_name")}
+                name="parent_name"
+              />
+            )}
+          </Field>
+          <Field id="email" label="Email" required error={errors.email?.message}>
+            {(p) => (
+              <TextInput
+                {...p}
+                type="email"
+                autoComplete="email"
+                placeholder="you@example.com"
+                {...register("email")}
+                name="email"
+              />
+            )}
+          </Field>
+        </div>
 
-      <Fieldset legend="Student">
+        <Field id="phone_number" label="Phone" required error={errors.phone_number?.message}>
+          {(p) => (
+            <div className="flex gap-2">
+              <NativeSelect
+                aria-label="Country code"
+                className="w-[7.5rem] shrink-0"
+                {...register("phone_code")}
+                name="phone_code"
+                defaultValue="+234"
+              >
+                {enums.phoneCodes.map((code) => (
+                  <option key={code} value={code}>
+                    {PHONE_CODE_LABELS[code]}
+                  </option>
+                ))}
+              </NativeSelect>
+              <TextInput
+                {...p}
+                type="tel"
+                autoComplete="tel-national"
+                placeholder="801 234 5678"
+                className="flex-1"
+                {...register("phone_number")}
+                name="phone_number"
+              />
+            </div>
+          )}
+        </Field>
+
         <Field
-          id="student_first_name"
-          label="First name"
-          required
-          error={errors.student_first_name?.message}
+          id="child_school_year"
+          label="Child's current school & year / grade"
+          hint="Optional"
+          error={errors.child_school_year?.message}
         >
           {(p) => (
             <TextInput
               {...p}
-              {...register("student_first_name")}
-              name="student_first_name"
+              placeholder="e.g. Greensprings School, Year 9"
+              {...register("child_school_year")}
+              name="child_school_year"
             />
           )}
         </Field>
-        <Field
-          id="student_age"
-          label="Age"
-          required
-          error={errors.student_age?.message}
-        >
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field id="exploring" label="What are you exploring?" hint="Optional" error={errors.exploring?.message}>
+            {(p) => (
+              <NativeSelect {...p} {...register("exploring")} name="exploring" defaultValue="">
+                <option value="">Select an option</option>
+                {enums.exploringOptions.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </NativeSelect>
+            )}
+          </Field>
+          <Field id="destination" label="Target destination" hint="Optional" error={errors.destination?.message}>
+            {(p) => (
+              <NativeSelect {...p} {...register("destination")} name="destination" defaultValue="">
+                <option value="">Select an option</option>
+                {enums.targetDestinations.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </NativeSelect>
+            )}
+          </Field>
+        </div>
+
+        <Field id="target_start" label="Target start term" hint="Optional" error={errors.target_start?.message}>
           {(p) => (
-            <TextInput
-              {...p}
-              type="number"
-              min={4}
-              max={24}
-              {...register("student_age")}
-              name="student_age"
-            />
-          )}
-        </Field>
-        <Field
-          id="current_year_group"
-          label="Current year group"
-          required
-          error={errors.current_year_group?.message}
-        >
-          {(p) => (
-            <NativeSelect
-              {...p}
-              {...register("current_year_group")}
-              name="current_year_group"
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Select year group
-              </option>
-              {enums.yearGroups.map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </NativeSelect>
-          )}
-        </Field>
-        <Field
-          id="target_start"
-          label="Target start"
-          required
-          error={errors.target_start?.message}
-        >
-          {(p) => (
-            <NativeSelect
-              {...p}
-              {...register("target_start")}
-              name="target_start"
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Select term
-              </option>
-              {enums.startTerms.map((t) => (
+            <NativeSelect {...p} {...register("target_start")} name="target_start" defaultValue="">
+              <option value="">Select an option</option>
+              {enums.placementStartTerms.map((t) => (
                 <option key={t} value={t}>
                   {t}
                 </option>
@@ -216,140 +218,87 @@ export function SchoolPlacementForm() {
             </NativeSelect>
           )}
         </Field>
-        <Field
-          id="academic_snapshot"
-          label="Academic snapshot"
-          required
-          hint="Grades, strengths, any support needs (40–1500 chars)."
-          error={errors.academic_snapshot?.message}
-          className="md:col-span-2"
-        >
-          {(p) => (
-            <TextArea
-              rows={5}
-              {...p}
-              {...register("academic_snapshot")}
-              name="academic_snapshot"
-            />
-          )}
-        </Field>
-      </Fieldset>
 
-      <Fieldset legend="Placement preferences">
         <Field
-          id="budget_range"
-          label="Annual fee budget"
+          id="about_child"
+          label="Tell us about your child"
           required
-          error={errors.budget_range?.message}
+          error={errors.about_child?.message}
         >
           {(p) => (
-            <NativeSelect
-              {...p}
-              {...register("budget_range")}
-              name="budget_range"
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Select budget band
-              </option>
-              {enums.budgetBands.map((b) => (
-                <option key={b} value={b}>
-                  {b}
-                </option>
-              ))}
-            </NativeSelect>
+            <>
+              <TextArea
+                rows={5}
+                placeholder="What's their current school experience like? What are you hoping to find for them?"
+                maxLength={2000}
+                {...p}
+                {...register("about_child")}
+                name="about_child"
+              />
+              <p
+                className={`mt-1.5 text-right text-xs ${
+                  aboutLen >= 20 ? "text-[color:var(--brand-signal,#3F6B44)]" : "text-muted-foreground"
+                }`}
+              >
+                {charLabel}
+              </p>
+            </>
           )}
         </Field>
-        <Field
-          id="school_preferences"
-          label="School preferences"
-          hint="e.g. day vs boarding, single-sex, region."
-          error={errors.school_preferences?.message}
-        >
-          {(p) => (
-            <TextArea
-              rows={3}
-              {...p}
-              {...register("school_preferences")}
-              name="school_preferences"
-            />
-          )}
-        </Field>
-        <Field
-          id="documents"
-          label="Supporting documents"
-          hint="PDF, Word, JPG or PNG — up to 4 files, 10 MB each."
-          className="md:col-span-2"
-        >
-          {(p) => (
+
+        <fieldset className="space-y-3 border-0 p-0">
+          <legend className="sr-only">Consent</legend>
+          <label className="flex items-start gap-3 text-sm">
             <input
-              {...p}
-              type="file"
-              multiple
-              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-              name="documents"
-              onChange={(e) => {
-                const files = Array.from(e.target.files ?? []);
-                const overSize = files.find((f) => f.size > 10 * 1024 * 1024);
-                if (overSize) {
-                  e.target.setCustomValidity("Each file must be under 10 MB.");
-                  e.target.reportValidity();
-                  setPickedFiles([]);
-                  return;
-                }
-                if (files.length > 4) {
-                  e.target.setCustomValidity("Attach up to 4 documents.");
-                  e.target.reportValidity();
-                  setPickedFiles([]);
-                  return;
-                }
-                e.target.setCustomValidity("");
-                setPickedFiles(files.map((f) => f.name));
-              }}
-              className="min-h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-muted file:px-3 file:py-1.5 file:text-sm"
+              id="consent"
+              type="checkbox"
+              className="mt-1 h-4 w-4 accent-primary"
+              {...register("consent")}
+              name="consent"
+              aria-invalid={!!errors.consent}
+              aria-required
             />
-          )}
-        </Field>
-      </Fieldset>
-
-      <label className="flex items-start gap-3 text-sm">
-        <input
-          id="consent"
-          type="checkbox"
-          className="mt-1 h-4 w-4"
-          {...register("consent")}
-          name="consent"
-          aria-invalid={!!errors.consent}
-          aria-describedby={errors.consent ? "consent-error" : undefined}
-          aria-required
-        />
-        <span>
-          <span className="text-foreground">
-            I agree to be contacted about this placement enquiry.{" "}
-            <span aria-hidden="true" className="text-destructive">*</span>
-            <span className="sr-only"> required</span>
-          </span>
-          {errors.consent ? (
-            <span
-              id="consent-error"
-              role="alert"
-              className="mt-1 block text-xs font-medium text-destructive"
-            >
-              {errors.consent.message}
+            <span>
+              I agree to be contacted about my enquiry.{" "}
+              <span aria-hidden className="text-[color:var(--brand-gold)]">
+                *
+              </span>
+              {errors.consent ? (
+                <span role="alert" className="mt-1 block text-xs font-medium text-destructive">
+                  {errors.consent.message}
+                </span>
+              ) : null}
             </span>
-          ) : null}
-        </span>
-      </label>
+          </label>
 
-      <div>
+          <label className="flex items-start gap-3 text-sm">
+            <input
+              id="marketing_opt_in"
+              type="checkbox"
+              className="mt-1 h-4 w-4 accent-primary"
+              {...register("marketing_opt_in")}
+              name="marketing_opt_in"
+            />
+            <span>Send me occasional updates from Morgan Oxford Education.</span>
+          </label>
+        </fieldset>
+
         <button
           type="submit"
           disabled={isSubmitting}
           aria-busy={isSubmitting}
-          className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-semibold text-primary-foreground shadow-sm btn-micro hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-70"
+          className="btn-glow inline-flex min-h-12 w-full items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-70"
         >
-          {isSubmitting ? "Sending…" : "Submit placement enquiry"}
+          {isSubmitting ? "Sending…" : "Send my enquiry"}
         </button>
+
+        <p className="text-center text-xs leading-relaxed text-muted-foreground">
+          By submitting, you agree to our{" "}
+          <Link to="/legal/privacy" className="text-foreground underline">
+            Privacy policy
+          </Link>
+          . We'll only use this to help place your child.
+        </p>
       </div>
     </form>
   );

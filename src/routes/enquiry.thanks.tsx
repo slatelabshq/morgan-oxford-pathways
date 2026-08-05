@@ -47,9 +47,9 @@ const copy: Record<
     cta: { to: "/", label: "Back to home" },
   },
   school_placement: {
-    title: "Placement enquiry received.",
-    body: "A consultant will be in touch within 48 hours to talk through options.",
-    cta: { to: "/", label: "Back to home" },
+    title: "Thanks — we've got it.",
+    body: "A consultant will be in touch within 48 hours. In the meantime, feel free to see how placement works.",
+    cta: { to: "/process", label: "See how placement works" },
   },
   athletex: {
     title: "Application logged.",

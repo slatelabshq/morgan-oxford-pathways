@@ -6,15 +6,15 @@ const COLS = [
     links: [
       { to: "/", label: "Home" },
       { to: "/process", label: "Process" },
-      { to: "/programmes", label: "Programmes" },
-      { to: "/insights", label: "Insights" },
+      { to: "/schools", label: "Browse all schools" },
+      { to: "/insights", label: "Blogs" },
       { to: "/enquire", label: "Enquire" },
     ],
   },
   {
-    title: "Schools",
+    title: "Programmes",
     links: [
-      { to: "/schools", label: "Browse all schools" },
+      { to: "/programmes", label: "All programmes" },
       { to: "/programmes/day-school", label: "Day school" },
       { to: "/programmes/boarding", label: "Boarding" },
       { to: "/programmes/sixth-form", label: "Sixth Form" },
@@ -26,9 +26,7 @@ const COLS = [
     title: "AthleteX",
     links: [
       { to: "/athletex", label: "AthleteX home" },
-      { to: "/athletex/sports", label: "Sports" },
       { to: "/athletex/scholarship", label: "Scholarship" },
-      { to: "/athletex/success", label: "Success stories" },
       { to: "/athletex/scouts", label: "For scouts" },
     ],
   },
@@ -36,7 +34,7 @@ const COLS = [
     title: "Company",
     links: [
       { to: "/about", label: "About" },
-      { to: "/insights", label: "Insights" },
+      { to: "/insights", label: "Blogs" },
       { to: "/contact", label: "Contact" },
     ],
   },

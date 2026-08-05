@@ -141,6 +141,18 @@ export const Route = createFileRoute("/api/enquiries")({
         );
         delete (payload as Record<string, unknown>).company_website;
 
+        // Combine split phone fields for easier reading in the CRM payload.
+        if (
+          kind === "school_placement" &&
+          typeof payload.phone_code === "string" &&
+          typeof payload.phone_number === "string"
+        ) {
+          payload.phone =
+            payload.phone_code === "+other"
+              ? payload.phone_number
+              : `${payload.phone_code} ${payload.phone_number}`.trim();
+        }
+
         const dbKind =
           kind === "parent"
             ? "contact"
