@@ -11,6 +11,7 @@ const CORE_NAV = [
   { to: "/destinations", label: "Destinations" },
   { to: "/schools", label: "Schools" },
   { to: "/process", label: "Process" },
+  { to: "/events", label: "Events" },
   { to: "/insights", label: "Blogs" },
   { to: "/contact", label: "Contact" },
 ] as const;

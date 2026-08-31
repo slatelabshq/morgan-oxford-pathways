@@ -38,7 +38,7 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | 2.5 | `/process` — H1, steps 3 & 5, post-steps line | ✅ |
 | 2.6 | `/about` — full rewrite with 3 new sections + CTA | ✅ |
 | 2.7 | `/insights` — fix H1 | ✅ |
-| 2.8 | `/contact` — H1, 48h, remove form, 4 office blocks | ✅ (Abuja/PH addresses placeholder) |
+| 2.8 | `/contact` — H1, 48h, remove form, Oxford + Lagos offices | ✅ |
 | 2.9 | `/enquire` — remove duplicate Contact form | ✅ |
 | 2.10 | `/enquire/contact` — dedicated parent form (Section 2) | ✅ |
 | 2.11 | `/enquire/school-placement` — parent enquiry form from HTML prototype | ✅ |
@@ -50,9 +50,9 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | # | Task | Status |
 |---|------|--------|
 | 3.1 | Shared partner-school dataset with `athletex_partner` flag | ✅ |
-| 3.2 | Wire `/schools` to dataset + AthleteX filter | ✅ |
-| 3.3 | Fix H1 + meta description | ✅ |
-| 3.4 | A–Z sort on regional lists | ✅ |
+| 3.2 | `/schools` — region-grouped browser (UK, US, Canada, ROW) + direct partners + leading examples | ✅ |
+| 3.3 | Full ~78-school directory remains on `/athletex/schools` only | ✅ |
+| 3.4 | Fix H1 + meta description | ✅ |
 
 ---
 
@@ -129,3 +129,11 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | UI.13 | AthleteX schools hero — “rest of Europe and beyond” (was “Europe”) | ✅ |
 | UI.14 | `/enquire/contact` hero title → “Talk to Us” | ✅ |
 | UI.15 | Fix hero images blank until hard refresh / remount (cached `onLoad` miss) | ✅ |
+| UI.16 | `/contact` — remove Abuja and Port Harcourt office blocks | ✅ |
+| UI.17 | Sixth Form pathways (A-Levels, IB, Canadian Diploma, AP, Foundations) with imagery on `/programmes/sixth-form` only | ✅ |
+| UI.18 | `/schools` — replace full directory with region browser + direct partners + leading-school examples | ✅ |
+| UI.18 | Guardianship copy — international scope, not UK-only | ✅ |
+| UI.19 | Sixth Form — three condensed value-prop bullets | ✅ |
+| UI.20 | Destinations — clickable region pages with narrative, costs & stories (MOE + Horizon) | ✅ |
+| UI.21 | Events section — `/events` with hero, ribbon list, empty state (no dummy data) | ✅ |
+| UI.17 | AthleteX hero — replace first image with high-school student-athletes | ✅ |

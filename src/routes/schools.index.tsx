@@ -2,16 +2,18 @@ import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { PageShell } from "@/components/site/PageShell";
-import { BrowseSchoolsDirectory } from "@/components/site/BrowseSchoolsDirectory";
+import {
+  SchoolsPlacementBrowser,
+  type SchoolsPlacementSearch,
+} from "@/components/site/SchoolsPlacementBrowser";
 import { HERO } from "@/lib/hero-images";
 
 const schoolsSearch = z.object({
   q: fallback(z.string(), "").default(""),
-  type: fallback(z.enum(["any", "day", "boarding", "day-boarding", "sixth-form"]), "any").default("any"),
-  gender: fallback(z.enum(["any", "co-ed", "boys", "girls"]), "any").default("any"),
-  region: fallback(z.string(), "").default(""),
-  athletex: fallback(z.boolean(), false).default(false),
-  sort: fallback(z.enum(["relevance", "fees-asc", "fees-desc", "az"]), "relevance").default("relevance"),
+  region: fallback(
+    z.enum(["all", "uk", "usa", "canada", "row"]),
+    "all",
+  ).default("all"),
 });
 
 export const Route = createFileRoute("/schools/")({
@@ -22,10 +24,13 @@ export const Route = createFileRoute("/schools/")({
       {
         name: "description",
         content:
-          "Browse our partner schools across the UK, Canada, USA and Europe. Filter by region and AthleteX partnership.",
+          "Explore school placement by region — UK, USA, Canada and rest of world. Direct partner schools and leading examples families consider.",
       },
       { property: "og:title", content: "Schools — Morgan Oxford" },
-      { property: "og:description", content: "Find the right school for your child." },
+      {
+        property: "og:description",
+        content: "Find the right school for your child by region.",
+      },
     ],
   }),
   component: SchoolsIndex,
@@ -40,16 +45,11 @@ function SchoolsIndex() {
       hero={HERO.schools}
       eyebrow="Schools"
       title="Find the right school for"
-      lede="Our partner schools across the UK, Canada, USA and Europe. Filter, compare, then enquire."
+      lede="Browse by region, search by name, and see where we work directly — plus examples of leading schools families often consider."
       crumbs={[{ label: "Home", to: "/" }, { label: "Schools" }]}
     >
-      <BrowseSchoolsDirectory
-        search={{
-          q: search.q,
-          region: search.region,
-          athletex: search.athletex,
-          sort: search.sort,
-        }}
+      <SchoolsPlacementBrowser
+        search={search as SchoolsPlacementSearch}
         onSearchChange={(next) =>
           navigate({
             search: (prev: typeof search) => ({ ...prev, ...next }),

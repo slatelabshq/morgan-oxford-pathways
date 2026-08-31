@@ -13,6 +13,7 @@ import { Route as SchoolsRouteImport } from './routes/schools'
 import { Route as ProgrammesRouteImport } from './routes/programmes'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as EnquireRouteImport } from './routes/enquire'
 import { Route as DestinationsRouteImport } from './routes/destinations'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -24,6 +25,7 @@ import { Route as SchoolsIndexRouteImport } from './routes/schools.index'
 import { Route as ProgrammesIndexRouteImport } from './routes/programmes.index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as EnquireIndexRouteImport } from './routes/enquire.index'
+import { Route as DestinationsIndexRouteImport } from './routes/destinations.index'
 import { Route as AthletexIndexRouteImport } from './routes/athletex.index'
 import { Route as SchoolsCompareRouteImport } from './routes/schools.compare'
 import { Route as SchoolsSlugRouteImport } from './routes/schools.$slug'
@@ -40,6 +42,7 @@ import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as EnquiryThanksRouteImport } from './routes/enquiry.thanks'
 import { Route as EnquireSchoolPlacementRouteImport } from './routes/enquire.school-placement'
 import { Route as EnquireContactRouteImport } from './routes/enquire.contact'
+import { Route as DestinationsSlugRouteImport } from './routes/destinations.$slug'
 import { Route as AthletexSuccessRouteImport } from './routes/athletex.success'
 import { Route as AthletexSportsRouteImport } from './routes/athletex.sports'
 import { Route as AthletexScoutsRouteImport } from './routes/athletex.scouts'
@@ -68,6 +71,11 @@ const ProcessRoute = ProcessRouteImport.update({
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnquireRoute = EnquireRouteImport.update({
@@ -124,6 +132,11 @@ const EnquireIndexRoute = EnquireIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => EnquireRoute,
+} as any)
+const DestinationsIndexRoute = DestinationsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DestinationsRoute,
 } as any)
 const AthletexIndexRoute = AthletexIndexRouteImport.update({
   id: '/',
@@ -205,6 +218,11 @@ const EnquireContactRoute = EnquireContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => EnquireRoute,
 } as any)
+const DestinationsSlugRoute = DestinationsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => DestinationsRoute,
+} as any)
 const AthletexSuccessRoute = AthletexSuccessRouteImport.update({
   id: '/success',
   path: '/success',
@@ -257,8 +275,9 @@ export interface FileRoutesByFullPath {
   '/athletex': typeof AthletexRouteWithChildren
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
-  '/destinations': typeof DestinationsRoute
+  '/destinations': typeof DestinationsRouteWithChildren
   '/enquire': typeof EnquireRouteWithChildren
+  '/events': typeof EventsRoute
   '/insights': typeof InsightsRouteWithChildren
   '/process': typeof ProcessRoute
   '/programmes': typeof ProgrammesRouteWithChildren
@@ -270,6 +289,7 @@ export interface FileRoutesByFullPath {
   '/athletex/scouts': typeof AthletexScoutsRoute
   '/athletex/sports': typeof AthletexSportsRouteWithChildren
   '/athletex/success': typeof AthletexSuccessRoute
+  '/destinations/$slug': typeof DestinationsSlugRoute
   '/enquire/contact': typeof EnquireContactRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
@@ -286,6 +306,7 @@ export interface FileRoutesByFullPath {
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
   '/athletex/': typeof AthletexIndexRoute
+  '/destinations/': typeof DestinationsIndexRoute
   '/enquire/': typeof EnquireIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
@@ -298,7 +319,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
-  '/destinations': typeof DestinationsRoute
+  '/events': typeof EventsRoute
   '/process': typeof ProcessRoute
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/about': typeof AthletexAboutRoute
@@ -306,6 +327,7 @@ export interface FileRoutesByTo {
   '/athletex/schools': typeof AthletexSchoolsRoute
   '/athletex/scouts': typeof AthletexScoutsRoute
   '/athletex/success': typeof AthletexSuccessRoute
+  '/destinations/$slug': typeof DestinationsSlugRoute
   '/enquire/contact': typeof EnquireContactRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
@@ -322,6 +344,7 @@ export interface FileRoutesByTo {
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
   '/athletex': typeof AthletexIndexRoute
+  '/destinations': typeof DestinationsIndexRoute
   '/enquire': typeof EnquireIndexRoute
   '/insights': typeof InsightsIndexRoute
   '/programmes': typeof ProgrammesIndexRoute
@@ -336,8 +359,9 @@ export interface FileRoutesById {
   '/athletex': typeof AthletexRouteWithChildren
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
-  '/destinations': typeof DestinationsRoute
+  '/destinations': typeof DestinationsRouteWithChildren
   '/enquire': typeof EnquireRouteWithChildren
+  '/events': typeof EventsRoute
   '/insights': typeof InsightsRouteWithChildren
   '/process': typeof ProcessRoute
   '/programmes': typeof ProgrammesRouteWithChildren
@@ -349,6 +373,7 @@ export interface FileRoutesById {
   '/athletex/scouts': typeof AthletexScoutsRoute
   '/athletex/sports': typeof AthletexSportsRouteWithChildren
   '/athletex/success': typeof AthletexSuccessRoute
+  '/destinations/$slug': typeof DestinationsSlugRoute
   '/enquire/contact': typeof EnquireContactRoute
   '/enquire/school-placement': typeof EnquireSchoolPlacementRoute
   '/enquiry/thanks': typeof EnquiryThanksRoute
@@ -365,6 +390,7 @@ export interface FileRoutesById {
   '/schools/$slug': typeof SchoolsSlugRoute
   '/schools/compare': typeof SchoolsCompareRoute
   '/athletex/': typeof AthletexIndexRoute
+  '/destinations/': typeof DestinationsIndexRoute
   '/enquire/': typeof EnquireIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
@@ -382,6 +408,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/destinations'
     | '/enquire'
+    | '/events'
     | '/insights'
     | '/process'
     | '/programmes'
@@ -393,6 +420,7 @@ export interface FileRouteTypes {
     | '/athletex/scouts'
     | '/athletex/sports'
     | '/athletex/success'
+    | '/destinations/$slug'
     | '/enquire/contact'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
@@ -409,6 +437,7 @@ export interface FileRouteTypes {
     | '/schools/$slug'
     | '/schools/compare'
     | '/athletex/'
+    | '/destinations/'
     | '/enquire/'
     | '/insights/'
     | '/programmes/'
@@ -421,7 +450,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/brand'
     | '/contact'
-    | '/destinations'
+    | '/events'
     | '/process'
     | '/api/enquiries'
     | '/athletex/about'
@@ -429,6 +458,7 @@ export interface FileRouteTypes {
     | '/athletex/schools'
     | '/athletex/scouts'
     | '/athletex/success'
+    | '/destinations/$slug'
     | '/enquire/contact'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
@@ -445,6 +475,7 @@ export interface FileRouteTypes {
     | '/schools/$slug'
     | '/schools/compare'
     | '/athletex'
+    | '/destinations'
     | '/enquire'
     | '/insights'
     | '/programmes'
@@ -460,6 +491,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/destinations'
     | '/enquire'
+    | '/events'
     | '/insights'
     | '/process'
     | '/programmes'
@@ -471,6 +503,7 @@ export interface FileRouteTypes {
     | '/athletex/scouts'
     | '/athletex/sports'
     | '/athletex/success'
+    | '/destinations/$slug'
     | '/enquire/contact'
     | '/enquire/school-placement'
     | '/enquiry/thanks'
@@ -487,6 +520,7 @@ export interface FileRouteTypes {
     | '/schools/$slug'
     | '/schools/compare'
     | '/athletex/'
+    | '/destinations/'
     | '/enquire/'
     | '/insights/'
     | '/programmes/'
@@ -501,8 +535,9 @@ export interface RootRouteChildren {
   AthletexRoute: typeof AthletexRouteWithChildren
   BrandRoute: typeof BrandRoute
   ContactRoute: typeof ContactRoute
-  DestinationsRoute: typeof DestinationsRoute
+  DestinationsRoute: typeof DestinationsRouteWithChildren
   EnquireRoute: typeof EnquireRouteWithChildren
+  EventsRoute: typeof EventsRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   ProcessRoute: typeof ProcessRoute
   ProgrammesRoute: typeof ProgrammesRouteWithChildren
@@ -543,6 +578,13 @@ declare module '@tanstack/react-router' {
       path: '/insights'
       fullPath: '/insights'
       preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/enquire': {
@@ -621,6 +663,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/enquire/'
       preLoaderRoute: typeof EnquireIndexRouteImport
       parentRoute: typeof EnquireRoute
+    }
+    '/destinations/': {
+      id: '/destinations/'
+      path: '/'
+      fullPath: '/destinations/'
+      preLoaderRoute: typeof DestinationsIndexRouteImport
+      parentRoute: typeof DestinationsRoute
     }
     '/athletex/': {
       id: '/athletex/'
@@ -734,6 +783,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnquireContactRouteImport
       parentRoute: typeof EnquireRoute
     }
+    '/destinations/$slug': {
+      id: '/destinations/$slug'
+      path: '/$slug'
+      fullPath: '/destinations/$slug'
+      preLoaderRoute: typeof DestinationsSlugRouteImport
+      parentRoute: typeof DestinationsRoute
+    }
     '/athletex/success': {
       id: '/athletex/success'
       path: '/success'
@@ -838,6 +894,20 @@ const AthletexRouteWithChildren = AthletexRoute._addFileChildren(
   AthletexRouteChildren,
 )
 
+interface DestinationsRouteChildren {
+  DestinationsSlugRoute: typeof DestinationsSlugRoute
+  DestinationsIndexRoute: typeof DestinationsIndexRoute
+}
+
+const DestinationsRouteChildren: DestinationsRouteChildren = {
+  DestinationsSlugRoute: DestinationsSlugRoute,
+  DestinationsIndexRoute: DestinationsIndexRoute,
+}
+
+const DestinationsRouteWithChildren = DestinationsRoute._addFileChildren(
+  DestinationsRouteChildren,
+)
+
 interface EnquireRouteChildren {
   EnquireContactRoute: typeof EnquireContactRoute
   EnquireSchoolPlacementRoute: typeof EnquireSchoolPlacementRoute
@@ -910,8 +980,9 @@ const rootRouteChildren: RootRouteChildren = {
   AthletexRoute: AthletexRouteWithChildren,
   BrandRoute: BrandRoute,
   ContactRoute: ContactRoute,
-  DestinationsRoute: DestinationsRoute,
+  DestinationsRoute: DestinationsRouteWithChildren,
   EnquireRoute: EnquireRouteWithChildren,
+  EventsRoute: EventsRoute,
   InsightsRoute: InsightsRouteWithChildren,
   ProcessRoute: ProcessRoute,
   ProgrammesRoute: ProgrammesRouteWithChildren,

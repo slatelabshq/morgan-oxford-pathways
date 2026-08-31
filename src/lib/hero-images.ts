@@ -37,8 +37,8 @@ export const HERO: Record<string, HeroImage> = {
     titleAccentInline: true,
   },
   athletex: {
-    images: [p("2402777"), p("1263426"), p("209977"), p("1263349")],
-    alt: "Athlete on a floodlit stadium running track",
+    images: [p("34424815"), p("1263426"), p("209977"), p("1263349")],
+    alt: "Young student-athletes in school sport settings",
     titleAccent: "your athlete.",
   },
   insights: {
@@ -56,5 +56,11 @@ export const HERO: Record<string, HeroImage> = {
     images: [p("1454360"), p("208701"), p("289737"), p("356065")],
     alt: "Historic Oxford sandstone buildings on a bright afternoon",
     titleAccent: "the conversation.",
+  },
+  events: {
+    images: [p("2774556"), p("1181717"), p("7688336"), p("2774552")],
+    alt: "Education fair with families speaking to school representatives",
+    titleAccent: "near you.",
+    titleAccentInline: true,
   },
 };

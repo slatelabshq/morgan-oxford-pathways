@@ -21,7 +21,7 @@ export const Route = createFileRoute("/programmes/boarding")({
         bullets={[
           "Guidance on full boarding vs. weekly/flexi boarding",
           "Introductions to housemasters/housemistresses, not just admissions offices",
-          "Guardianship arrangements coordinated alongside placement",
+          "Guardianship coordinated alongside placement wherever the destination requires it",
           "Entrance exam and interview preparation through partner tutors",
         ]}
       />

@@ -8,6 +8,7 @@ const COLS = [
       { to: "/process", label: "Process" },
       { to: "/schools", label: "Browse all schools" },
       { to: "/insights", label: "Blogs" },
+      { to: "/events", label: "Events" },
       { to: "/enquire", label: "Enquire" },
     ],
   },
@@ -35,6 +36,7 @@ const COLS = [
     links: [
       { to: "/about", label: "About" },
       { to: "/insights", label: "Blogs" },
+      { to: "/events", label: "Events" },
       { to: "/contact", label: "Contact" },
     ],
   },

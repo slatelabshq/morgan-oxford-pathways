@@ -3,6 +3,7 @@ import { PageShell } from "@/components/site/PageShell";
 import { StaggerGrid } from "@/components/StaggerGrid";
 import { StaggerItem } from "@/components/StaggerItem";
 import { HERO } from "@/lib/hero-images";
+import { SIXTH_FORM_INTRO } from "@/lib/sixth-form-pathways";
 
 type Programme = {
   label: string;
@@ -29,7 +30,7 @@ const PROGRAMMES: Programme[] = [
   {
     label: "Sixth Form",
     to: "/programmes/sixth-form",
-    body: "For students weighing up A-Levels, the IB Diploma, an International Foundation Year, or a vocational route, we place students into sixth-form colleges and pathway providers.",
+    body: SIXTH_FORM_INTRO,
   },
   {
     label: "Summer",
@@ -39,7 +40,7 @@ const PROGRAMMES: Programme[] = [
   {
     label: "Guardianship",
     to: "/programmes/guardianship",
-    body: "For students boarding or studying in the UK without family close by, we arrange guardianship with vetted, experienced guardians.",
+    body: "When a student is studying abroad without family nearby, we arrange guardianship with vetted guardians — across the UK, Canada, the USA, and our other placement destinations.",
   },
 ];
 

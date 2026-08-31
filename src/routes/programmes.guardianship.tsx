@@ -8,7 +8,8 @@ export const Route = createFileRoute("/programmes/guardianship")({
       { title: "Guardianship — Morgan Oxford" },
       {
         name: "description",
-        content: "UK guardianship for boarding students — vetted guardians, exeats, half-terms and emergency contact.",
+        content:
+          "International school guardianship — vetted guardians, school breaks, holidays, and emergency contact across our placement destinations.",
       },
     ],
   }),
@@ -17,12 +18,12 @@ export const Route = createFileRoute("/programmes/guardianship")({
       <ProgrammeDetail
         slug="guardianship"
         title="Guardianship"
-        intro="For students boarding or studying in the UK without family close by, we arrange guardianship with vetted, experienced guardians — covering half-term and exeat weekends, emergency contact, and the day-to-day support a school expects a guardian to provide."
+        intro="When a student is boarding or studying abroad without family close by, we sign and coordinate guardianship contracts with vetted, experienced guardians — covering school breaks and holidays, emergency contact, and the practical support schools and families expect, wherever we have placed your child."
         bullets={[
-          "Vetted, experienced UK guardians",
-          "Coordination with the school's own guardianship requirements",
-          "Support during half-terms, exeats, and school holidays",
-          "A single point of contact for the family back home",
+          "Vetted, experienced guardians across the UK, Canada, the USA, and beyond",
+          "Coordination with each school's guardianship requirements in that destination",
+          "Support during school breaks, holidays, and weekends when families can't be there",
+          "A named point of contact for the family back home",
         ]}
       />
     </PageShell>

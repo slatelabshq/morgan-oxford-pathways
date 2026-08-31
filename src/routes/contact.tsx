@@ -18,20 +18,6 @@ const OFFICES = [
     phoneHref: "tel:+2348065277726",
     email: "enquiries@morganoxfordeducation.co.uk",
   },
-  {
-    city: "Abuja",
-    address: "Address to be confirmed",
-    phone: null,
-    phoneHref: null,
-    email: "enquiries@morganoxfordeducation.co.uk",
-  },
-  {
-    city: "Port Harcourt",
-    address: "Address to be confirmed",
-    phone: null,
-    phoneHref: null,
-    email: "enquiries@morganoxfordeducation.co.uk",
-  },
 ];
 
 const WHATSAPP_HREF = "https://wa.me/2348065277726";
@@ -44,7 +30,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Speak to Morgan Oxford Education. Offices in Oxford, Lagos, Abuja and Port Harcourt. We respond within 48 hours.",
+          "Speak to Morgan Oxford Education. Offices in Oxford and Lagos. We respond within 48 hours.",
       },
       { property: "og:title", content: "Contact — Morgan Oxford Education" },
       {
