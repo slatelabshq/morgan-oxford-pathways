@@ -16,8 +16,8 @@ const PATHWAYS: Pathway[] = [
     body: "Schools with competitive basketball programmes and coaching pedigree, for students serious about the game at school and beyond.",
   },
   {
-    sport: "Tennis",
-    body: "Access to schools with strong tennis coaching infrastructure, suited to players balancing tournament schedules with academic study.",
+    sport: "Table Tennis",
+    body: "Placement into schools with competitive table tennis programmes and coaching, for players balancing tournament schedules with academic study.",
   },
   {
     sport: "Swimming",
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/athletex/")({
       {
         name: "description",
         content:
-          "Morgan Oxford's dedicated route for student-athletes — placing footballers, basketballers, tennis players and swimmers into schools that take both academics and sport seriously.",
+          "Morgan Oxford's dedicated route for student-athletes — placing footballers, basketballers, table tennis players and swimmers into schools that take both academics and sport seriously.",
       },
       { property: "og:title", content: "AthleteX Pathways" },
       {
@@ -56,7 +56,7 @@ export const Route = createFileRoute("/athletex/")({
       zone="athletex"
       eyebrow="AthleteX Pathways"
       title="Where talent meets"
-      lede="AthleteX Pathways is Morgan Oxford Education's dedicated route for student-athletes — placing young footballers, basketballers, tennis players, and swimmers into schools that take both their academics and their sport seriously."
+      lede="AthleteX Pathways is Morgan Oxford Education's dedicated route for student-athletes — placing young footballers, basketballers, table tennis players, and swimmers into schools that take both their academics and their sport seriously."
       crumbs={[{ label: "Home", to: "/" }, { label: "AthleteX" }]}
     >
       <section>

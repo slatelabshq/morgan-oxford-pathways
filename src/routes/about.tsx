@@ -54,7 +54,7 @@ function AboutPage() {
           <h2 className="font-display text-2xl font-semibold sm:text-3xl">AthleteX</h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
             In recent years we've built a dedicated practice for student-athletes — AthleteX
-            Pathways — placing footballers, basketballers, tennis and volleyball players, swimmers
+            Pathways — placing footballers, basketballers, table tennis and volleyball players, swimmers
             and track athletes into schools built to take both their sport and their academics
             seriously.{" "}
             <Link to="/athletex" className="font-semibold text-foreground underline">

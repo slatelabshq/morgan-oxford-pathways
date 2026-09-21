@@ -12,7 +12,7 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | 0.2 | Offices: Oxford + Lagos, Abuja, Port Harcourt (remove Cairo) | ✅ |
 | 0.3 | "within 48 hours" everywhere (retire 48h / two working days) | ✅ |
 | 0.4 | Nav "Programmes" not "Services" | ✅ |
-| 0.5 | AthleteX: 6 sports — Football, Basketball, Tennis, Swimming, Volleyball, Athletics/Track | ✅ |
+| 0.5 | AthleteX: 6 sports — Football, Basketball, Table Tennis, Swimming, Volleyball, Athletics/Track | ✅ |
 | 0.6 | Soccer → Football sitewide | ✅ |
 | 0.7 | Club partnerships: schools hold deals, not Morgan Oxford | ✅ |
 
@@ -88,7 +88,7 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | 6.1 | Abuja & Port Harcourt office addresses | ⏸ placeholder text on /contact |
 | 6.2 | True total school count for meta | ⏸ using "partner schools" not "200+" |
 | 6.3 | Safeguarding lead name + contact | ⏸ placeholder email on /legal/safeguarding |
-| 6.4 | Tag schools for Tennis/Volleyball/Athletics | ⏸ filters exist; no schools tagged yet |
+| 6.4 | Tag schools for Table Tennis/Volleyball/Athletics | ⏸ filters exist; no schools tagged yet |
 | 6.5 | Team bios/photos for About | ⏸ |
 | 6.6 | Joseph review on net-new copy (programmes/summer, about, scouts) | ⏸ |
 
@@ -142,3 +142,6 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | UI.18 | `/athletex/scholarship` → `/athletex/enquiry` (redirect from old URL) | ✅ |
 | UI.19 | AthleteX header — use `/athletex_logo.png` | ✅ |
 | UI.20 | AthleteX home pathway cards → `/athletex/enquiry` | ✅ |
+| UI.21 | AthleteX — Tennis → Table Tennis sitewide | ✅ |
+| UI.22 | AthleteX schools — remove “General placement enquiry”; polish single CTA | ✅ |
+| UI.23 | AthleteX enquiry — Summer Programmes pathway + summer date options | ✅ |

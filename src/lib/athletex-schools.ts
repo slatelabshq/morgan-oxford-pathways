@@ -1,7 +1,7 @@
 export type Sport =
   | "football"
   | "basketball"
-  | "tennis"
+  | "table-tennis"
   | "swimming"
   | "volleyball"
   | "athletics";
@@ -168,7 +168,7 @@ export const athletexSchoolCount = partnerSchoolCount;
 export const sportLabel: Record<Sport, string> = {
   football: "Football",
   basketball: "Basketball",
-  tennis: "Tennis",
+  "table-tennis": "Table Tennis",
   swimming: "Swimming",
   volleyball: "Volleyball",
   athletics: "Athletics/Track",
@@ -178,7 +178,7 @@ export const sportFilters = [
   { value: "all" as const, label: "All sports" },
   { value: "football" as const, label: "Football" },
   { value: "basketball" as const, label: "Basketball" },
-  { value: "tennis" as const, label: "Tennis" },
+  { value: "table-tennis" as const, label: "Table Tennis" },
   { value: "swimming" as const, label: "Swimming" },
   { value: "volleyball" as const, label: "Volleyball" },
   { value: "athletics" as const, label: "Athletics/Track" },

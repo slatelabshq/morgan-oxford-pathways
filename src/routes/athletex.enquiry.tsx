@@ -10,7 +10,7 @@ export const Route = createFileRoute("/athletex/enquiry")({
       {
         name: "description",
         content:
-          "Apply to the AthleteX pathway. Football, basketball, tennis, swimming, volleyball, athletics — boarding school and university pathways.",
+          "Apply to the AthleteX pathway. Football, basketball, table tennis, swimming, volleyball, athletics — boarding school and university pathways.",
       },
       {
         property: "og:title",

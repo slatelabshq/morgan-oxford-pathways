@@ -4,7 +4,7 @@ import { PageShell } from "@/components/site/PageShell";
 const VALID_SPORTS = [
   "football",
   "basketball",
-  "tennis",
+  "table-tennis",
   "swimming",
   "volleyball",
   "athletics",
@@ -19,9 +19,9 @@ const SPORT_COPY: Record<(typeof VALID_SPORTS)[number], { title: string; body: s
     title: "Basketball",
     body: "Schools with competitive basketball programmes and coaching pedigree, for students serious about the game at school and beyond.",
   },
-  tennis: {
-    title: "Tennis",
-    body: "Access to schools with strong tennis coaching infrastructure, suited to players balancing tournament schedules with academic study.",
+  "table-tennis": {
+    title: "Table Tennis",
+    body: "Placement into schools with competitive table tennis programmes and coaching, for players balancing tournament schedules with academic study.",
   },
   swimming: {
     title: "Swimming",

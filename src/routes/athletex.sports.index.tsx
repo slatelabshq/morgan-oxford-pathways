@@ -4,7 +4,7 @@ import { PageShell } from "@/components/site/PageShell";
 const SPORTS = [
   "football",
   "basketball",
-  "tennis",
+  "table-tennis",
   "swimming",
   "volleyball",
   "athletics",
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/athletex/sports/")({
       {
         name: "description",
         content:
-          "Sports covered by the AthleteX pathway: football, basketball, tennis, swimming, volleyball, athletics/track.",
+          "Sports covered by the AthleteX pathway: football, basketball, table tennis, swimming, volleyball, athletics/track.",
       },
       { property: "og:title", content: "AthleteX sports" },
       { property: "og:description", content: "Sports covered by the AthleteX pathway." },

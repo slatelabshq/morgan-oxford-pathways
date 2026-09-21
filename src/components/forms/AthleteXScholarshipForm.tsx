@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
   athletexSchema,
@@ -42,12 +42,25 @@ export function AthleteXScholarshipForm() {
     watch,
     formState: { errors, isSubmitting },
     setFocus,
+    setValue,
   } = useForm<AthletexInput>({
     resolver: zodResolver(athletexSchema),
     defaultValues: { kind: "athletex", company_website: "", scout_context: "" },
   });
 
   const selectedSport = watch("sport");
+  const selectedPathway = watch("target_destination");
+  const isSummerPathway = selectedPathway === "Summer Programmes";
+  const availableOptions = isSummerPathway ? enums.summerStartTerms : enums.startTerms;
+  const prevPathwayRef = useRef(selectedPathway);
+
+  useEffect(() => {
+    if (prevPathwayRef.current !== selectedPathway) {
+      setValue("available_from", "");
+      prevPathwayRef.current = selectedPathway;
+    }
+  }, [selectedPathway, setValue]);
+
   const disciplineLabel =
     selectedSport && selectedSport in sportDisciplineLabels
       ? sportDisciplineLabels[selectedSport as keyof typeof sportDisciplineLabels]
@@ -317,6 +330,7 @@ export function AthleteXScholarshipForm() {
           id="available_from"
           label="Available from"
           required
+          hint={isSummerPathway ? "Summer programme window." : undefined}
           error={errors.available_from?.message}
         >
           {(p) => (
@@ -325,11 +339,12 @@ export function AthleteXScholarshipForm() {
               {...register("available_from")}
               name="available_from"
               defaultValue=""
+              key={isSummerPathway ? "summer" : "term"}
             >
               <option value="" disabled>
-                Select term
+                {isSummerPathway ? "Select summer" : "Select term"}
               </option>
-              {enums.startTerms.map((t) => (
+              {availableOptions.map((t) => (
                 <option key={t} value={t}>
                   {t}
                 </option>

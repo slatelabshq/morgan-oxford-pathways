@@ -76,6 +76,12 @@ const startTerms = [
   "Unsure",
 ] as const;
 
+const summerStartTerms = [
+  "June - August 2027",
+  "June - August 2028",
+  "June - August 2029",
+] as const;
+
 const placementStartTerms = [
   "September 2026",
   "January 2027",
@@ -89,7 +95,7 @@ const phoneCodes = ["+234", "+44", "+1", "+233", "+other"] as const;
 const sports = [
   "Football",
   "Basketball",
-  "Tennis",
+  "Table Tennis",
   "Swimming",
   "Volleyball",
   "Athletics or Track",
@@ -116,7 +122,7 @@ const currentLevels = [
 const destinations = [
   "Boarding School",
   "Sixth Form College",
-  "University",
+  "Summer Programmes",
   "University Pathway",
   "Pro or Semi-Pro Pathway",
   "Unsure",
@@ -272,9 +278,7 @@ export const athletexSchema = z
     target_destination: z.enum(destinations, {
       errorMap: () => ({ message: "Choose the pathway you're aiming at." }),
     }),
-    available_from: z.enum(startTerms, {
-      errorMap: () => ({ message: "Choose when the athlete is available." }),
-    }),
+    available_from: z.string().min(1, "Choose when the athlete is available."),
     scout_context: z
       .string()
       .trim()
@@ -283,6 +287,20 @@ export const athletexSchema = z
       .default(""),
     consent: consentField,
     company_website: honeypotField,
+  })
+  .superRefine((data, ctx) => {
+    const allowed =
+      data.target_destination === "Summer Programmes" ? summerStartTerms : startTerms;
+    if (!(allowed as readonly string[]).includes(data.available_from)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["available_from"],
+        message:
+          data.target_destination === "Summer Programmes"
+            ? "Choose a summer programme window."
+            : "Choose when the athlete is available.",
+      });
+    }
   });
 
 export const contactSchema = z.object({
@@ -380,6 +398,7 @@ export type EnquiryInput = z.input<typeof enquirySchema>;
 export const enums = {
   yearGroups,
   startTerms,
+  summerStartTerms,
   placementStartTerms,
   phoneCodes,
   sports,
@@ -395,7 +414,7 @@ export const enums = {
 export const sportDisciplineLabels: Record<(typeof sports)[number], string> = {
   Football: "Position (e.g. striker, midfielder)",
   Basketball: "Position (e.g. guard, forward)",
-  Tennis: "UTR / national ranking",
+  "Table Tennis": "National ranking / rating",
   Swimming: "Best times & strokes",
   Volleyball: "Position (e.g. setter, libero)",
   "Athletics or Track": "Event(s) & personal bests",

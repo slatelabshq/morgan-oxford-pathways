@@ -15,7 +15,7 @@ import {
 
 const searchSchema = z.object({
   sport: fallback(
-    z.enum(["all", "football", "basketball", "tennis", "swimming", "volleyball", "athletics"]),
+    z.enum(["all", "football", "basketball", "table-tennis", "swimming", "volleyball", "athletics"]),
     "all",
   ).default("all"),
 });
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/athletex/schools")({
       { title: "Partner sports-specialist schools — AthleteX" },
       {
         name: "description",
-        content: `${partnerSchoolCount} partner schools across the UK, Canada, USA and the rest of Europe and beyond with football, basketball, tennis, swimming, volleyball and athletics pathways.`,
+        content: `${partnerSchoolCount} partner schools across the UK, Canada, USA and the rest of Europe and beyond with football, basketball, table tennis, swimming, volleyball and athletics pathways.`,
       },
       { property: "og:title", content: "AthleteX partner schools" },
       {
@@ -56,7 +56,7 @@ function SchoolsPage() {
       zone="athletex"
       eyebrow="AthleteX"
       title="The right school for"
-      lede={`${partnerSchoolCount} independent schools across the UK, Canada, USA and the rest of Europe and beyond with credible football, basketball, tennis, swimming, volleyball and athletics pathways.`}
+      lede={`${partnerSchoolCount} independent schools across the UK, Canada, USA and the rest of Europe and beyond with credible football, basketball, table tennis, swimming, volleyball and athletics pathways.`}
       crumbs={[
         { label: "Home", to: "/" },
         { label: "AthleteX", to: "/athletex" },
@@ -177,22 +177,16 @@ function SchoolsPage() {
         <h2 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
           Find the right school for your athlete.
         </h2>
-        <p className="mt-3 max-w-2xl text-sm text-[color:var(--brand-bone)]/80">
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[color:var(--brand-bone)]/80">
           Send us the sport, level and target start term — we'll shortlist partner schools with the
           right pathway and open the scholarship conversation on your behalf.
         </p>
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-8">
           <Link
             to="/athletex/enquiry"
-            className="btn-micro inline-flex min-h-11 items-center rounded-md bg-[color:var(--brand-signal)] px-6 text-sm font-semibold text-[color:var(--brand-bone)] shadow-sm hover:bg-[color:var(--brand-signal)]/90"
+            className="btn-glow is-athletex btn-micro inline-flex h-12 items-center justify-center rounded-md bg-[color:var(--brand-signal)] px-8 text-sm font-semibold text-[color:var(--brand-bone)] shadow-sm hover:bg-[color:var(--brand-signal)]/90"
           >
-            Start an enquiry
-          </Link>
-          <Link
-            to="/enquire/contact"
-            className="btn-micro inline-flex min-h-11 items-center rounded-md border border-[color:var(--brand-bone)]/40 px-6 text-sm font-semibold text-[color:var(--brand-bone)] hover:bg-[color:var(--brand-bone)]/10"
-          >
-            General placement enquiry
+            Start an enquiry <span aria-hidden className="ml-1.5">→</span>
           </Link>
         </div>
       </section>
