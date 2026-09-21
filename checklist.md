@@ -140,3 +140,5 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | UI.23 | Footer layout — brand + accreditation column, cleaner link grid | ✅ |
 | UI.17 | AthleteX hero — replace first image with high-school student-athletes | ✅ |
 | UI.18 | `/athletex/scholarship` → `/athletex/enquiry` (redirect from old URL) | ✅ |
+| UI.19 | AthleteX header — use `/athletex_logo.png` | ✅ |
+| UI.20 | AthleteX home pathway cards → `/athletex/enquiry` | ✅ |

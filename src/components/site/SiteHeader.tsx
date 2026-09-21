@@ -47,8 +47,15 @@ export function SiteHeader() {
   }, []);
 
   const brand = isAthleteX ? (
-    <span>
-      Athlete<span className="text-primary">X</span>
+    <span className="relative block h-10 w-[8.5rem] shrink-0 sm:h-11 sm:w-[9.5rem]">
+      <img
+        src="/athletex_logo.png"
+        alt="AthleteX"
+        className="h-full w-full object-contain object-left"
+        width={152}
+        height={44}
+        decoding="async"
+      />
     </span>
   ) : (
     <span
@@ -84,10 +91,7 @@ export function SiteHeader() {
         <div className="relative mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
           <Link
             to={isAthleteX ? "/athletex" : "/"}
-            className={cn(
-              "relative z-10 shrink-0",
-              isAthleteX && "font-display text-xl font-semibold tracking-tight",
-            )}
+            className="relative z-10 shrink-0"
           >
             {brand}
           </Link>

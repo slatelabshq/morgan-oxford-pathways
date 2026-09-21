@@ -36,7 +36,7 @@ function Home() {
     <main id="main">
       <PageHero
         image={HERO.home}
-        eyebrow="Oxford · Lagos · Abuja · Port Harcourt · Since... 2013"
+        eyebrow="Oxford · Lagos · Abuja · Port Harcourt"
         title="Your child's dream school is now"
         lede="For 13 years, Morgan Oxford Education has guided families through the world of international school placement — matching students to the right school, in the right country, for the right reasons."
       >

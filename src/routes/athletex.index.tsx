@@ -76,10 +76,13 @@ export const Route = createFileRoute("/athletex/")({
         <StaggerGrid className="mt-6 grid gap-4 sm:grid-cols-2">
           {PATHWAYS.map((p) => (
             <StaggerItem key={p.sport}>
-              <article className="card-glow is-athletex h-full rounded-2xl border border-border bg-card p-6">
+              <Link
+                to="/athletex/enquiry"
+                className="card-glow is-athletex block h-full rounded-2xl border border-border bg-card p-6 transition-colors hover:border-[color:var(--brand-signal)]/40"
+              >
                 <h4 className="font-display text-lg font-semibold">{p.sport}</h4>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
-              </article>
+              </Link>
             </StaggerItem>
           ))}
         </StaggerGrid>
@@ -92,10 +95,10 @@ export const Route = createFileRoute("/athletex/")({
         </p>
         <div className="mt-6">
           <Link
-            to="/athletex/enquiry"
+            to="/athletex/scouts"
             className="btn-glow is-athletex inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
           >
-            Enquire about AthleteX Pathways →
+            Enquire about AthleteX →
           </Link>
         </div>
       </section>
