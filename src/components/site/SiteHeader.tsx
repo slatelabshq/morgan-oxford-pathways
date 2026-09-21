@@ -18,7 +18,7 @@ const CORE_NAV = [
 
 const ATHLETEX_NAV = [
   { to: "/athletex/schools", label: "Schools" },
-  { to: "/athletex/scholarship", label: "Scholarship" },
+  { to: "/athletex/enquiry", label: "Enquiry" },
   { to: "/athletex/scouts", label: "For Scouts" },
 ] as const;
 
@@ -116,7 +116,7 @@ export function SiteHeader() {
               <PathwayPill zone={isAthleteX ? "athletex" : "core"} />
             </div>
             <Link
-              to={isAthleteX ? "/athletex/scholarship" : "/enquire"}
+              to={isAthleteX ? "/athletex/enquiry" : "/enquire"}
               className="btn-micro hidden h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90 md:inline-flex"
             >
               {isAthleteX ? "Apply" : "Enquire"}

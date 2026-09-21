@@ -92,7 +92,7 @@ export const Route = createFileRoute("/athletex/")({
         </p>
         <div className="mt-6">
           <Link
-            to="/athletex/scholarship"
+            to="/athletex/enquiry"
             className="btn-glow is-athletex inline-flex h-11 items-center justify-center rounded-md bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
           >
             Enquire about AthleteX Pathways →

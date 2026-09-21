@@ -48,6 +48,7 @@ import { Route as AthletexSportsRouteImport } from './routes/athletex.sports'
 import { Route as AthletexScoutsRouteImport } from './routes/athletex.scouts'
 import { Route as AthletexSchoolsRouteImport } from './routes/athletex.schools'
 import { Route as AthletexScholarshipRouteImport } from './routes/athletex.scholarship'
+import { Route as AthletexEnquiryRouteImport } from './routes/athletex.enquiry'
 import { Route as AthletexAboutRouteImport } from './routes/athletex.about'
 import { Route as ApiEnquiriesRouteImport } from './routes/api/enquiries'
 import { Route as AthletexSportsIndexRouteImport } from './routes/athletex.sports.index'
@@ -248,6 +249,11 @@ const AthletexScholarshipRoute = AthletexScholarshipRouteImport.update({
   path: '/scholarship',
   getParentRoute: () => AthletexRoute,
 } as any)
+const AthletexEnquiryRoute = AthletexEnquiryRouteImport.update({
+  id: '/enquiry',
+  path: '/enquiry',
+  getParentRoute: () => AthletexRoute,
+} as any)
 const AthletexAboutRoute = AthletexAboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -284,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/schools': typeof SchoolsRouteWithChildren
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/about': typeof AthletexAboutRoute
+  '/athletex/enquiry': typeof AthletexEnquiryRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/athletex/schools': typeof AthletexSchoolsRoute
   '/athletex/scouts': typeof AthletexScoutsRoute
@@ -323,6 +330,7 @@ export interface FileRoutesByTo {
   '/process': typeof ProcessRoute
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/about': typeof AthletexAboutRoute
+  '/athletex/enquiry': typeof AthletexEnquiryRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/athletex/schools': typeof AthletexSchoolsRoute
   '/athletex/scouts': typeof AthletexScoutsRoute
@@ -368,6 +376,7 @@ export interface FileRoutesById {
   '/schools': typeof SchoolsRouteWithChildren
   '/api/enquiries': typeof ApiEnquiriesRoute
   '/athletex/about': typeof AthletexAboutRoute
+  '/athletex/enquiry': typeof AthletexEnquiryRoute
   '/athletex/scholarship': typeof AthletexScholarshipRoute
   '/athletex/schools': typeof AthletexSchoolsRoute
   '/athletex/scouts': typeof AthletexScoutsRoute
@@ -415,6 +424,7 @@ export interface FileRouteTypes {
     | '/schools'
     | '/api/enquiries'
     | '/athletex/about'
+    | '/athletex/enquiry'
     | '/athletex/scholarship'
     | '/athletex/schools'
     | '/athletex/scouts'
@@ -454,6 +464,7 @@ export interface FileRouteTypes {
     | '/process'
     | '/api/enquiries'
     | '/athletex/about'
+    | '/athletex/enquiry'
     | '/athletex/scholarship'
     | '/athletex/schools'
     | '/athletex/scouts'
@@ -498,6 +509,7 @@ export interface FileRouteTypes {
     | '/schools'
     | '/api/enquiries'
     | '/athletex/about'
+    | '/athletex/enquiry'
     | '/athletex/scholarship'
     | '/athletex/schools'
     | '/athletex/scouts'
@@ -825,6 +837,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AthletexScholarshipRouteImport
       parentRoute: typeof AthletexRoute
     }
+    '/athletex/enquiry': {
+      id: '/athletex/enquiry'
+      path: '/enquiry'
+      fullPath: '/athletex/enquiry'
+      preLoaderRoute: typeof AthletexEnquiryRouteImport
+      parentRoute: typeof AthletexRoute
+    }
     '/athletex/about': {
       id: '/athletex/about'
       path: '/about'
@@ -872,6 +891,7 @@ const AthletexSportsRouteWithChildren = AthletexSportsRoute._addFileChildren(
 
 interface AthletexRouteChildren {
   AthletexAboutRoute: typeof AthletexAboutRoute
+  AthletexEnquiryRoute: typeof AthletexEnquiryRoute
   AthletexScholarshipRoute: typeof AthletexScholarshipRoute
   AthletexSchoolsRoute: typeof AthletexSchoolsRoute
   AthletexScoutsRoute: typeof AthletexScoutsRoute
@@ -882,6 +902,7 @@ interface AthletexRouteChildren {
 
 const AthletexRouteChildren: AthletexRouteChildren = {
   AthletexAboutRoute: AthletexAboutRoute,
+  AthletexEnquiryRoute: AthletexEnquiryRoute,
   AthletexScholarshipRoute: AthletexScholarshipRoute,
   AthletexSchoolsRoute: AthletexSchoolsRoute,
   AthletexScoutsRoute: AthletexScoutsRoute,

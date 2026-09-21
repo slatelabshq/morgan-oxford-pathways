@@ -28,7 +28,7 @@ const LINK_GROUPS = [
     title: "AthleteX",
     links: [
       { to: "/athletex", label: "AthleteX home" },
-      { to: "/athletex/scholarship", label: "Scholarship" },
+      { to: "/athletex/enquiry", label: "Enquiry" },
       { to: "/athletex/scouts", label: "For scouts" },
     ],
   },

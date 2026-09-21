@@ -183,7 +183,7 @@ function SchoolsPage() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
-            to="/athletex/scholarship"
+            to="/athletex/enquiry"
             className="btn-micro inline-flex min-h-11 items-center rounded-md bg-[color:var(--brand-signal)] px-6 text-sm font-semibold text-[color:var(--brand-bone)] shadow-sm hover:bg-[color:var(--brand-signal)]/90"
           >
             Start an enquiry

@@ -50,7 +50,7 @@ function EnquirePage() {
             school placement
           </a>{" "}
           /{" "}
-          <a className="underline underline-offset-2" href="/athletex/scholarship">
+          <a className="underline underline-offset-2" href="/athletex/enquiry">
             AthleteX
           </a>{" "}
           for a fuller brief.

@@ -112,7 +112,7 @@ export function SiteMobileNav({
 
             <div className="border-t border-border p-4">
               <Link
-                to={isAthleteX ? "/athletex/scholarship" : "/enquire"}
+                to={isAthleteX ? "/athletex/enquiry" : "/enquire"}
                 onClick={onClose}
                 className="btn-micro inline-flex h-11 w-full items-center justify-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               >
