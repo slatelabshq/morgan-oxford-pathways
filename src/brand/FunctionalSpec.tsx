@@ -291,7 +291,7 @@ function FeatureAthleteX() {
           { tone: "core", label: "Live capture" },
           { tone: "planned", label: "Scholarship pipeline" },
         ]}
-        title="3 · AthleteX scout & scholarship enquiry"
+        title="3 · AthleteX scout & Enquiry"
         story="As an athlete, parent, or scout, I submit performance detail and a highlight link to trigger scholarship / scout review."
         criteria={[
           <>Route: <Code>/athletex/scholarship</Code> uses <Code>AthleteXScholarshipForm</Code>.</>,

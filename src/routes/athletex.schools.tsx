@@ -186,7 +186,7 @@ function SchoolsPage() {
             to="/athletex/scholarship"
             className="btn-micro inline-flex min-h-11 items-center rounded-md bg-[color:var(--brand-signal)] px-6 text-sm font-semibold text-[color:var(--brand-bone)] shadow-sm hover:bg-[color:var(--brand-signal)]/90"
           >
-            Start a scholarship enquiry
+            Start an enquiry
           </Link>
           <Link
             to="/enquire/contact"

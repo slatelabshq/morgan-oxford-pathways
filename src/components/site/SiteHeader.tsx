@@ -51,7 +51,18 @@ export function SiteHeader() {
       Athlete<span className="text-primary">X</span>
     </span>
   ) : (
-    <span>Morgan Oxford</span>
+    <span
+      className="relative block h-16 w-[9.25rem] shrink-0 overflow-hidden sm:w-[10.25rem] md:w-[11.5rem]"
+    >
+      <img
+        src="/logo.png"
+        alt="Morgan Oxford Education"
+        className="absolute left-0 top-[47%] h-[7.5rem] w-[7.5rem] max-w-none -translate-y-1/2 sm:h-[8rem] sm:w-[8rem] md:h-[8.5rem] md:w-[8.5rem]"
+        width={500}
+        height={500}
+        decoding="async"
+      />
+    </span>
   );
 
   return (
@@ -70,21 +81,27 @@ export function SiteHeader() {
         >
           Skip to content
         </a>
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-4 sm:px-6 lg:px-8">
+        <div className="relative mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
           <Link
             to={isAthleteX ? "/athletex" : "/"}
-            className="font-display text-lg font-semibold tracking-tight"
+            className={cn(
+              "relative z-10 shrink-0",
+              isAthleteX && "font-display text-xl font-semibold tracking-tight",
+            )}
           >
             {brand}
           </Link>
 
-          <nav aria-label="Primary" className="hidden flex-1 md:block">
-            <ul className="flex items-center gap-6 text-sm font-medium">
+          <nav
+            aria-label="Primary"
+            className="hidden min-w-0 flex-1 justify-center px-4 md:flex lg:absolute lg:left-1/2 lg:top-1/2 lg:flex-none lg:-translate-x-1/2 lg:-translate-y-1/2 lg:px-0"
+          >
+            <ul className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px] font-medium lg:gap-x-6 lg:text-sm">
               {nav.map((item) => (
                 <li key={item.to}>
                   <Link
                     to={item.to}
-                    className="text-foreground/80 transition-colors hover:text-foreground"
+                    className="whitespace-nowrap text-foreground/80 transition-colors hover:text-foreground"
                     activeProps={{ className: "text-foreground font-semibold" }}
                   >
                     {item.label}
@@ -94,7 +111,7 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          <div className="ml-auto flex items-center gap-3">
+          <div className="relative z-10 ml-auto flex items-center gap-3">
             <div className="hidden md:block">
               <PathwayPill zone={isAthleteX ? "athletex" : "core"} />
             </div>

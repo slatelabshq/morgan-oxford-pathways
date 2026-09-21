@@ -5,7 +5,7 @@ export const Route = createFileRoute("/athletex/scholarship")({
   head: () => ({
     meta: [
       {
-        title: "AthleteX scholarship enquiry — Morgan Oxford Education",
+        title: "AthleteX Enquiry — Morgan Oxford Education",
       },
       {
         name: "description",
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/athletex/scholarship")({
       },
       {
         property: "og:title",
-        content: "AthleteX scholarship enquiry",
+        content: "AthleteX Enquiry",
       },
       {
         property: "og:description",
@@ -36,7 +36,7 @@ function Page() {
             AthleteX
           </p>
           <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight md:text-5xl">
-            Scholarship enquiry
+            Enquiry
           </h1>
           <p className="mt-3 max-w-xl text-muted-foreground">
             Athletes, parents and coaches — submit a profile. The scouting desk reviews within 48

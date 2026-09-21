@@ -136,4 +136,6 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | UI.19 | Sixth Form — three condensed value-prop bullets | ✅ |
 | UI.20 | Destinations — clickable region pages with narrative, costs & stories (MOE + Horizon) | ✅ |
 | UI.21 | Events section — `/events` with hero, ribbon list, empty state (no dummy data) | ✅ |
+| UI.22 | ICEF official badge (account 4923) in site footer | ✅ |
+| UI.23 | Footer layout — brand + accreditation column, cleaner link grid | ✅ |
 | UI.17 | AthleteX hero — replace first image with high-school student-athletes | ✅ |
