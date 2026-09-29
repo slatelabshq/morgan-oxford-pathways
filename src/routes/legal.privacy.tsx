@@ -6,7 +6,11 @@ export const Route = createFileRoute("/legal/privacy")({
   head: () => ({
     meta: [
       { title: "Privacy — Morgan Oxford" },
-      { name: "description", content: "Privacy policy for Morgan Oxford Education." },
+      {
+        name: "description",
+        content:
+          "Privacy policy for Morgan Oxford Education — website enquiries, placements, and the staff app.",
+      },
     ],
   }),
   component: () => (
@@ -48,6 +52,24 @@ export const Route = createFileRoute("/legal/privacy")({
             country. We take reasonable steps to protect it in both.
           </p>
         </LegalSection>
+        <LegalSection title="Staff app (Morgan Oxford)">
+          <p>
+            Our mobile app is for Morgan Oxford Education staff only. Access is by invitation. Staff
+            sign in with a work account so we can show the tasks, contacts, leads, admissions,
+            finance, HR and other work records they are permitted to see.
+          </p>
+          <p>
+            The app uses that login, device notifications where switched on, and the same work data
+            already held for day-to-day operations. It is not a public student or parent app.
+          </p>
+          <p>
+            Staff questions about the app or this policy:{" "}
+            <a href="mailto:enquiries@morganoxfordeducation.co.uk" className="text-foreground underline">
+              enquiries@morganoxfordeducation.co.uk
+            </a>
+            .
+          </p>
+        </LegalSection>
         <LegalSection title="Your rights">
           <p>
             You can ask to see what we hold on your family, correct it, or ask us to delete it, at
@@ -55,7 +77,7 @@ export const Route = createFileRoute("/legal/privacy")({
             <a href="mailto:enquiries@morganoxfordeducation.co.uk" className="text-foreground underline">
               enquiries@morganoxfordeducation.co.uk
             </a>
-            .
+            . Staff using the app can make the same request for their account.
           </p>
         </LegalSection>
       </LegalContent>

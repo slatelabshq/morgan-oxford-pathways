@@ -75,6 +75,7 @@ Based on `MOE_Copy_Implementation_Guide.md`. Tags: ✅ done · 🔄 in progress 
 | # | Task | Status |
 |---|------|--------|
 | 5.1 | `/legal/privacy` — draft content, remove noindex | ✅ |
+| 5.5 | `/legal/privacy` — staff app (Morgan Oxford) section for App Store | ✅ |
 | 5.2 | `/legal/terms` — draft content, remove noindex | ✅ |
 | 5.3 | `/legal/cookies` — draft content, remove noindex | ✅ |
 | 5.4 | `/legal/safeguarding` — draft content (placeholder contact), remove noindex | ✅ |
